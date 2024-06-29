@@ -1,0 +1,80 @@
+{% extends 'main.html' %}
+{% load product_extras %}
+{% block title %}
+- Product Table
+{% endblock title %}
+
+
+{% block content %}
+<main class="content p-2">
+    <div class="container-fluid">
+        <!-- Action of The Page -->
+        <div class="action mb-4 text-end">
+            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#createModal">
+                <i class="fa-solid fa-plus"></i>
+        </div>
+        <!-- End Action -->
+
+        <!-- Card with Table -->
+         <div class="card border-0">
+            <div class="card-header">
+                <h4 class="card-title text-center mt-2">
+                    Products Table
+                </h4>
+            </div>
+            <div class="d-flex px-4">
+                <!-- Start Table -->
+                <table class="table table-striped table-bordered border-dark">
+                    <thead>
+                        <tr class="table-dark text-white text-center">
+                            <th scope="col">#</th>
+                            <th scope="col">{{product|verbose_name:"name"}}</th>
+                            <th scope="col">{{product|verbose_name:"category"}}</th>
+                            <th scope="col">{{product|verbose_name:"active"}}</th>
+                            <th scope="col">{{product|verbose_name:"price"}}</th>
+                            <th scope="col">{{product|verbose_name:"discount"}}</th>
+                            <th scope="col">Final Price</th>
+                            <th scope="col">Activity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for obj in objs %}
+                        <tr class="text-center">
+                            <th scope="row">{{obj.id}}</th>
+                            <th scope="row">{{obj.name}}</th>
+                            <th scope="row">{{obj.category}}</th>
+                            <th scope="row">
+                                {% if obj.active == True %}
+                                <i class="fa-regular fa-circle-check"></i>
+                                {% else %}
+                                <i class="fa-regular fa-circle-xmark"></i>
+                                {% endif %}
+                            </th>
+                            <th scope="row">{{obj.price}} €</th>
+                            <th scope="row">{{obj.discount}} %</th>
+                            <th scope="row">{{obj.final_price}} €</th>
+                             <td>
+                                <!-- Detail -->
+                                <a class="btn btn-sm btn-success" href="#">
+                                    <i class="fa-solid fa-eye"></i>
+                                </a>
+                                <!-- Delete -->
+                                <a class="btn btn-sm btn-danger" href="#">
+                                    <i class="fa-solid fa-x"></i>
+                                </a>
+                             </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <!-- End Table -->
+            </div>
+         </div>
+        <!-- End Card with Table -->
+    </div>
+</main>
+
+
+{% endblock content %}
+
