@@ -2,6 +2,8 @@ from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from decimal import Decimal
 
+from .utils import generate_code
+
 class Measurement(models.TextChoices):
     """
     Measurement Units
@@ -27,15 +29,16 @@ class Product(models.Model):
     Products related to Sales
     """
     name = models.CharField(max_length=120, unique=True, verbose_name='Name')
+    ref = models.CharField(max_length=18, unique=True, verbose_name='Ref', null=True, blank=True)
     description = models.TextField(blank=True, null=True, verbose_name='Description')
-    product_img = models.ImageField(upload_to='product', default='default_img.jpg')
+    product_img = models.ImageField(upload_to='product', default='default_img.jpg', blank=True)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, verbose_name='Category')
     active = models.BooleanField(default=True,verbose_name='Active')
     measurement = models.CharField(max_length=4, choices=Measurement.choices, default=Measurement.UNI, verbose_name='Measurement')
     price = models.DecimalField(max_digits=4, decimal_places=2, default=0.00, help_text='Value in Euros', verbose_name='Price')
     discount = models.DecimalField(max_digits=3, decimal_places=0, default=0, help_text="%",
                                    validators=[MinValueValidator(0), MaxValueValidator(100)],
-                                   verbose_name='Discount')
+                                   verbose_name='Discount', blank=True)
     
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -51,6 +54,8 @@ class Product(models.Model):
     def save(self, *args, **kwargs):
         if self.discount is None or '':
             self.discount = 0
+        if self.ref is None or '':
+            self.ref = generate_code()
         return super().save(*args, **kwargs)
     
     def __str__(self):

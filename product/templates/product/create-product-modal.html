@@ -1,0 +1,98 @@
+<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createModal">Create Product</h5>
+                <button type="button" class="btn btn-warning" data-bs-dismiss="modal" aria-label="Close"><i
+                        class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-body row g-3">
+                        <!-- Product Category -->
+                        <div class="col-12">
+                            <div class="form-floating">
+                                <select id="product-category" class="form-select" name="category">
+                                    <option selected>...</option>
+                                    {% for choice in form.category.field.choices %}
+                                    <option value="{{choice.0}}">{{choice.1}}</option>
+                                    {% endfor %}
+                                  </select>
+                                  <label for="product-category">Category</label>
+                            </div>
+                          </div>
+                        <!-- Product Name -->
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="product-name" name="name">
+                                <label for="product-name">Name</label>
+                            </div>
+                        </div>
+                        <!-- Product Ref. -->
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="product-ref" name="ref">
+                                <label for="product-ref">Ref.</label>
+                            </div>
+                        </div>
+                        <!-- Product Image -->
+                        <div class="input-group">
+                            <input type="file" class="form-control" id="product-img" aria-describedby="product-img" aria-label="Upload" name="product_img">
+                          </div>
+                        <!-- Product Description -->
+                        <div class="col-12">
+                          <div class="form-floating">
+                            <textarea class="form-control" placeholder="Describe the Product" id="product-description" name="description" style="height: 100px"></textarea>
+                            <label for="product-description">Description</label>
+                          </div>
+                        </div>
+                        <!-- Product Price -->
+                        <div class="col-md-4">
+                            <div class="input-group mb-3">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="product-price" name="price" aria-label="Euros">
+                                    <label for="product-price">Price</label>
+                                </div>
+                                <span class="input-group-text">€</span>
+                            </div>
+                        </div>
+                        <!-- Product Discount -->
+                        <div class="col-md-4">
+                            <div class="input-group mb-3">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="product-discount" name="discount" aria-label="%">
+                                    <label for="product-discount">Discount</label>
+                                </div>
+                                <span class="input-group-text">%</span>
+                            </div>
+                        </div>
+                        <!-- Product Measurement -->
+                        <div class="col-md-4">
+                            <div class="form-floating">
+                                <select id="product-measurement" class="form-select" name="measurement">
+                                    <option selected>...</option>
+                                    {% for choice in form.measurement.field.choices %}
+                                    <option value="{{choice.0}}">{{choice.1}}</option>
+                                    {% endfor %}
+                                  </select>
+                                  <label for="product-measurement">Measurement</label>
+                            </div>
+                          </div>
+                        <!-- Product Active -->
+                        <div class="col-12">
+                            <div class="form-check">
+                              <input class="form-check-input" type="checkbox" id="product-active" name="active">
+                              <label class="form-check-label" for="product-active">
+                                Is Active?
+                              </label>
+                            </div>
+                          </div>
+                </div>
+                <div class="modal-footer col-12">
+                    <button type="submit" class="btn btn-warning border-2 text-bottom p-2">Confirmar<span
+                            class="badge bg-dark mx-2"><i class="fa-solid fa-check"></i></span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

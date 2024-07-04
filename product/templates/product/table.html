@@ -4,14 +4,17 @@
 - Product Table
 {% endblock title %}
 
-
 {% block content %}
+
+{% include 'product/create-product-modal.html' %}
+
 <main class="content p-2">
     <div class="container-fluid">
         <!-- Action of The Page -->
         <div class="action mb-4 text-end">
             <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#createModal">
                 <i class="fa-solid fa-plus"></i>
+              </button>
         </div>
         <!-- End Action -->
 
@@ -55,11 +58,11 @@
                             <th scope="row">{{obj.final_price}} €</th>
                              <td>
                                 <!-- Detail -->
-                                <a class="btn btn-sm btn-success" href="#">
+                                <a class="btn btn-sm btn-success" href="{% url 'product:detail' obj.id %}">
                                     <i class="fa-solid fa-eye"></i>
                                 </a>
                                 <!-- Delete -->
-                                <a class="btn btn-sm btn-danger" href="#">
+                                <a class="btn btn-sm btn-danger" href="{% url 'product:delete' obj.id %}">
                                     <i class="fa-solid fa-x"></i>
                                 </a>
                              </td>

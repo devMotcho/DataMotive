@@ -13,4 +13,5 @@
 - Added bootstrap alerts to django.contrib.messages
 - Regist the models in admin painel
 - Test to create a product and check if final_price and other model fields are beign validating correctly
-- Adding main bootstrap navbar, sidebar, footer, alerts rendering template and css in general needed to start rendering information that you can find almost all in this repo: https://github.com/devMotcho/django_template
+- Added main bootstrap navbar, sidebar, footer, alerts rendering template and css in general needed to start rendering information that you can find almost all in this repo: https://github.com/devMotcho/django_template
+- Added CRUD of Product

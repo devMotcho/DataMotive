@@ -1,16 +1,15 @@
 from pathlib import Path
 from django.contrib import messages
+import os
+
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
-
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-v2#(88d$ux1ctwc8832^ym*x&s^*h^5&#^%h!dxjto0jwq&a00'
+SECRET_KEY = 'u3+=*pdk9l^20hn=t27ljwg)h)5wuztd^$qhsr^y0o3$fw@g74'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -37,6 +36,7 @@ INSTALLED_APPS += [
 
 # This Project Application definition
 INSTALLED_APPS += [
+    'dashboard',
     'product',
 ]
 
@@ -77,12 +77,14 @@ WSGI_APPLICATION = 'src.wsgi.application'
 
 
 # Database
-# https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': 'mypassword',
+        'HOST': 'db',
+        'PORT': '5432',
     }
 }
 
@@ -123,12 +125,12 @@ MESSAGE_TAGS = {
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = 'static/'
-MEDIA_URL = 'images/'
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
-MEDIA_ROOT = BASE_DIR / 'static/images'
 
+MEDIA_URL = 'images/'
+MEDIA_ROOT = BASE_DIR / 'static/images'
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
