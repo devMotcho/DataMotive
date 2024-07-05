@@ -1,0 +1,48 @@
+{% extends 'main.html' %}
+{% block title %}- Category {{obj.name}} {% endblock title %}
+
+{% block content %}
+
+{% include 'product/products/update-product-modal.html' %}
+
+<main class="content p-2">
+    <div class="container-fluid">
+        <h4>
+            {{obj.name}}
+        </h4>
+        <hr>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" aria-label="Add New Category" aria-describedby="button-addon2" name="name" value="{{obj.name}}">
+                <button class="btn btn-outline-warning" type="submit" id="button-addon2"><i class="fa-solid fa-pen-to-square"></i></button>
+            </div>
+        </form>      
+        <!-- Start Category Info -->
+        {% for product in products_in_category %}
+        {% if forloop.counter0|divisibleby:6 %}
+        {% if not forloop.first %}</div>{% endif %}
+        <div class="card-group p-2">
+        {% endif %}
+        <div class="col-md-2">
+            <div class="card mx-2 my-2 h-100">
+                <img src="{{ product.product_img.url }}" class="card-img-top" alt="{{ product.name }}" style="max-height: 300px;">
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <p class="card-text">{{ product.description|truncatechars:25 }}</p>
+                </div>
+                <div class="card-footer text-end">
+                    <a href="{% url 'product:detail' product.id %}" class="btn btn-outline-warning">
+                        <i class="fa-solid fa-angles-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        {% if forloop.last %}</div>{% endif %}
+        {% endfor %}
+        <!-- End Category Info -->
+    </div>
+</main>
+
+{% endblock content %}

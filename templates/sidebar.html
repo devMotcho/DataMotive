@@ -6,17 +6,39 @@
             <a href="#">DataMotive</a>
         </div>
         <ul class="sidebar-nav">
-            <li class="sidebar-header">
-            </li>
             <hr>
             <!-- Home -->
             <li class="sidebar-item">
-                <a href="#" class="sidebar-link">
-                    <i class="fa-solid fa-house"></i>
+                <a href="{% url 'dashboard:home' %}" class="sidebar-link">
+                    <i class="fa-solid fa-house px-2"></i>
                     Home
                 </a>
             </li>
             <hr>
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link collapsed" data-bs-target="#posts" data-bs-toggle="collapse"
+                    aria-expanded="false">
+                    <i class="fa-solid fa-boxes-stacked px-2"></i>
+                    Products
+                </a>
+                <hr>
+                <ul id="posts" class=" sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                    <li class="sidebar-item">
+                        <a href="{% url 'product:table' %}" class="sidebar-link">
+                            <i class="fa-solid fa-box px-2"></i>
+                            Product Table
+                        </a>
+                    </li>
+                    <hr>
+                    <li class="sidebar-item">
+                        <a href="{% url 'product:categories' %}" class="sidebar-link">
+                            <i class="fa-solid fa-list px-2"></i>
+                            Categories
+                        </a>
+                    </li>
+                    <hr>
+                </ul>
+            </li>
         </ul>
     </div>
 </aside>

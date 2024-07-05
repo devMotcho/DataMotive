@@ -1,33 +1,32 @@
 {% extends 'main.html' %}
 {% block title %}
-- Page title
+- Product Categories
 {% endblock title %}
 
 
 {% block content %}
 <main class="content p-2">
     <div class="container-fluid">
-        <!-- Action of The Page -->
-        <div class="action mb-4 text-end">
-            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#createModal">
-                <i class="fa-solid fa-plus"></i>
-        </div>
-        <!-- End Action -->
+        <h4>Categories</h4>
+        <hr>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Add New Category" aria-label="Add New Category" aria-describedby="button-addon2" name="name">
+                <button class="btn btn-outline-warning" type="submit" id="button-addon2"><i class="fa-solid fa-plus"></i></button>
+            </div>
+        </form>          
 
         <!-- Card with Table -->
          <div class="card border-0">
-            <div class="card-header">
-                <h4 class="card-title text-center mt-2">
-                    Products Table
-                </h4>
-            </div>
-            <div class="d-flex px-4">
+            <div class="d-flex px-4 pt-4">
                 <!-- Start Table -->
                 <table class="table table-striped table-bordered border-dark">
                     <thead>
                         <tr class="table-dark text-white text-center">
                             <th scope="col">#</th>
-                            <!-- ..... -->
+                            <th scope="col">Name</th>
+                            <th scope="col">Products Count</th>
                             <th scope="col">Activity</th>
                         </tr>
                     </thead>
@@ -35,14 +34,15 @@
                         {% for obj in objs %}
                         <tr class="text-center">
                             <th scope="row">{{obj.id}}</th>
-                            <!-- ...... -->
+                            <th scope="row">{{obj.name}}</th>
+                            <th scope="row">{{obj.product_count}}</th>
                              <td>
                                 <!-- Detail -->
-                                <a class="btn btn-sm btn-success" href="#">
+                                <a class="btn btn-sm btn-success" href="{% url 'product:category' obj.id %}">
                                     <i class="fa-solid fa-eye"></i>
                                 </a>
                                 <!-- Delete -->
-                                <a class="btn btn-sm btn-danger" href="#">
+                                <a class="btn btn-sm btn-danger" href="{% url 'product:category-delete' obj.id %}">
                                     <i class="fa-solid fa-x"></i>
                                 </a>
                              </td>

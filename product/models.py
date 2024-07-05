@@ -20,9 +20,15 @@ class Category(models.Model):
     name = models.CharField(
         max_length=100, unique=True, default='No Name', verbose_name='Category'
     )
-    #category_img
+    category_img = models.ImageField(upload_to='category', default='default_img.jpg', blank=True)
     def __str__(self):
         return f'{self.name}'
+    
+    def product_count(self):
+        return self.products.count()
+    
+    def get_product(self):
+        return self.products
 
 class Product(models.Model):
     """
@@ -32,7 +38,7 @@ class Product(models.Model):
     ref = models.CharField(max_length=18, unique=True, verbose_name='Ref', null=True, blank=True)
     description = models.TextField(blank=True, null=True, verbose_name='Description')
     product_img = models.ImageField(upload_to='product', default='default_img.jpg', blank=True)
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, verbose_name='Category')
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, verbose_name='Category', related_name='products')
     active = models.BooleanField(default=True,verbose_name='Active')
     measurement = models.CharField(max_length=4, choices=Measurement.choices, default=Measurement.UNI, verbose_name='Measurement')
     price = models.DecimalField(max_digits=4, decimal_places=2, default=0.00, help_text='Value in Euros', verbose_name='Price')
