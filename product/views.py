@@ -4,6 +4,7 @@ from django.db.models import Q
 
 from .models import Product, Category
 from .forms import ProductForm, CategoryForm
+from stock.models import Stock
 
 def productTable(request):
     """
@@ -23,7 +24,13 @@ def productTable(request):
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            product = form.save()
+
+            Stock.objects.create(
+                product=product,
+                quantity=0,
+            )
+            
             messages.success(request, "Product created!")
         else:
             messages.error(request, form.errors)

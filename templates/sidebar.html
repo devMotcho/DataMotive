@@ -15,6 +15,7 @@
                 </a>
             </li>
             <hr>
+            <!-- Product Related -->
             <li class="sidebar-item">
                 <a href="#" class="sidebar-link collapsed" data-bs-target="#posts" data-bs-toggle="collapse"
                     aria-expanded="false">
@@ -23,6 +24,13 @@
                 </a>
                 <hr>
                 <ul id="posts" class=" sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                    <li class="sidebar-item">
+                        <a href="{% url 'stock:info' %}" class="sidebar-link">
+                            <i class="fa-solid fa-boxes px-2"></i>
+                            Stock
+                        </a>
+                    </li>
+                    <hr>
                     <li class="sidebar-item">
                         <a href="{% url 'product:table' %}" class="sidebar-link">
                             <i class="fa-solid fa-box px-2"></i>
@@ -39,6 +47,14 @@
                     <hr>
                 </ul>
             </li>
+            <!-- Partners -->
+            <li class="sidebar-item">
+                <a href="{% url 'partners:table' %}" class="sidebar-link">
+                    <i class="fa-solid fa-user px-2"></i>
+                    Partners
+                </a>
+            </li>
+            <hr>
         </ul>
     </div>
 </aside>

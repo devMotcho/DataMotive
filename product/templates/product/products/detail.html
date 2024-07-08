@@ -7,6 +7,10 @@
 
 <main class="content p-2">
     <div class="container-fluid">
+        <h4>
+            {{obj.name}}
+        </h4>
+        <hr>
         <!-- Action -->
         <div class="action mb-4 text-end">
             <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#updateModal{{obj.id}}">
@@ -20,11 +24,6 @@
                         <div class="row g-0 w-100">
                             <div class="col-8 pt-4">
                                 <div class="p-3 m-1">
-                                    <ul class="list-group">
-                                        <li class="list-group-item list-group-item-warning text-center">
-                                            <h5><strong>{{obj.name}}</strong></h5>
-                                        </li>
-                                    </ul>
                                     <h4 class="mt-2 p-2 text-center">
                                         <span class="badge text-bg-secondary">{{obj.category}}</span>
                                         <span class="badge text-bg-info">{{obj.measurement}}</span>

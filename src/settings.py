@@ -35,6 +35,8 @@ INSTALLED_APPS += [
 INSTALLED_APPS += [
     'dashboard',
     'product',
+    'stock',
+    'partners',
 ]
 
 # CRISPY FORMS
