@@ -17,13 +17,13 @@
             <hr>
             <!-- Product Related -->
             <li class="sidebar-item">
-                <a href="#" class="sidebar-link collapsed" data-bs-target="#posts" data-bs-toggle="collapse"
+                <a href="#" class="sidebar-link collapsed" data-bs-target="#products" data-bs-toggle="collapse"
                     aria-expanded="false">
                     <i class="fa-solid fa-boxes-stacked px-2"></i>
                     Products
                 </a>
                 <hr>
-                <ul id="posts" class=" sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                <ul id="products" class=" sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                     <li class="sidebar-item">
                         <a href="{% url 'stock:info' %}" class="sidebar-link">
                             <i class="fa-solid fa-boxes px-2"></i>
@@ -49,12 +49,29 @@
             </li>
             <!-- Partners -->
             <li class="sidebar-item">
-                <a href="{% url 'partners:table' %}" class="sidebar-link">
+                <a href="#" class="sidebar-link collapsed" data-bs-target="#partners" data-bs-toggle="collapse"
+                    aria-expanded="false">
                     <i class="fa-solid fa-user px-2"></i>
                     Partners
                 </a>
+                <hr>
+                <ul id="partners" class=" sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                    <li class="sidebar-item">
+                        <a href="{% url 'partners:suppliers' %}" class="sidebar-link">
+                            <i class="fa-solid fa-truck-fast px-2"></i>
+                            Suppliers
+                        </a>
+                    </li>
+                    <hr>
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link">
+                            <i class="fa-solid fa-person px-2"></i>
+                            Clients
+                        </a>
+                    </li>
+                    <hr>
+                </ul>
             </li>
-            <hr>
         </ul>
     </div>
 </aside>

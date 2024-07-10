@@ -1,13 +1,13 @@
 from django.urls import path
 from .views import (
-    partnersTable,
-    partnersDelete,
-    partnersDetail,
+    supplierTable,
+    supplierDetail,
+    supplierDelete,
 )
 app_name = 'partners'
 
 urlpatterns = [
-    path('', partnersTable, name='table'),
-    path('delete/<str:pk>/', partnersDelete, name='delete'),
-    path('<str:pk>', partnersDetail, name='detail'),
+    path('suppliers/', supplierTable, name='suppliers'),
+    path('supplier/<str:pk>/', supplierDetail, name='supplier'),
+    path('supplier/delete/<str:pk>', supplierDelete, name='delete-supplier'),
 ]

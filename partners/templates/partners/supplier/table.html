@@ -1,11 +1,12 @@
 {% extends 'main.html' %}
+{% load crispy_forms_tags %}
 {% block title %}
-- Partners Info
+- Supplier Info
 {% endblock title %}
 
 {% block content %}
 
-{% include 'partners/partners-modal.html' %}
+{% include 'partners/supplier/create-supplier-modal.html' %}
 
 <main class="content p-2">
     <div class="container-fluid">
@@ -31,9 +32,9 @@
                         <tr class="table-dark text-white text-center">
                             <th scope="col">#</th>
                             <th scope="col">Name</th>
+                            <th scope="col">Type</th>
                             <th scope="col">Email</th>
-                            <th scope="col">Phone Number</th>
-                            <th scope="col">Address</th>
+                            <th scope="col">Contact</th>
                             <th scope="col">Activity</th>
                         </tr>
                     </thead>
@@ -42,16 +43,16 @@
                         <tr class="text-center">
                             <th scope="row">{{obj.id}}</th>
                             <th scope="row">{{obj.name}}</th>
+                            <th scope="row">{{obj.supplier_type}}</th>
                             <th scope="row">{{obj.email}}</th>
-                            <th scope="row">{{obj.phone_number}}</th>
-                            <th scope="row">{{obj.address}}</th>
+                            <th scope="row">{{obj.contact}}</th>
                              <td>
                                 <!-- Detail -->
-                                <a class="btn btn-sm btn-success" href="{% url 'partners:detail' obj.id %}">
+                                <a class="btn btn-sm btn-success" href="{% url 'partners:supplier' obj.id %}">
                                     <i class="fa-solid fa-eye"></i>
                                 </a>
                                 <!-- Delete -->
-                                <a class="btn btn-sm btn-danger" href="{% url 'partners:delete' obj.id %}">
+                                <a class="btn btn-sm btn-danger" href="{% url 'partners:delete-supplier' obj.id %}">
                                     <i class="fa-solid fa-x"></i>
                                 </a>
                              </td>

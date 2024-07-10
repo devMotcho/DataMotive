@@ -17,6 +17,13 @@ class Stock(models.Model):
         """
         return Decimal(float(self.quantity) * float(self.product.final_price))
 
+    def save(self, *args, **kwargs):
+        if self.quantity is not None:
+            self.quantity
+        else:
+            self.quantity = 0
+        return super().save(*args, **kwargs)
+
     def __str__(self):
         return f'{self.product.name} - {self.quantity} in stock ({self.value}€)'
     

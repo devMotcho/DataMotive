@@ -64,5 +64,11 @@ class Product(models.Model):
             self.ref = generate_code()
         return super().save(*args, **kwargs)
     
+    def get_suppliers(self):
+        return self.suppliers
+    
+    def get_stock(self):
+        return self.in_stock
+    
     def __str__(self):
         return f'{self.category} - {self.name} ({self.active}) -> {self.final_price} €'

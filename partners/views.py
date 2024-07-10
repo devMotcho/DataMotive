@@ -2,54 +2,73 @@ from django.shortcuts import render, redirect , get_object_or_404
 from django.contrib import messages
 from django.db.models import Q
 
-from .models import Partner
-from .forms import PartnerForm
+
+from product.models import Product
+from .models import Supplier
+from .forms import SupplierForm
 
 
-def partnersTable(request):
+
+def supplierTable(request):
+    """
+    Table with Information about the Suppliers
+    Can filter by name
+    Can create new supplier
+    """
     q = request.GET.get('q') if request.GET.get('q') is not None else ''
-
-    partners = Partner.objects.filter(
-        Q(name__icontains=q) |
-        Q(address__icontains=q) |
-        Q(email__icontains=q)
+    
+    supplier = Supplier.objects.filter(
+        Q(name__icontains=q)
     )
 
-    form = PartnerForm()
+    form = SupplierForm()
     if request.method == 'POST':
-        form = PartnerForm(request.POST)
+        form = SupplierForm(request.POST)
         if form.is_valid():
-            partner = form.save()
-            if partner.is_client == True:
-                messages.success(request, " Added a new Cliente.")
-                return redirect()
-            elif partner.is_supplier == True:
-                messages.success(request, " Added a new Supplier.")
-            else:
-                messages.info(request, "Don't forget to say if is a Client or a Supplier.")
+            form.save()
+            messages.success(request, "Supplier Added!")
+            return redirect('partners:suppliers')
+
         else:
-            messages.error(request, f'{form.errors}')
-            
-
+            messages.error(request, form.errors)
     context = {
-        'objs':partners,
+        'objs' : supplier,
+        'form' : form,
     }
-    return render(request, 'partners/table.html', context)
+    return render(request, 'partners/supplier/table.html', context)
 
+def supplierDetail(request, pk):
+    """
+    Detail Information about the Supplier id=pk
+    Can edit the supplier
+    """
+    supplier = get_object_or_404(Supplier, id=pk)
+    supplier_products = supplier.products.all()
 
-def partnersDetail(request, pk):
-    partner = get_object_or_404(Partner, id=pk)
-
-    context = {
-        'obj':partner,
-    }
-    return render(request, "partners/detail.html", context)
-
-
-def partnersDelete(request, pk):
-    partner = get_object_or_404(Partner, id=pk)
+    form = SupplierForm(instance=supplier)
     if request.method == 'POST':
-        partner.delete()
-        messages.success(request, f"Partner {partner.name} deleted!")
-        return redirect('partners:table')
-    return render(request, "delete.html", {"obj":partner})
+        form = SupplierForm(request.POST, instance=supplier)
+        if form.is_valid():
+            form.save()
+            messages.success(request, f"Supplier {supplier.name} updated!")
+            return redirect('partners:suppliers')
+        else:
+            messages.error(request, form.errors)
+    context = {
+        'products' : supplier_products,
+        'obj' : supplier,
+        'form' : form,
+    }
+    return render(request, 'partners/supplier/detail.html', context)
+
+def supplierDelete(request, pk):
+    """
+    Delete a Supplier.
+    """
+    supplier = get_object_or_404(Supplier, id=pk)
+    if request.method == 'POST':
+        supplier.delete()
+        messages.success(request, f"Supplier {supplier.name} deleted!")
+    return render(request, 'delete.html', {'obj':supplier})
+
+

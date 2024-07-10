@@ -1,8 +1,10 @@
 from django import forms
 
-from .models import Partner
+from .models import Supplier
 
-class PartnerForm(forms.ModelForm):
+class SupplierForm(forms.ModelForm):
     class Meta:
-        model = Partner
+        model = Supplier
         fields = '__all__'
+
+
