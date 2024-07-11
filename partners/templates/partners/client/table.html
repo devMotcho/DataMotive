@@ -1,17 +1,17 @@
 {% extends 'main.html' %}
 {% load crispy_forms_tags %}
 {% block title %}
-- Supplier Info
+- Client Info
 {% endblock title %}
 
 {% block content %}
 
-{% include 'partners/supplier/create-supplier-modal.html' %}
+{% include 'partners/client/create-client-modal.html' %}
 
 <main class="content p-2">
     <div class="container-fluid">
         <h4>
-            Supplier Info
+            Clients Information
         </h4>
         <hr>
         <div class="container-fluid">
@@ -41,18 +41,18 @@
                     <tbody>
                         {% for obj in objs %}
                         <tr class="text-center">
-                            <th scope="row">{{obj.id}}</th>
+                            <th scope="row">{{obj.client_id}}</th>
                             <th scope="row">{{obj.name}}</th>
-                            <th scope="row">{{obj.supplier_type}}</th>
+                            <th scope="row">{{obj.client_type}}</th>
                             <th scope="row">{{obj.email}}</th>
                             <th scope="row">{{obj.contact}}</th>
                              <td>
                                 <!-- Detail -->
-                                <a class="btn btn-sm btn-success" href="{% url 'partners:supplier' obj.id %}">
+                                <a class="btn btn-sm btn-success" href="{% url 'partners:client' obj.id %}">
                                     <i class="fa-solid fa-eye"></i>
                                 </a>
                                 <!-- Delete -->
-                                <a class="btn btn-sm btn-danger" href="{% url 'partners:delete-supplier' obj.id %}">
+                                <a class="btn btn-sm btn-danger" href="{% url 'partners:delete-client' obj.id %}">
                                     <i class="fa-solid fa-x"></i>
                                 </a>
                              </td>

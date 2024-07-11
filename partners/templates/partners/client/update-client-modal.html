@@ -1,0 +1,22 @@
+{% load crispy_forms_tags %}
+<div class="modal fade" id="updateModal{{obj.id}}" tabindex="-1" aria-labelledby="updateModal{{obj.id}}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateModal{{obj.id}}">Update Supplier</h5>
+                <button type="button" class="btn btn-warning" data-bs-dismiss="modal" aria-label="Close"><i
+                        class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-body row g-3">
+                    {{form|crispy}}
+                </div>
+                <div class="modal-footer col-12">
+                    <button type="submit" class="btn btn-warning border-2 text-bottom p-2">Confirmar<span
+                            class="badge bg-dark mx-2"><i class="fa-solid fa-check"></i></span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

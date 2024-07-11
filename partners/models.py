@@ -12,6 +12,9 @@ class ClientType(models.Model):
 
     def get_clients(self):
         return self.clients
+    
+    def clients_count(self):
+        return self.clients.count()
 
     def __str__(self):
         return f'{self.type}'
@@ -24,6 +27,9 @@ class SupplierType(models.Model):
 
     def get_suppliers(self):
         return self.suppliers
+    
+    def suppliers_count(self):
+        return self.suppliers.count()
 
     def __str__(self):
         return f'{self.type}'

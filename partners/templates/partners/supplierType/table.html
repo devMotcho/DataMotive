@@ -1,40 +1,32 @@
 {% extends 'main.html' %}
-{% load crispy_forms_tags %}
 {% block title %}
-- Supplier Info
+- Supplier Types
 {% endblock title %}
 
+
 {% block content %}
-
-{% include 'partners/supplier/create-supplier-modal.html' %}
-
 <main class="content p-2">
     <div class="container-fluid">
-        <h4>
-            Supplier Info
-        </h4>
+        <h4>Supplier Types</h4>
         <hr>
-        <div class="container-fluid">
-            <!-- Action of The Page -->
-            <div class="action mb-4 text-end">
-                <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#createModal">
-                    <i class="fa-solid fa-plus"></i>
-                  </button>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Add New Supplier Type" aria-label="Add New Supplier Type" aria-describedby="button-addon2" name="type">
+                <button class="btn btn-outline-warning" type="submit" id="button-addon2"><i class="fa-solid fa-plus"></i></button>
             </div>
-            <!-- End Action -->
-        </div>
+        </form>          
+
         <!-- Card with Table -->
          <div class="card border-0">
-            <div class="d-flex px-4 py-4">
+            <div class="d-flex px-4 pt-4">
                 <!-- Start Table -->
                 <table class="table table-striped table-bordered border-dark">
                     <thead>
                         <tr class="table-dark text-white text-center">
                             <th scope="col">#</th>
-                            <th scope="col">Name</th>
                             <th scope="col">Type</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Contact</th>
+                            <th scope="col">Count Of Suppliers</th>
                             <th scope="col">Activity</th>
                         </tr>
                     </thead>
@@ -42,17 +34,15 @@
                         {% for obj in objs %}
                         <tr class="text-center">
                             <th scope="row">{{obj.id}}</th>
-                            <th scope="row">{{obj.name}}</th>
-                            <th scope="row">{{obj.supplier_type}}</th>
-                            <th scope="row">{{obj.email}}</th>
-                            <th scope="row">{{obj.contact}}</th>
+                            <th scope="row">{{obj.type}}</th>
+                            <th scope="row">{{obj.suppliers_count}}</th>
                              <td>
                                 <!-- Detail -->
-                                <a class="btn btn-sm btn-success" href="{% url 'partners:supplier' obj.id %}">
+                                <a class="btn btn-sm btn-success" href="{% url 'partners:supplier-type' obj.id %}">
                                     <i class="fa-solid fa-eye"></i>
                                 </a>
                                 <!-- Delete -->
-                                <a class="btn btn-sm btn-danger" href="{% url 'partners:delete-supplier' obj.id %}">
+                                <a class="btn btn-sm btn-danger" href="{% url 'partners:delete-supplier-type' obj.id %}">
                                     <i class="fa-solid fa-x"></i>
                                 </a>
                              </td>
@@ -67,4 +57,7 @@
         <!-- End Card with Table -->
     </div>
 </main>
+
+
 {% endblock content %}
+
