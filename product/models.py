@@ -2,7 +2,7 @@ from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from decimal import Decimal
 
-from .utils import generate_code
+from src.utils import generate_code
 
 class Measurement(models.TextChoices):
     """

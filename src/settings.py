@@ -33,6 +33,7 @@ INSTALLED_APPS += [
 
 # This Project Application definition
 INSTALLED_APPS += [
+    'authentic',
     'dashboard',
     'product',
     'stock',

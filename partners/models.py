@@ -2,19 +2,17 @@ from django.db import models
 
 
 from product.models import Product
-from product.utils import generate_code
+from src.utils import generate_code
 
 class ClientType(models.Model):
     """
     individual, corporate, ....
     """
     type = models.CharField(max_length=20)
-
-    def get_clients(self):
-        return self.clients
     
     def clients_count(self):
         return self.clients.count()
+    
 
     def __str__(self):
         return f'{self.type}'
@@ -49,11 +47,11 @@ class Partner(models.Model):
         abstract = True
 
 class Client(Partner):
-    client_id = models.CharField(max_length=20, unique=True, null=True, blank=True, verbose_name='Cient ID')
+    client_id = models.CharField(max_length=20, blank=True, verbose_name='Cient ID')
     client_type = models.ForeignKey(ClientType, on_delete=models.PROTECT, related_name="clients" ,verbose_name='Client Type')
 
     def save(self, *args, **kwargs):
-        if self.client_id == "" or None:
+        if self.client_id == '':
             self.client_id = generate_code()
 
         return super().save(*args, **kwargs)
@@ -63,13 +61,13 @@ class Client(Partner):
 
 
 class Supplier(Partner):
-    supplier_id = models.CharField(max_length=20, unique=True, null=True, blank=True, verbose_name='Supplier ID')
+    supplier_id = models.CharField(max_length=20, blank=True, verbose_name='Supplier ID')
     supplier_type = models.ForeignKey(SupplierType, on_delete=models.PROTECT, related_name="suppliers" ,verbose_name='Supplier Type')
     products = models.ManyToManyField(Product, related_name='suppliers', verbose_name='Products')
 
     
     def save(self, *args, **kwargs):
-        if self.supplier_id == "" or None:
+        if self.supplier_id == '':
             self.supplier_id = generate_code()
 
         return super().save(*args, **kwargs)

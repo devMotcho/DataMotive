@@ -1,0 +1,24 @@
+{% extends 'main.html' %}
+{% block title %}- Supplier Type {{obj.type}} {% endblock title %}
+
+{% block content %}
+
+<main class="content p-2">
+    <div class="container-fluid">
+        <h4>
+            {{obj.type}}
+        </h4>
+        <hr>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" aria-label="Edit Client" aria-describedby="button-addon2" name="type" value="{{obj.type}}">
+                <button class="btn btn-outline-warning" type="submit" id="button-addon2">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+</main>
+
+{% endblock content %}

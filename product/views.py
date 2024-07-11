@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.db.models import Q
+from django.contrib.auth.decorators import login_required
 
 from .models import Product, Category
 from .forms import ProductForm, CategoryForm
 from stock.models import Stock
 
+@login_required(login_url='authentic:login')
 def productTable(request):
     """
     Default view for porducts,
@@ -42,6 +44,7 @@ def productTable(request):
     }
     return render(request, 'product/products/table.html', context)
 
+@login_required(login_url='authentic:login')
 def productDetail(request, pk):
     """
     Detail view for each product,
@@ -65,6 +68,7 @@ def productDetail(request, pk):
     }
     return render(request, 'product/products/detail.html', context)
 
+@login_required(login_url='authentic:login')
 def productDelete(request, pk):
     """
     Delete products
@@ -78,7 +82,7 @@ def productDelete(request, pk):
     return render(request, 'delete.html', {'obj':obj})
 
 # Categorys
-
+@login_required(login_url='authentic:login')
 def categoryTable(request):
     q = request.GET.get('q') if request.GET.get('q') is not None else ''
     
@@ -103,6 +107,7 @@ def categoryTable(request):
     }
     return render(request, 'product/categories/table.html', context)
 
+@login_required(login_url='authentic:login')
 def categoryDetail(request, pk):
     category = get_object_or_404(Category, id=pk)
 
@@ -124,6 +129,7 @@ def categoryDetail(request, pk):
     }
     return render(request, "product/categories/detail.html", context)
 
+@login_required(login_url='authentic:login')
 def categoryDelete(request, pk):
     obj = get_object_or_404(Category, id=pk)
     if request.method == 'POST':

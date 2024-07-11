@@ -11,6 +11,10 @@ from .views import (
     clientTable,
     clientDetail,
     clientDelete,
+
+    clientTypeTable,
+    clientTypeDetail,
+    clientTypeDelete,
 )
 app_name = 'partners'
 
@@ -29,8 +33,12 @@ urlpatterns = [
     #clients
     path('clients/', clientTable, name='clients'),
     path('client/<str:pk>/', clientDetail, name='client'),
-    path('client/<str:pk>/', clientDelete, name='delete-client'),
+    path('client/delete/<str:pk>/', clientDelete, name='delete-client'),
 
     #clients Type
+    path('clients-type/', clientTypeTable, name='clients-type'),
+    path('client-type/<str:pk>/', clientTypeDetail, name='client-type'),
+    path('client-type/delete/<str:pk>/', clientTypeDelete, name='delete-client-type'),
+
 
 ]
