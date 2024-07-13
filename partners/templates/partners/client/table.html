@@ -1,7 +1,7 @@
 {% extends 'main.html' %}
 {% load crispy_forms_tags %}
 {% block title %}
-- Client Info
+- Clients
 {% endblock title %}
 
 {% block content %}
@@ -10,23 +10,26 @@
 
 <main class="content p-2">
     <div class="container-fluid">
-        <h4>
-            Clients Information
-        </h4>
-        <hr>
-        <div class="container-fluid">
-            <!-- Action of The Page -->
-            <div class="action mb-4 text-end">
-                <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#createModal">
-                    <i class="fa-solid fa-plus"></i>
-                  </button>
+        <!-- Title + Action -->
+        <div class="row">
+            <div class="col-md-6">
+                <h4 class="title">
+                    Clients Information
+                </h4>
             </div>
-            <!-- End Action -->
+            <div class="col-md-6">
+                <div class="action text-end">
+                    <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#createModal">
+                        <i class="fa-solid fa-plus"></i>
+                      </button>
+                </div>
+            </div>
         </div>
+        <!-- End Title + Action -->
+        <hr>
         <!-- Card with Table -->
          <div class="card border-0">
             <div class="d-flex px-4 py-4">
-                <!-- Start Table -->
                 <table class="table table-striped table-bordered border-dark">
                     <thead>
                         <tr class="table-dark text-white text-center">
@@ -60,8 +63,6 @@
                         {% endfor %}
                     </tbody>
                 </table>
-
-                <!-- End Table -->
             </div>
          </div>
         <!-- End Card with Table -->

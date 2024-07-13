@@ -5,18 +5,26 @@
 
 <main class="content p-2">
     <div class="container-fluid">
-        <h4>
-            {{obj.type}}
-        </h4>
-        <hr>
-        <form action="" method="POST">
-            {% csrf_token %}
-            <div class="input-group mb-3">
-                <input type="text" class="form-control" aria-label="Edit Supplier" aria-describedby="button-addon2" name="type" value="{{obj.type}}">
-                <button class="btn btn-outline-warning" type="submit" id="button-addon2"><i class="fa-solid fa-pen-to-square"></i></button>
+        <!-- Title + Edit Supplier Type Form -->
+        <div class="row">
+            <div class="col-md-6">
+                <h4 class="title">
+                    {{obj.type}}
+                </h4>
             </div>
-        </form>      
-        <!-- Start Supplier Type Info -->
+            <div class="col-md-6">
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" aria-label="Edit Supplier" aria-describedby="button-addon2" name="type" value="{{obj.type}}">
+                        <button class="btn btn-outline-warning" type="submit" id="button-addon2"><i class="fa-solid fa-pen-to-square"></i></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <hr>
+        <!-- Title + Edit Supplier Type Form -->
+        <!-- Start Suppliers Info About this Type -->
         {% for supplier in suppliers %}
         {% if forloop.counter0|divisibleby:6 %}
         {% if not forloop.first %}</div>{% endif %}
@@ -36,11 +44,9 @@
                 </div>
             </div>
         </div>
-
         {% if forloop.last %}</div>{% endif %}
         {% endfor %}
-        <!-- End Category Info -->
+        <!-- End Suppliers Info About this Type -->
     </div>
 </main>
-
 {% endblock content %}

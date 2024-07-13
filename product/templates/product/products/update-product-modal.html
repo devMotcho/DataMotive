@@ -74,9 +74,11 @@
                         <div class="col-md-4">
                             <div class="form-floating">
                                 <select id="product-measurement" class="form-select" name="measurement">
-                                    <option selected>{{obj.measurement}}</option>
+                                    <option value="{{ obj.category.id }}" selected>{{obj.measurement.measure}}</option>
                                     {% for choice in form.measurement.field.choices %}
-                                    <option value="{{choice.0}}">{{choice.1}}</option>
+                                        {% if choice.0 != obj.category.id %}
+                                            <option value="{{choice.0}}">{{choice.1}}</option>
+                                        {% endif %}
                                     {% endfor %}
                                   </select>
                                   <label for="product-measurement">Measurement</label>

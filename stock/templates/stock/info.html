@@ -6,17 +6,23 @@
 {% block content %}
 <main class="content p-2">
     <div class="container-fluid">
-        <h4>
-            Stock Information
-        </h4>
+        <!-- Page title -->
+        <div class="col">
+            <div class="row-md-6">
+                <h4 class="title">
+                    Stock Information
+                </h4>
+            </div>
+        </div>
+        <!-- End Page title -->
         <hr>
         <!-- Bar Chart -->
         {% include 'stock/bar-chart.html' %}
         <!-- End Bar Chart -->
+      
         <!-- Card with Table -->
          <div class="card border-0">
             <div class="d-flex px-4 py-4">
-                <!-- Start Table -->
                 <table class="table table-striped table-bordered border-dark">
                     <thead>
                         <tr class="table-dark text-white text-center">
@@ -48,8 +54,6 @@
                         {% endfor %}
                     </tbody>
                 </table>
-
-                <!-- End Table -->
             </div>
          </div>
         <!-- End Card with Table -->

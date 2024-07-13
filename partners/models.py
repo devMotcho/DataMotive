@@ -6,9 +6,10 @@ from src.utils import generate_code
 
 class ClientType(models.Model):
     """
+    Types of Clients like:
     individual, corporate, ....
     """
-    type = models.CharField(max_length=20)
+    type = models.CharField(max_length=20, unique=True, verbose_name='Supplier Type')
     
     def clients_count(self):
         return self.clients.count()
@@ -19,13 +20,11 @@ class ClientType(models.Model):
     
 class SupplierType(models.Model):
     """
-    Manufacter, Distributor, ....
+    Types of Suppliers like:
+    Manufator, Distributor, ....
     """
-    type = models.CharField(max_length=20)
+    type = models.CharField(max_length=20, unique=True, verbose_name='Supplier Type')
 
-    def get_suppliers(self):
-        return self.suppliers
-    
     def suppliers_count(self):
         return self.suppliers.count()
 

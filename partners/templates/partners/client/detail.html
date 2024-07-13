@@ -7,16 +7,24 @@
 
 <main class="content p-2">
     <div class="container-fluid">
-        <h4>
-            {{obj.name}} - {{obj.client_id}}
-        </h4>
-        <hr>
-        <!-- Action -->
-        <div class="action mb-4 text-end">
-            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#updateModal{{obj.id}}">
-                <i class="fa-solid fa-pen-to-square"></i>
+        <!-- Title + Action -->
+        <div class="row">
+            <div class="col-md-6">
+                <h4 class="title">
+                    {{obj.name}} - {{obj.client_id}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <div class="action mb-4 text-end">
+                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#updateModal{{obj.id}}">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </button>
+                </div>
+            </div>
         </div>
-        <!-- Client Info -->
+        <!-- End Title + Action -->
+        <hr>
+        <!-- Client Information Card -->
         <div class="row">
             <div class="col d-flex">
                 <div class="card flex-fill border-0 illustration">
@@ -68,7 +76,7 @@
                 </div>
             </div>
         </div>
-        <!-- End Client Info -->
+        <!-- Client Information Card -->
     </div>
 </main>
 

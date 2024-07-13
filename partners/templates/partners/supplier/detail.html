@@ -7,16 +7,24 @@
 
 <main class="content p-2">
     <div class="container-fluid">
-        <h4>
-            {{obj.name}}
-        </h4>
-        <hr>
-        <!-- Action -->
-        <div class="action mb-4 text-end">
-            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#updateModal{{obj.id}}">
-                <i class="fa-solid fa-pen-to-square"></i>
+        <!-- Title + Action -->
+        <div class="row">
+            <div class="col-md-6">
+                <h4 class="title">
+                    {{obj.name}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <div class="action text-end">
+                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#updateModal{{obj.id}}">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </button>
+                </div>
+            </div>
         </div>
-        <!-- Supplier Info -->
+        <!-- Title + Action End -->
+        <hr>
+        <!-- Supplier Information Card -->
         <div class="row">
             <div class="col d-flex">
                 <div class="card flex-fill border-0 illustration">
@@ -68,26 +76,31 @@
                 </div>
             </div>
         </div>
-        <!-- End Supplier Info -->
-        <h4>
-            Products From the Supplier
-        </h4>
-        <hr>
-         <div class="row">
-            <ol class="list-group list-group-numbered">
-                {% for product in products %}
-                <li class="list-group-item d-flex justify-content-between align-items-start">
-                  <div class="ms-2 me-auto">
-                    <div class="fw-bold">
-                        <a href="{% url 'product:detail' product.id %}">{{product.name}}</a>
-                    </div>
-                    {{product.category}}
-                  </div>
-                  <span class="badge bg-primary rounded-pill">{{product.get_stock}}</span>
-                </li>
-            </ol>
-            {% endfor %}
-         </div>
+        <!-- End Supplier Information Card -->
+        <br>
+        <!-- List Of Supplier Products -->
+        <div class="products_wrapper">
+            <h4 class="title">
+                Products From the Supplier
+            </h4>
+            <hr>
+             <div class="row">
+                <ol class="list-group list-group-numbered">
+                    {% for product in products %}
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                      <div class="ms-2 me-auto">
+                        <div class="fw-bold">
+                            <a href="{% url 'product:detail' product.id %}">{{product.name}}</a>
+                        </div>
+                        {{product.category}}
+                      </div>
+                      <span class="badge bg-primary rounded-pill">{{product.get_stock}}</span>
+                    </li>
+                </ol>
+                {% endfor %}
+             </div>
+        </div>
+        <!-- End List Of Supplier Products -->
     </div>
 </main>
 

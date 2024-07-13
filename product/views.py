@@ -28,10 +28,11 @@ def productTable(request):
         if form.is_valid():
             product = form.save()
 
-            Stock.objects.create(
-                product=product,
-                quantity=0,
-            )
+            # Added signal at stock.models
+            # Stock.objects.create(
+            #     product=product,
+            #     quantity=0,
+            # )
             
             messages.success(request, "Product created!")
         else:

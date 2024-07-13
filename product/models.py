@@ -4,18 +4,21 @@ from decimal import Decimal
 
 from src.utils import generate_code
 
-class Measurement(models.TextChoices):
+class Measurement(models.Model):
     """
-    Measurement Units
+    Measurement Units like:
+    Unit, Kg, ...
     """
-    UNI = 'Unit' # Product Sale by Unit
-    KG = 'Kg' # Product Sale By Weight
+    measure = models.CharField(max_length=100, unique=True, default='Unit', verbose_name='Measure')
+
+    def __str__(self):
+        return f'{self.measure}'
     
 
 class Category(models.Model):
     """
-    Primary Category Related to Product,
-    Name must be easy to access and to identify
+    Category Related to Product 1-N ,
+    name field should be easy to access and to identify
     """
     name = models.CharField(
         max_length=100, unique=True, default='No Name', verbose_name='Category'
@@ -32,7 +35,7 @@ class Category(models.Model):
 
 class Product(models.Model):
     """
-    Products related to Sales
+    When created a Product a instance of stock is created
     """
     name = models.CharField(max_length=120, unique=True, verbose_name='Name')
     ref = models.CharField(max_length=18, unique=True, verbose_name='Ref', null=True, blank=True)
@@ -40,12 +43,12 @@ class Product(models.Model):
     product_img = models.ImageField(upload_to='product', default='default_img.jpg', blank=True)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, verbose_name='Category', related_name='products')
     active = models.BooleanField(default=True,verbose_name='Active')
-    measurement = models.CharField(max_length=4, choices=Measurement.choices, default=Measurement.UNI, verbose_name='Measurement')
+    measurement = models.ForeignKey(Measurement, on_delete=models.SET_NULL, null=True, verbose_name='Measurement', related_name='products')
     price = models.DecimalField(max_digits=4, decimal_places=2, default=0.00, help_text='Value in Euros', verbose_name='Price')
     discount = models.DecimalField(max_digits=3, decimal_places=0, default=0, help_text="%",
                                    validators=[MinValueValidator(0), MaxValueValidator(100)],
                                    verbose_name='Discount', blank=True)
-    
+
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
