@@ -38,6 +38,7 @@ INSTALLED_APPS += [
     'product',
     'stock',
     'partners',
+    'transactions',
 ]
 
 # CRISPY FORMS

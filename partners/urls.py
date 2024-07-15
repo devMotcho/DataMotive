@@ -26,8 +26,8 @@ urlpatterns = [
 
     #suppliers Type
     path('suppliers-type/', supplierTypeTable, name='suppliers-type'),
-    path('supplier-type/<str:pk>', supplierTypeDetail, name='supplier-type'),
-    path('supplier-type/delete/<str:pk>', supplierTypeDelete, name='delete-supplier-type'),
+    path('supplier-type/<str:pk>/', supplierTypeDetail, name='supplier-type'),
+    path('supplier-type/delete/<str:pk>/', supplierTypeDelete, name='delete-supplier-type'),
 
 
     #clients

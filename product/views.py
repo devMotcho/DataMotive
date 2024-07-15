@@ -10,7 +10,7 @@ from stock.models import Stock
 @login_required(login_url='authentic:login')
 def productTable(request):
     """
-    Default view for porducts,
+    View porducts,
     Contains a table with all products,
     Possibility to create new products
     """

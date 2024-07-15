@@ -1,0 +1,73 @@
+{% extends 'main.html' %}
+{% block title %}
+- Stock Info
+{% endblock title %}
+
+{% block content %}
+
+{% include 'transactions/sale/create-sale-modal.html' %}
+
+<main class="content p-2">
+    <div class="container-fluid">
+        <!-- Title + Action -->
+        <div class="row">
+            <div class="col-md-6">
+                <h4 class="title">
+                    Sales
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <div class="action text-end">
+                    <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#createModal">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- End Title + Action -->
+        <hr>
+      
+        <!-- Card with Table -->
+         <div class="card border-0">
+            <div class="d-flex px-4 py-4">
+                <table class="table table-striped table-bordered border-dark">
+                    <thead>
+                        <tr class="table-dark text-white text-center">
+                            <th scope="col">#</th>
+                            <th scope="col">Product</th>
+                            <th scope="col">Client</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Final Price</th>
+                            <th scope="col">Transaction Date</th>
+                            <th scope="col">Activity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for obj in objs %}
+                        <tr class="text-center">
+                            <th scope="row">{{obj.transaction_id}}</th>
+                            <th scope="row">{{obj.product.name}}</th>
+                            <th scope="row">{{obj.client.name}}</th>
+                            <th scope="row">{{obj.quantity}}</th>
+                            <th scope="row">{{obj.final_price}} €</th>
+                            <th scope="row">{{obj.transaction_date}}</th>
+                             <td>
+                                <!-- Detail -->
+                                <a class="btn btn-sm btn-success" href="#">
+                                    <i class="fa-solid fa-eye"></i>
+                                </a>
+                                <!-- Delete -->
+                                <a class="btn btn-sm btn-danger" href="{% url 'transactions:delete-sale' obj.transaction_id %}">
+                                    <i class="fa-solid fa-x"></i>
+                                </a>
+                             </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+         </div>
+        <!-- End Card with Table -->
+    </div>
+</main>
+{% endblock content %}
