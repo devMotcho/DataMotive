@@ -134,6 +134,43 @@ def saleTable(request):
     return render(request, 'transactions/sale/table.html', context)
 
 @login_required(login_url='authentic:login')
+def saleDetail(request, pk):
+    sale = get_object_or_404(Sale, transaction_id=pk)
+    old_sale_product = sale.product
+    old_sale_quantity = sale.quantity
+    stock_instance = Stock.objects.get(product=sale.product)
+
+    form = SaleForm(instance=sale)
+    if request.method == 'POST':
+        form = SaleForm(request.POST, instance=sale)
+        if form.is_valid():
+            new_sale = form.save(commit=False)
+
+            if new_sale.product == old_sale_product:
+                print("Is The Same Product")
+                stock_instance.quantity += old_sale_quantity
+                stock_instance.quantity -= new_sale.quantity
+
+            else:
+                print(" Product was changed ")
+                new_stock_instance = Stock.objects.get(product=new_sale.product)
+
+                stock_instance.quantity += old_sale_quantity
+                new_stock_instance.quantity -= new_sale.quantity
+                new_stock_instance.save()  
+
+            stock_instance.save()
+            new_sale.save()
+
+
+    context = {
+        'obj':sale,
+        'form':form,
+    }
+    return render(request, "transactions/sale/detail.html", context)
+
+
+@login_required(login_url='authentic:login')
 def saleDelete(request, pk):
     sale = get_object_or_404(Sale, transaction_id=pk)
 

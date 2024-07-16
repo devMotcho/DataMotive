@@ -86,6 +86,31 @@
                     <hr>
                 </ul>
             </li>
+            <!-- Transactions -->
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link collapsed" data-bs-target="#transactions" data-bs-toggle="collapse"
+                    aria-expanded="false">
+                    <i class="fa-solid fa-money-bill-transfer px-2"></i>
+                    Transactions
+                </a>
+                <hr>
+                <ul id="transactions" class=" sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                    <li class="sidebar-item">
+                        <a href="{% url 'transactions:sales' %}" class="sidebar-link">
+                            <i class="fa-solid fa-money-bill-trend-up px-2"></i>
+                            Sales
+                        </a>
+                    </li>
+                    <hr>
+                    <li class="sidebar-item">
+                        <a href="{% url 'transactions:purchases' %}" class="sidebar-link">
+                            <i class="fa-solid fa-money-check px-2"></i>
+                            Purchases
+                        </a>
+                    </li>
+                    <hr>
+                </ul>
+            </li>
         </ul>
     </div>
 </aside>

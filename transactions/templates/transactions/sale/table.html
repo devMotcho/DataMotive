@@ -53,7 +53,7 @@
                             <th scope="row">{{obj.transaction_date}}</th>
                              <td>
                                 <!-- Detail -->
-                                <a class="btn btn-sm btn-success" href="#">
+                                <a class="btn btn-sm btn-success" href="{% url 'transactions:sale' obj.transaction_id %}">
                                     <i class="fa-solid fa-eye"></i>
                                 </a>
                                 <!-- Delete -->

@@ -5,6 +5,7 @@ from .views import (
     purchaseDetail,
 
     saleTable,
+    saleDetail,
     saleDelete,
 
 )
@@ -18,7 +19,7 @@ urlpatterns = [
 
     # sales
     path('sales/', saleTable, name='sales'),
-
+    path('sale/<str:pk>/', saleDetail, name='sale'),
     path('sale/delete/<str:pk>/', saleDelete, name='delete-sale'),
 
 ]

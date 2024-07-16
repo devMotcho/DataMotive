@@ -1,0 +1,78 @@
+{% extends 'main.html' %}
+{% block title %}- Supplier {{obj.transaction_id}} {% endblock title %}
+
+{% block content %}
+
+{% include 'transactions/purchase/update-purchase-modal.html' %}
+
+<main class="content p-2">
+    <div class="container-fluid">
+        <!-- Title + Action -->
+        <div class="row">
+            <div class="col-md-6">
+                <h4 class="title">
+                    {{obj.transaction_id}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <div class="action text-end">
+                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#updateModal{{obj.id}}">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Title + Action End -->
+        <hr>
+        <!-- client Information Card -->
+        <div class="row">
+            <div class="col d-flex">
+                <div class="card flex-fill border-0 illustration">
+                    <div class="card-body p-0 d-flex flex-fill">
+                        <div class="row g-0 w-100">
+                            <div class="col-8 pt-4">
+                                <div class="p-3 m-1">
+                                    <h4 class="mt-2 p-2 text-center">
+                                        <span class="badge text-bg-secondary">{{obj.product.category}}</span>
+                                        <span class="badge text-bg-info">{{obj.transaction_date | timesince}}</span>
+                                    </h4>
+                                        <div class="container pt-4">
+                                            <table class="table table-striped table-bordered border-dark">
+                                                <thead>
+                                                    <tr class="table-dark text-white text-center">
+    
+                                                        <th scope="col">client</th>
+                                                        <th scope="col">client Type</th>
+                                                        <th scope="col">Quantity</th>
+                                                        <th scope="col">Final Price</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr class="text-center">
+                                                        <td>{{obj.client}}</td>
+                                                        <td>{{obj.client.client_type}}</td>
+                                                        <td><b>{{obj.quantity}}</b></td>
+                                                        <td><b>{{obj.final_price}} €</b></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="card text-bg-dark mb-3">
+                                            <div class="card-header">Note:</div>
+                                            <div class="card-body">
+                                                <!-- Add note in model -->
+                                              <p class="card-text"></p>
+                                            </div>
+                                        </div>                                                                  
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Supplier Information Card -->
+    </div>
+</main>
+
+{% endblock content %}
