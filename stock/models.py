@@ -24,8 +24,6 @@ class Stock(models.Model):
         result = Decimal(float(self.quantity) * float(self.product.final_price))
         return round(result, 2)
 
-    class Meta:
-        ordering = ['-created']
 
     def save(self, *args, **kwargs):
         if self.quantity is not None:
@@ -41,6 +39,8 @@ class Stock(models.Model):
     def __str__(self):
         return f'{self.product.name} - {self.quantity} in stock ({self.value}€)'
     
+    class Meta:
+        ordering = ['-created']
 
 
 

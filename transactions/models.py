@@ -1,23 +1,28 @@
 from django.db import models
+from django.utils import timezone
 
 from product.models import Product
 from partners.models import Client, Supplier
 from src.utils import generate_code
 
 class Transaction(models.Model):
-
-    # pending
-    # consluded
     transaction_id = models.CharField(max_length=12, primary_key=True, blank=True , unique=True, verbose_name='Transaction ID')
     quantity = models.IntegerField()
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True, verbose_name='Product')
 
-    transaction_date = models.DateTimeField(auto_now_add=True, verbose_name='Transaction Date')
+    transaction_date = models.DateField(verbose_name='Transaction Date')
 
+    created = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    updated = models.DateTimeField(auto_now=True, blank=True, null=True)
     
     def save(self, *args, **kwargs):
         if self.transaction_id == '':
             self.transaction_id = generate_code()
+        if self.created == '':
+            self.created = timezone.now
+        if self.updated == '':
+            self.updated = timezone.now
+        
         return super().save(*args, **kwargs)
 
     class Meta:
@@ -27,7 +32,7 @@ class Transaction(models.Model):
 
 class Sale(Transaction):
     """
-    Sale Products to Clients
+    Sale of Products to Clients
     """
     client = models.ForeignKey(Client, on_delete=models.SET_NULL, null=True, related_name='sales', verbose_name='Client')
 
