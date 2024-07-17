@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 
 from .models import Supplier, Client, SupplierType, ClientType
 from .forms import SupplierForm, ClientForm, SupplierTypeForm, ClientTypeForm
-
+from transactions.models import Sale, Purchase
 
 # Suppliers
 @login_required(login_url='authentic:login')
@@ -165,6 +165,8 @@ def clientDetail(request, pk):
     """
     client = get_object_or_404(Client, id=pk)
 
+    sold_to_client = Sale.objects.filter(client=client)
+
     form = ClientForm(instance=client)
     if request.method == 'POST':
         form = ClientForm(request.POST, request.FILES, instance=client)
@@ -178,6 +180,7 @@ def clientDetail(request, pk):
     context = {
         'obj' : client,
         'form' : form,
+        'sales' : sold_to_client,
     }
     return render(request, 'partners/client/detail.html', context)
 

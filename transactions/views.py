@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from transactions.models import Purchase, Sale
 from transactions.forms import PurchaseForm, SaleForm
 from stock.models import Stock
+from product.models import Product
 
 @login_required(login_url='authentic:login')
 def purchaseTable(request):
@@ -136,9 +137,14 @@ def saleTable(request):
 @login_required(login_url='authentic:login')
 def saleDetail(request, pk):
     sale = get_object_or_404(Sale, transaction_id=pk)
+    stock_instance = Stock.objects.get(product=sale.product)
     old_sale_product = sale.product
     old_sale_quantity = sale.quantity
-    stock_instance = Stock.objects.get(product=sale.product)
+
+    product_sale_price = sale.final_price
+    product_sale_price = sale.product.final_price * sale.quantity
+    profit_on_sale = product_sale_price - product_sale_price
+
 
     form = SaleForm(instance=sale)
     if request.method == 'POST':
@@ -166,6 +172,7 @@ def saleDetail(request, pk):
     context = {
         'obj':sale,
         'form':form,
+        'profit_on_sale' : profit_on_sale,
     }
     return render(request, "transactions/sale/detail.html", context)
 

@@ -11,7 +11,7 @@
         <div class="row">
             <div class="col-md-6">
                 <h4 class="title">
-                    {{obj.transaction_id}}
+                    Transaction {{obj.transaction_id}}
                 </h4>
             </div>
             <div class="col-md-6">
@@ -41,18 +41,23 @@
                                                 <thead>
                                                     <tr class="table-dark text-white text-center">
     
-                                                        <th scope="col">client</th>
-                                                        <th scope="col">client Type</th>
+                                                        <th scope="col">Client</th>
+                                                        <th scope="col">Type</th>
                                                         <th scope="col">Quantity</th>
-                                                        <th scope="col">Final Price</th>
+                                                        <th scope="col">Cost</th>
+                                                        <th scope="col">Sold Price</th>
+                                                        <th scope="col">Profit</th>
+
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <tr class="text-center">
-                                                        <td>{{obj.client}}</td>
+                                                        <td>{{obj.client.name}}</td>
                                                         <td>{{obj.client.client_type}}</td>
                                                         <td><b>{{obj.quantity}}</b></td>
+                                                        <td><b>{{obj.product.final_price}} €</b></td>
                                                         <td><b>{{obj.final_price}} €</b></td>
+                                                        <td><b>{{profit_on_sale}} €</b></td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -60,11 +65,15 @@
                                         <div class="card text-bg-dark mb-3">
                                             <div class="card-header">Note:</div>
                                             <div class="card-body">
-                                                <!-- Add note in model -->
-                                              <p class="card-text"></p>
+                                              <p class="card-text">
+                                                {{obj.note}}
+                                              </p>
                                             </div>
                                         </div>                                                                  
                                 </div>
+                            </div>
+                            <div class="col-4 align-self-center text-end">
+                                <img src="{{obj.product.product_img.url}}" class="img-fluid illustration-img" alt="{{obj.product.name}} image">
                             </div>
                         </div>
                     </div>

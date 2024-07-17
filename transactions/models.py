@@ -9,7 +9,7 @@ class Transaction(models.Model):
     transaction_id = models.CharField(max_length=12, primary_key=True, blank=True , unique=True, verbose_name='Transaction ID')
     quantity = models.IntegerField()
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True, verbose_name='Product')
-
+    note = models.TextField(blank=True, verbose_name='Note')
     transaction_date = models.DateField(verbose_name='Transaction Date')
 
     created = models.DateTimeField(auto_now_add=True, blank=True, null=True)

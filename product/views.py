@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 
 from .models import Product, Category
 from .forms import ProductForm, CategoryForm
-from stock.models import Stock
+from transactions.models import Sale, Purchase
 
 @login_required(login_url='authentic:login')
 def productTable(request):
@@ -52,6 +52,9 @@ def productDetail(request, pk):
     Possibility to update product
     """
     product = get_object_or_404(Product, id=pk)
+    product_purchases = Purchase.objects.filter(product=product)
+    product_sales = Sale.objects.filter(product=product)
+
 
     form = ProductForm(instance=product)
     if request.method == 'POST':
@@ -66,6 +69,8 @@ def productDetail(request, pk):
     context = {
         'obj': product,
         'form': form,
+        'purchases': product_purchases,
+        'sales': product_sales
     }
     return render(request, 'product/products/detail.html', context)
 
