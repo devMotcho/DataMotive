@@ -8,6 +8,7 @@ from transactions.forms import PurchaseForm, SaleForm
 from stock.models import Stock
 from product.models import Product
 
+
 @login_required(login_url='authentic:login')
 def purchaseTable(request):
     """
@@ -47,10 +48,16 @@ def purchaseTable(request):
 @login_required(login_url='authentic:login')
 def purchaseDetail(request, pk):
     purchase = get_object_or_404(Purchase, transaction_id=pk)
+    stock_instance = Stock.objects.get(product=purchase.product)
+
     old_purchase_product = purchase.product
     old_purchase_quantity = purchase.quantity
-    stock_instance = Stock.objects.get(product=purchase.product)
+
+    purchase_price = purchase.final_price
+    sold_product_for = purchase.product.final_price * purchase.quantity
+    profit_on_sale = round(float(sold_product_for) - float(purchase_price), 2)
     
+
 
     form = PurchaseForm(instance=purchase)
     if request.method == 'POST':
@@ -65,7 +72,7 @@ def purchaseDetail(request, pk):
                 stock_instance.quantity += new_purchase.quantity
 
             else:
-                print("Product Was Changed")
+                print("Product has changed")
                 new_stock_instance = Stock.objects.get(product=new_purchase.product)
 
                 stock_instance.quantity -= old_purchase_quantity
@@ -81,6 +88,8 @@ def purchaseDetail(request, pk):
     context = {
         'obj' : purchase,
         'form' : form,
+        'profit':profit_on_sale,
+        'sold_product_for':sold_product_for,
     }
     return render(request, 'transactions/purchase/detail.html', context)
 
@@ -141,9 +150,6 @@ def saleDetail(request, pk):
     old_sale_product = sale.product
     old_sale_quantity = sale.quantity
 
-    product_sale_price = sale.final_price
-    product_sale_price = sale.product.final_price * sale.quantity
-    profit_on_sale = product_sale_price - product_sale_price
 
 
     form = SaleForm(instance=sale)
@@ -172,7 +178,6 @@ def saleDetail(request, pk):
     context = {
         'obj':sale,
         'form':form,
-        'profit_on_sale' : profit_on_sale,
     }
     return render(request, "transactions/sale/detail.html", context)
 

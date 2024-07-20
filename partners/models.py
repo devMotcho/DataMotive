@@ -4,32 +4,22 @@ from django.db import models
 from product.models import Product
 from src.utils import generate_code
 
-class ClientType(models.Model):
+class EntityType(models.Model):
     """
-    Types of Clients like:
-    individual, corporate, ....
-    """
-    type = models.CharField(max_length=20, unique=True, verbose_name='Supplier Type')
-    
-    def clients_count(self):
-        return self.clients.count()
-    
-
-    def __str__(self):
-        return f'{self.type}'
-    
-class SupplierType(models.Model):
-    """
-    Types of Suppliers like:
+    Some types of entity like:
+    individual, corporate,
     Manufator, Distributor, ....
     """
-    type = models.CharField(max_length=20, unique=True, verbose_name='Supplier Type')
+    entity_type = models.CharField(max_length=20, unique=True, verbose_name='Entity Type')
 
-    def suppliers_count(self):
+    def get_clients_count(self):
+        return self.clients.count()
+    def get_suppliers_count(self):
         return self.suppliers.count()
-
+    
     def __str__(self):
-        return f'{self.type}'
+        return f'{self.entity_type}'
+
 
 class Partner(models.Model):
     name = models.CharField(max_length=255, unique=True, verbose_name='Name')
@@ -40,6 +30,7 @@ class Partner(models.Model):
     active = models.BooleanField(verbose_name='Active', default=False)
     partner_logo = models.ImageField(upload_to='partner', default='default_img.jpg', blank=True)
 
+
     partner_since = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -47,7 +38,7 @@ class Partner(models.Model):
 
 class Client(Partner):
     client_id = models.CharField(max_length=20, blank=True, verbose_name='Cient ID')
-    client_type = models.ForeignKey(ClientType, on_delete=models.PROTECT, related_name="clients" ,verbose_name='Client Type')
+    entity_type = models.ForeignKey(EntityType, on_delete=models.PROTECT, null=True, blank=True, related_name='clients', verbose_name='Entity Type')
 
     def save(self, *args, **kwargs):
         if self.client_id == '':
@@ -56,13 +47,13 @@ class Client(Partner):
         return super().save(*args, **kwargs)
     
     def __str__(self):
-        return f'{self.name} ({self.client_type}) - {self.email}'
+        return f'{self.name} ({self.entity_type}) - {self.email}'
 
 
 class Supplier(Partner):
     supplier_id = models.CharField(max_length=20, blank=True, verbose_name='Supplier ID')
-    supplier_type = models.ForeignKey(SupplierType, on_delete=models.PROTECT, related_name="suppliers" ,verbose_name='Supplier Type')
     products = models.ManyToManyField(Product, related_name='suppliers', verbose_name='Products')
+    entity_type = models.ForeignKey(EntityType, on_delete=models.PROTECT, null=True, blank=True, related_name='suppliers', verbose_name='Entity Type')
 
     
     def save(self, *args, **kwargs):
@@ -72,4 +63,4 @@ class Supplier(Partner):
         return super().save(*args, **kwargs)
     
     def __str__(self):
-        return f'{self.name} ({self.supplier_type}) - {self.email}'
+        return f'{self.name} ({self.entity_type}) - {self.email}'

@@ -1,7 +1,9 @@
 {% extends 'main.html' %}
+{% load static %}
 
 {% block content %}
-<main class="container d-flex justify-content-center align-items-center min-vh-100">
+<div class="login-page">
+    <main class="container d-flex justify-content-center align-items-center min-vh-100">
         <form method="POST" action="">
             {% csrf_token %}
             <div class="wrapper-login">
@@ -19,7 +21,7 @@
                     <label><input type="checkbox">Remember me</label>
                     <a href="#">Forgot password?</a>
                 </div>
-                <button type="submit" class="btn btn-warning">Login</button>
+                <button type="submit" class="btn btn-dark">Login</button>
 
                 <div class="register-link">
                     <p>Don't have an account?
@@ -27,8 +29,7 @@
                     <p>
                 </div>
             </div>
-            </body>
         </form>
-</main>
-
+    </main>
+</div>
 {% endblock content %}

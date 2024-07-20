@@ -4,17 +4,13 @@ from .views import (
     supplierDetail,
     supplierDelete,
 
-    supplierTypeTable,
-    supplierTypeDelete,
-    supplierTypeDetail,
+    entityTypeTable,
+    entityTypeDetail,
+    entityTypeDelete,
 
     clientTable,
     clientDetail,
     clientDelete,
-
-    clientTypeTable,
-    clientTypeDetail,
-    clientTypeDelete,
 )
 app_name = 'partners'
 
@@ -24,10 +20,10 @@ urlpatterns = [
     path('supplier/<str:pk>/', supplierDetail, name='supplier'),
     path('supplier/delete/<str:pk>', supplierDelete, name='delete-supplier'),
 
-    #suppliers Type
-    path('suppliers-type/', supplierTypeTable, name='suppliers-type'),
-    path('supplier-type/<str:pk>/', supplierTypeDetail, name='supplier-type'),
-    path('supplier-type/delete/<str:pk>/', supplierTypeDelete, name='delete-supplier-type'),
+    #entity Type
+    path('entity-type/', entityTypeTable, name='entity-types'),
+    path('entity-type/<str:pk>/', entityTypeDetail, name='entity-type'),
+    path('entity-type/delete/<str:pk>/', entityTypeDelete, name='delete-entity-type'),
 
 
     #clients
@@ -35,10 +31,6 @@ urlpatterns = [
     path('client/<str:pk>/', clientDetail, name='client'),
     path('client/delete/<str:pk>/', clientDelete, name='delete-client'),
 
-    #clients Type
-    path('clients-type/', clientTypeTable, name='clients-type'),
-    path('client-type/<str:pk>/', clientTypeDetail, name='client-type'),
-    path('client-type/delete/<str:pk>/', clientTypeDelete, name='delete-client-type'),
 
 
 ]

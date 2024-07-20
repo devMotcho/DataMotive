@@ -1,6 +1,6 @@
 {% load static %}
 {% if request.user.is_authenticated %}
-<nav class="navbar navbar-expand px-3 border-bottom">
+<nav class="navbar navbar-expand border-bottom">
     <!-- Toggle SideBar -->
     <button class="btn" id="sidebar-toggle" type="button">
         <span class="navbar-toggler-icon"></span>
@@ -9,7 +9,9 @@
     <!-- Search with q -->
     <form class="d-flex">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="q">
-        <button class="btn btn-outline-warning" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+        <button class="btn btn-warning" type="submit">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
     </form>
      
     <!-- Dropdown settings -->
@@ -17,7 +19,9 @@
         <ul class="navbar-nav">
             <li class="nav-item dropdown">
                 <a href="#" data-bs-toggle="dropdown" class="nav-icon pe-md-5 mx-4">
-                    <i class=" fa-solid fa-gear"></i>
+                    <button class="btn btn-dark">
+                        <i class=" fa-solid fa-gear"></i>
+                    </button>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end">
                     <a href="#" class="dropdown-item"><i class="fa-solid fa-user"></i> Profile</a>

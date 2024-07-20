@@ -4,8 +4,8 @@ from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 
 
-from .models import Supplier, Client, SupplierType, ClientType
-from .forms import SupplierForm, ClientForm, SupplierTypeForm, ClientTypeForm
+from .models import Supplier, Client, EntityType
+from .forms import SupplierForm, ClientForm, EntityTypeForm
 from transactions.models import Sale, Purchase
 
 # Suppliers
@@ -74,37 +74,38 @@ def supplierDelete(request, pk):
         messages.success(request, f"Supplier {supplier.name} deleted!")
     return render(request, 'delete.html', {'obj':supplier})
 
-# SupplierType
+# EntityType
 @login_required(login_url='authentic:login')
-def supplierTypeTable(request):
+def entityTypeTable(request):
     q = request.GET.get('q') if request.GET.get('q') is not None else ''
-    types = SupplierType.objects.filter(
-        Q(type__icontains=q)
+    entity_types = EntityType.objects.filter(
+        Q(entity_type__icontains=q)
     )
-    form = SupplierTypeForm()
+
+    form = EntityTypeForm()
     if request.method == 'POST':
-        form = SupplierTypeForm(request.POST, request.FILES)
+        form = EntityTypeForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            messages.success(request, f'Created new Supplier Type!')
+            messages.success(request, f'Created new Entity Type!')
         else:
             messages.error(request, f'{form.errors}')
 
     context = {
-        'objs': types,
+        'objs': entity_types,
         'form': form,
     }
-    return render(request, 'partners/supplierType/table.html', context)
+    return render(request, 'partners/entityType/table.html', context)
 
 @login_required(login_url='authentic:login')
-def supplierTypeDetail(request, pk):
-    supplier_type = get_object_or_404(SupplierType, id=pk)
-    suppliers = Supplier.objects.filter(supplier_type=supplier_type)
+def entityTypeDetail(request, pk):
+    entity_type = get_object_or_404(EntityType, id=pk)
+    suppliers = Supplier.objects.filter(entity_type=entity_type)
 
     
-    form = SupplierTypeForm(instance=supplier_type)
+    form = EntityTypeForm(instance=entity_type)
     if request.method == 'POST':
-        form = SupplierTypeForm(request.POST, request.FILES, instance=supplier_type)
+        form = EntityTypeForm(request.POST, request.FILES, instance=entity_type)
         if form.is_valid():
             form.save()
             messages.success(request, "Supplier Type Updated!")
@@ -112,20 +113,20 @@ def supplierTypeDetail(request, pk):
             messages.error(request, f'{form.errors}')
 
     context = {
-        'obj': supplier_type,
+        'obj': entity_type,
         'suppliers':suppliers,
         'form':form,
     }
-    return render(request, 'partners/supplierType/detail.html', context)
+    return render(request, 'partners/entityType/detail.html', context)
 
 @login_required(login_url='authentic:login')
-def supplierTypeDelete(request, pk):
-    supplier_type = get_object_or_404(SupplierType, id=pk)
+def entityTypeDelete(request, pk):
+    entity_type = get_object_or_404(EntityType, id=pk)
     if request.method == 'POST':
-        supplier_type.delete()
-        messages.success(request, f' Deleted {supplier_type}')
+        entity_type.delete()
+        messages.success(request, f' Deleted {entity_type}')
         return redirect('partners:suppliers-type')
-    return render(request, 'delete.html', {'obj':supplier_type})
+    return render(request, 'delete.html', {'obj':entity_type})
 
 
 # Clients
@@ -196,56 +197,3 @@ def clientDelete(request, pk):
         return redirect('partners:clients')
 
     return render(request, 'delete.html', {'obj':client})
-
-
-# ClientType
-@login_required(login_url='authentic:login')
-def clientTypeTable(request):
-    q = request.GET.get('q') if request.GET.get('q') is not None else ''
-    client_type = ClientType.objects.filter(
-        Q(type__icontains=q)
-    )
-
-    form = ClientTypeForm()
-    if request.method == 'POST':
-        form = ClientTypeForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Client Type Created!")
-        else:
-            messages.error(request, f'{form.errors}')
-    
-    context = {
-        'objs': client_type,
-        'form': form,
-    }
-    return render(request, 'partners/clientType/table.html', context)
-
-@login_required(login_url='authentic:login')
-def clientTypeDetail(request, pk):
-    client_type = get_object_or_404(ClientType, id=pk)
-
-    form = ClientTypeForm(instance=client_type)
-    if request.method == 'POST':
-        form = ClientTypeForm(request.POST, instance=client_type)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Client Type Updated!")
-        else:
-            messages.error(request, f'{form.errors}')
-
-    context = {
-        'obj': client_type,
-        'form': form,
-    }
-    return render(request, 'partners/clientType/detail.html', context)
-
-@login_required(login_url='authentic:login')
-def clientTypeDelete(request, pk):
-    obj = get_object_or_404(ClientType, id=pk)
-    if request.method == 'POST':
-        obj.delete()
-        messages.success(request, 'Client Type Deleted!')
-        return redirect('partners:clients-type')
-    return render(request, 'delete.html', {'obj':obj})
-        

@@ -1,6 +1,6 @@
 # DataMotive
-***** Under Development *****
----
+
+## **\*** Under Development **\***
 
 ### Table of Contents
 
@@ -19,18 +19,31 @@
 
 ---
 
-DataMotive is meant to be an open-source Inventory Management System which provides users a simple way to track their products stock and business flow in a user-friendly way developed with Python/Django for backend, html + bootstrap + Vanilla JavaScript for the frontend and PostgreSQL for the database dockerized so it can run on any machine.
+DataMotive is meant to be a Management System which provides a simple way to track products, stock and transactions flow in a user-friendly.
 
 ### Features
 
 ---
+
+- Possibility to send bootstrap alerts with django.contrib.messages;
+- CRUD Products;
+- View Stock with Chart Js;
+- Whenever a Product is Created a Django signal is sent to create a new instance of that Product Stock;
+- CRUD Categories, Measurements;
+- CRUD Partners ( Suppliers and Clients) and their Entity Types;
+- Make discount Products and see the Final Price;
+- CRUD Transactions ( Sales and Purchases );
+- Every Creation, Modification or Deletion of a Sales / Purchase is logically set so the Stock quantity and price is updated accordingly;
+- Whenever a new User is Created a Django signal is sent to create a new instance of Profile with the User;
+- Have to be Authenticated to View any content or data, if not you will be redirected to login page;
+- Docker-compose will make migrations, migrate and create a super user for you;
 
 ### Tech Stack
 
 ---
 
 - **Backend** : Django
-- **Frontend**: HTML, Bootstrap, CSS, Vanilla JavaScript
+- **Frontend**: HTML, Bootstrap, CSS, JavaScript
 - **Database**: PostgreSQL
 - **Containerization**: Docker
 
@@ -79,6 +92,10 @@ docker-compose exec web python manage.py migrate
 ```
 
 5. **Create a superuser**:
+
+You have a default super user created:
+username : admin
+password : adminpassword
 
 ```bash
 docker-compose exec web python manage.py createsuperuser

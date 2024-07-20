@@ -3,8 +3,8 @@ from django.contrib import messages
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 
-from .models import Product, Category
-from .forms import ProductForm, CategoryForm
+from .models import Product, Category, Measurement
+from .forms import ProductForm, CategoryForm, MeasurementForm
 from transactions.models import Sale, Purchase
 
 @login_required(login_url='authentic:login')
@@ -144,3 +144,51 @@ def categoryDelete(request, pk):
         return redirect('product:categories')
     return render(request, 'delete.html', {'obj':obj})
 
+@login_required(login_url='authentic:login')
+def measurementTable(request):
+    measurements = Measurement.objects.all()
+    
+    form = MeasurementForm()
+    if request.method == 'POST':
+        form = MeasurementForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Measurement Created!")
+        else:
+            messages.error(request, f'{form.errors}')
+
+
+    context = {
+        'objs': measurements,
+        'form': form,
+    }
+    return render(request, 'product/measurements/table.html', context)
+
+@login_required(login_url='authentic:login')
+def measurementDetail(request, pk):
+    measurement = get_object_or_404(Measurement, id=pk)
+
+
+    form = MeasurementForm(instance=measurement)
+    if request.method == 'POST':
+        form = MeasurementForm(request.POST, instance=measurement)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Measurement Modified!")
+        else:
+            messages.error(request, form.errors)
+
+    context = {
+        'obj':measurement,
+        'form':form,
+    }
+    return render(request, "product/measurements/detail.html", context)
+
+@login_required(login_url='authentic:login')
+def measurementDelete(request, pk):
+    obj = get_object_or_404(Measurement, id=pk)
+    if request.method == 'POST':
+        obj.delete()
+        messages.success(request, "Measurement Deleted!")
+        return redirect('product:measurements')
+    return render(request, 'delete.html', {'obj':obj})

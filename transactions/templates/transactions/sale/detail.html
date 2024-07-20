@@ -1,5 +1,5 @@
 {% extends 'main.html' %}
-{% block title %}- Supplier {{obj.transaction_id}} {% endblock title %}
+{% block title %}- Sale {{obj.transaction_id}} {% endblock title %}
 
 {% block content %}
 
@@ -34,7 +34,7 @@
                                 <div class="p-3 m-1">
                                     <h4 class="mt-2 p-2 text-center">
                                         <span class="badge text-bg-secondary">{{obj.product.category}}</span>
-                                        <span class="badge text-bg-info">{{obj.transaction_date | timesince}}</span>
+                                        <span class="badge text-bg-info">{{obj.transaction_date}}</span>
                                     </h4>
                                         <div class="container pt-4">
                                             <table class="table table-striped table-bordered border-dark">
@@ -44,20 +44,18 @@
                                                         <th scope="col">Client</th>
                                                         <th scope="col">Type</th>
                                                         <th scope="col">Quantity</th>
-                                                        <th scope="col">Cost</th>
+                                                        <th scope="col">Unit Cost</th>
                                                         <th scope="col">Sold Price</th>
-                                                        <th scope="col">Profit</th>
 
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <tr class="text-center">
                                                         <td>{{obj.client.name}}</td>
-                                                        <td>{{obj.client.client_type}}</td>
+                                                        <td>{{obj.client.entity_type}}</td>
                                                         <td><b>{{obj.quantity}}</b></td>
                                                         <td><b>{{obj.product.final_price}} €</b></td>
                                                         <td><b>{{obj.final_price}} €</b></td>
-                                                        <td><b>{{profit_on_sale}} €</b></td>
                                                     </tr>
                                                 </tbody>
                                             </table>

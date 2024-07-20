@@ -56,10 +56,9 @@ class Purchase(Transaction):
     Purchase Products from Suppliers
     """
     supplier = models.ForeignKey(Supplier, on_delete=models.SET_NULL, null=True, related_name='purchases', verbose_name='Supplier')
-    final_price = models.DecimalField(max_digits=8, decimal_places=2, default=0.00, help_text="Value in Euros", verbose_name="Final Price")
+    final_price = models.DecimalField(max_digits=18, decimal_places=2, default=0.00, help_text="Value in Euros", verbose_name="Final Price")
 
     
     def __str__(self):
         return f'{self.transaction_id} - {self.quantity} x of product {self.product} at {self.final_price} €'
     
-

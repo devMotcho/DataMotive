@@ -44,7 +44,7 @@ class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, verbose_name='Category', related_name='products')
     active = models.BooleanField(default=True,verbose_name='Active')
     measurement = models.ForeignKey(Measurement, on_delete=models.SET_NULL, null=True, verbose_name='Measurement', related_name='products')
-    price = models.DecimalField(max_digits=4, decimal_places=2, default=0.00, help_text='Value in Euros', verbose_name='Price')
+    price = models.DecimalField(max_digits=18, decimal_places=2, default=0.00, help_text='Value in Euros', verbose_name='Price')
     discount = models.DecimalField(max_digits=3, decimal_places=0, default=0, help_text="%",
                                    validators=[MinValueValidator(0), MaxValueValidator(100)],
                                    verbose_name='Discount', blank=True)

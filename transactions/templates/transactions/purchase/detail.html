@@ -11,7 +11,7 @@
         <div class="row">
             <div class="col-md-6">
                 <h4 class="title">
-                    {{obj.transaction_id}}
+                    Transaction {{obj.transaction_id}}
                 </h4>
             </div>
             <div class="col-md-6">
@@ -27,14 +27,14 @@
         <!-- Supplier Information Card -->
         <div class="row">
             <div class="col d-flex">
-                <div class="card flex-fill border-0 illustration">
+                <div class="card flex-fill border-0">
                     <div class="card-body p-0 d-flex flex-fill">
                         <div class="row g-0 w-100">
                             <div class="col-8 pt-4">
                                 <div class="p-3 m-1">
                                     <h4 class="mt-2 p-2 text-center">
                                         <span class="badge text-bg-secondary">{{obj.product.category}}</span>
-                                        <span class="badge text-bg-info">{{obj.transaction_date | timesince}}</span>
+                                        <span class="badge text-bg-info">{{obj.transaction_date }}</span>
                                     </h4>
                                         <div class="container pt-4">
                                             <table class="table table-striped table-bordered border-dark">
@@ -42,17 +42,21 @@
                                                     <tr class="table-dark text-white text-center">
     
                                                         <th scope="col">Supplier</th>
-                                                        <th scope="col">Supplier Type</th>
+                                                        <th scope="col">Entity Type</th>
                                                         <th scope="col">Quantity</th>
-                                                        <th scope="col">Final Price</th>
+                                                        <th scope="col">Purchase Price</th>
+                                                        <th scope="col">Sold Price</th>
+                                                        <th scope="col">Profit</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <tr class="text-center">
-                                                        <td>{{obj.supplier}}</td>
-                                                        <td>{{obj.supplier.supplier_type}}</td>
+                                                        <td>{{obj.supplier.name}}</td>
+                                                        <td>{{obj.supplier.entity_type}}</td>
                                                         <td><b>{{obj.quantity}}</b></td>
                                                         <td><b>{{obj.final_price}} €</b></td>
+                                                        <td><b>{{sold_product_for}} €</b></td>
+                                                        <td><b>{{profit}} €</b></td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -61,6 +65,7 @@
                                             <div class="card-header">Note:</div>
                                             <div class="card-body">
                                                 <!-- Add note in model -->
+                                                 {{obj.note}}
                                               <p class="card-text"></p>
                                             </div>
                                         </div>                                                                  

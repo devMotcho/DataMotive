@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Supplier, Client, SupplierType, ClientType
+from .models import Supplier, Client, EntityType
 
 class SupplierForm(forms.ModelForm):
     class Meta:
@@ -12,12 +12,7 @@ class ClientForm(forms.ModelForm):
         model = Client
         fields = '__all__'
 
-class SupplierTypeForm(forms.ModelForm):
+class EntityTypeForm(forms.ModelForm):
     class Meta:
-        model = SupplierType
-        fields = '__all__'
-
-class ClientTypeForm(forms.ModelForm):
-    class Meta:
-        model = ClientType
+        model = EntityType
         fields = '__all__'
