@@ -6,34 +6,33 @@ from django.contrib.auth.decorators import login_required
 from .models import Product, Category, Measurement
 from .forms import ProductForm, CategoryForm, MeasurementForm
 from transactions.models import Sale, Purchase
+from .utils import get_purchases_by_product, get_sales_by_product, get_products_by_category
 
+# Products
 @login_required(login_url='authentic:login')
 def productTable(request):
     """
     View porducts,
     Contains a table with all products,
     Possibility to create new products
+    Search on Navbar by: name, category, measurement and description
     """
     q = request.GET.get('q') if request.GET.get('q') is not None else ''
 
     product = Product
     products = Product.objects.filter(
         Q(name__icontains=q) |
-        Q(category__name__icontains=q)
+        Q(category__name__icontains=q) |
+        Q(measurement__measure__icontains=q) |
+        Q(description__icontains=q)
     )
 
     form = ProductForm()
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES)
         if form.is_valid():
-            product = form.save()
-
-            # Added signal at stock.models
-            # Stock.objects.create(
-            #     product=product,
-            #     quantity=0,
-            # )
-            
+            form.save()
+            # Stock instance is created by a signal
             messages.success(request, "Product created!")
         else:
             messages.error(request, form.errors)
@@ -48,12 +47,12 @@ def productTable(request):
 @login_required(login_url='authentic:login')
 def productDetail(request, pk):
     """
-    Detail view for each product,
+    Detail view of product,
     Possibility to update product
     """
     product = get_object_or_404(Product, id=pk)
-    product_purchases = Purchase.objects.filter(product=product)
-    product_sales = Sale.objects.filter(product=product)
+    product_purchases = get_purchases_by_product(product)
+    product_sales = get_sales_by_product(product)
 
 
     form = ProductForm(instance=product)
@@ -77,7 +76,7 @@ def productDetail(request, pk):
 @login_required(login_url='authentic:login')
 def productDelete(request, pk):
     """
-    Delete products
+    Delete product
     """
     obj = get_object_or_404(Product, id=pk)
     if request.method == 'POST':
@@ -87,9 +86,15 @@ def productDelete(request, pk):
     
     return render(request, 'delete.html', {'obj':obj})
 
-# Categorys
+# Categories
 @login_required(login_url='authentic:login')
 def categoryTable(request):
+    """
+    View Product Categories,
+    Contains a table with all existing Categories,
+    Possibility to create new Category
+    Search on Navbar by: name.
+    """
     q = request.GET.get('q') if request.GET.get('q') is not None else ''
     
     category = Category
@@ -115,13 +120,17 @@ def categoryTable(request):
 
 @login_required(login_url='authentic:login')
 def categoryDetail(request, pk):
-    category = get_object_or_404(Category, id=pk)
+    """
+    Detail view of Category,
+    Possibility to update Category Name
+    """
+    obj = get_object_or_404(Category, id=pk)
 
-    products_in_category = Product.objects.filter(category=category)
+    category_products = get_products_by_category(obj)
 
-    form = CategoryForm(instance=category)
+    form = CategoryForm(instance=obj)
     if request.method == 'POST':
-        form = CategoryForm(request.POST, instance=category)
+        form = CategoryForm(request.POST, instance=obj)
         if form.is_valid():
             form.save()
             messages.success(request, "Category Modified!")
@@ -129,14 +138,17 @@ def categoryDetail(request, pk):
             messages.error(request, form.errors)
 
     context = {
-        'obj':category,
-        'products_in_category':products_in_category,
+        'obj':obj,
+        'category_products':category_products,
         'form':form,
     }
     return render(request, "product/categories/detail.html", context)
 
 @login_required(login_url='authentic:login')
 def categoryDelete(request, pk):
+    """
+    Delete Category
+    """
     obj = get_object_or_404(Category, id=pk)
     if request.method == 'POST':
         obj.delete()
@@ -144,9 +156,19 @@ def categoryDelete(request, pk):
         return redirect('product:categories')
     return render(request, 'delete.html', {'obj':obj})
 
+# Measurements
 @login_required(login_url='authentic:login')
 def measurementTable(request):
-    measurements = Measurement.objects.all()
+    """
+    View Product Measurements,
+    Contains a table with all existing Measurements,
+    Possibility to create new Measurement
+    Search on Navbar by: measure.
+    """
+    q = request.GET.get('q') if request.GET.get('q') is not None else ''
+    measurements = Measurement.objects.filter(
+        Q(measure__icontains=q)
+    )
     
     form = MeasurementForm()
     if request.method == 'POST':
@@ -157,7 +179,6 @@ def measurementTable(request):
         else:
             messages.error(request, f'{form.errors}')
 
-
     context = {
         'objs': measurements,
         'form': form,
@@ -166,8 +187,11 @@ def measurementTable(request):
 
 @login_required(login_url='authentic:login')
 def measurementDetail(request, pk):
+    """
+    Detail view of Measurement,
+    Possibility to update Measurement measure
+    """
     measurement = get_object_or_404(Measurement, id=pk)
-
 
     form = MeasurementForm(instance=measurement)
     if request.method == 'POST':
@@ -186,6 +210,9 @@ def measurementDetail(request, pk):
 
 @login_required(login_url='authentic:login')
 def measurementDelete(request, pk):
+    """
+    Delete Measurement
+    """
     obj = get_object_or_404(Measurement, id=pk)
     if request.method == 'POST':
         obj.delete()

@@ -26,7 +26,7 @@
         <!-- End Title + Action -->
         <hr>    
         <!-- Start Category Info -->
-        {% for product in products_in_category %}
+        {% for product in category_products %}
         {% if forloop.counter0|divisibleby:6 %}
         {% if not forloop.first %}</div>{% endif %}
         <div class="card-group p-2">

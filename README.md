@@ -25,16 +25,15 @@ DataMotive is meant to be a Management System which provides a simple way to tra
 
 ---
 
-- Possibility to send bootstrap alerts with django.contrib.messages;
+- Possibility to send custom bootstrap alerts with django.contrib.messages;
 - CRUD Products;
 - View Stock with Chart Js;
-- Whenever a Product is Created a Django signal is sent to create a new instance of that Product Stock;
+- Whenever a Product is Created a Django signal is sent to create a new instance of that Product in Stock with quantity 0;
 - CRUD Categories, Measurements;
 - CRUD Partners ( Suppliers and Clients) and their Entity Types;
-- Make discount Products and see the Final Price;
 - CRUD Transactions ( Sales and Purchases );
-- Every Creation, Modification or Deletion of a Sales / Purchase is logically set so the Stock quantity and price is updated accordingly;
-- Whenever a new User is Created a Django signal is sent to create a new instance of Profile with the User;
+- Every Creation, Modification or Deletion of a Sales and Purchases is logically set so the Stock quantity and price are updated accordingly;
+- Whenever a new User is Created a Django signal is sent to create a new instance of Profile with that User;
 - Have to be Authenticated to View any content or data, if not you will be redirected to login page;
 - Docker-compose will make migrations, migrate and create a super user for you;
 
@@ -94,8 +93,9 @@ docker-compose exec web python manage.py migrate
 5. **Create a superuser**:
 
 You have a default super user created:
-username : admin
-password : adminpassword
+
+- username : admin
+- password : adminpassword
 
 ```bash
 docker-compose exec web python manage.py createsuperuser
