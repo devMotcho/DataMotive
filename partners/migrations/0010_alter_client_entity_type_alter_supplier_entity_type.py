@@ -13,12 +13,12 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterField(
             model_name='client',
-            name='entity_type',
+            name='entity',
             field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, related_name='clients', to='partners.entitytype', verbose_name='Entity Type'),
         ),
         migrations.AlterField(
             model_name='supplier',
-            name='entity_type',
+            name='entity',
             field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, related_name='suppliers', to='partners.entitytype', verbose_name='Entity Type'),
         ),
     ]

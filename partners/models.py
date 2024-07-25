@@ -38,7 +38,7 @@ class Partner(models.Model):
 
 class Client(Partner):
     client_id = models.CharField(max_length=20, blank=True, verbose_name='Cient ID')
-    entity_type = models.ForeignKey(EntityType, on_delete=models.PROTECT, null=True, blank=True, related_name='clients', verbose_name='Entity Type')
+    entity = models.ForeignKey(EntityType, on_delete=models.PROTECT, null=True, blank=True, related_name='clients', verbose_name='Entity Type')
 
     def save(self, *args, **kwargs):
         if self.client_id == '':
@@ -47,13 +47,13 @@ class Client(Partner):
         return super().save(*args, **kwargs)
     
     def __str__(self):
-        return f'{self.name} ({self.entity_type}) - {self.email}'
+        return f'{self.name} ({self.entity}) - {self.email}'
 
 
 class Supplier(Partner):
     supplier_id = models.CharField(max_length=20, blank=True, verbose_name='Supplier ID')
     products = models.ManyToManyField(Product, related_name='suppliers', verbose_name='Products')
-    entity_type = models.ForeignKey(EntityType, on_delete=models.PROTECT, null=True, blank=True, related_name='suppliers', verbose_name='Entity Type')
+    entity = models.ForeignKey(EntityType, on_delete=models.PROTECT, null=True, blank=True, related_name='suppliers', verbose_name='Entity Type')
 
     
     def save(self, *args, **kwargs):
@@ -63,4 +63,4 @@ class Supplier(Partner):
         return super().save(*args, **kwargs)
     
     def __str__(self):
-        return f'{self.name} ({self.entity_type}) - {self.email}'
+        return f'{self.name} ({self.entity}) - {self.email}'

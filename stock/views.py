@@ -5,10 +5,10 @@ from .models import Stock
 @login_required(login_url='authentic:login')
 def stockInfo(request):
 
-    items_in_stock = Stock.objects.filter()
+    stock = Stock.objects.filter()
 
     context = {
-        'objs':items_in_stock,
+        'objs':stock,
     }
     return render(request, 'stock/info.html', context)
 

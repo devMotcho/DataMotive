@@ -7,19 +7,26 @@ from django.contrib.auth.decorators import login_required
 from .models import Supplier, Client, EntityType
 from .forms import SupplierForm, ClientForm, EntityTypeForm
 from transactions.models import Sale, Purchase
+from .utils import get_sales_by_client
 
 # Suppliers
 @login_required(login_url='authentic:login')
 def supplierTable(request):
     """
-    Table with Information about the Suppliers
-    Can filter by name
-    Can create new supplier
+    View Suppliers,
+    Contains a table with all existing Suppliers,
+    Possibility to create new Supplier
+    Search on Navbar by: name, email, contact, address, note, entity.
     """
     q = request.GET.get('q') if request.GET.get('q') is not None else ''
     
     supplier = Supplier.objects.filter(
-        Q(name__icontains=q)
+        Q(name__icontains=q) |
+        Q(email__icontains=q) |
+        Q(contact__icontains=q) |
+        Q(address__icontains=q) |
+        Q(note__icontains=q) |
+        Q(entity__entity_type__icontains=q)
     )
 
     form = SupplierForm()
@@ -27,11 +34,11 @@ def supplierTable(request):
         form = SupplierForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, "Supplier Added!")
+            messages.success(request, "Supplier Created!")
             return redirect('partners:suppliers')
-
         else:
             messages.error(request, form.errors)
+
     context = {
         'objs' : supplier,
         'form' : form,
@@ -41,8 +48,8 @@ def supplierTable(request):
 @login_required(login_url='authentic:login')
 def supplierDetail(request, pk):
     """
-    Detail Information about the Supplier id=pk
-    Can edit the supplier
+    Detail view of Supplier,
+    Possibility to update supplier
     """
     supplier = get_object_or_404(Supplier, id=pk)
     supplier_products = supplier.products.all()
@@ -77,8 +84,14 @@ def supplierDelete(request, pk):
 # EntityType
 @login_required(login_url='authentic:login')
 def entityTypeTable(request):
+    """
+    View Entity Types,
+    Contains a table with all existing Types of Entities,
+    Possibility to create new Entity Type
+    Search on Navbar by: entity_type
+    """
     q = request.GET.get('q') if request.GET.get('q') is not None else ''
-    entity_types = EntityType.objects.filter(
+    entitys = EntityType.objects.filter(
         Q(entity_type__icontains=q)
     )
 
@@ -92,20 +105,25 @@ def entityTypeTable(request):
             messages.error(request, f'{form.errors}')
 
     context = {
-        'objs': entity_types,
+        'objs': entitys,
         'form': form,
     }
     return render(request, 'partners/entityType/table.html', context)
 
 @login_required(login_url='authentic:login')
 def entityTypeDetail(request, pk):
-    entity_type = get_object_or_404(EntityType, id=pk)
-    suppliers = Supplier.objects.filter(entity_type=entity_type)
+    """
+    Detail view of Entity Type,
+    Possibility to update type of entity
+    """    
+    entity = get_object_or_404(EntityType, id=pk)
+    suppliers = Supplier.objects.filter(entity=entity)
+    # TODO -> ADD CLIENTS TO DISPLAY ON Detail View
 
     
-    form = EntityTypeForm(instance=entity_type)
+    form = EntityTypeForm(instance=entity)
     if request.method == 'POST':
-        form = EntityTypeForm(request.POST, request.FILES, instance=entity_type)
+        form = EntityTypeForm(request.POST, request.FILES, instance=entity)
         if form.is_valid():
             form.save()
             messages.success(request, "Supplier Type Updated!")
@@ -113,7 +131,7 @@ def entityTypeDetail(request, pk):
             messages.error(request, f'{form.errors}')
 
     context = {
-        'obj': entity_type,
+        'obj': entity,
         'suppliers':suppliers,
         'form':form,
     }
@@ -121,25 +139,34 @@ def entityTypeDetail(request, pk):
 
 @login_required(login_url='authentic:login')
 def entityTypeDelete(request, pk):
-    entity_type = get_object_or_404(EntityType, id=pk)
+    """
+    Delete Entity Type
+    """
+    entity = get_object_or_404(EntityType, id=pk)
     if request.method == 'POST':
-        entity_type.delete()
-        messages.success(request, f' Deleted {entity_type}')
+        entity.delete()
+        messages.success(request, f' Deleted {entity}')
         return redirect('partners:suppliers-type')
-    return render(request, 'delete.html', {'obj':entity_type})
+    return render(request, 'delete.html', {'obj':entity})
 
 
 # Clients
 @login_required(login_url='authentic:login')
 def clientTable(request):
     """
-    Table with Information about the Clients
-    Can filter by name
-    Can create new Client with modal
+    View Clients,
+    Contains a table with all existing Clients,
+    Possibility to create new Client
+    Search on Navbar by: name, email, contact, address, note, entity
     """
     q = request.GET.get('q') if request.GET.get('q') is not None else ''
     clients = Client.objects.filter(
-        Q(name__icontains=q)
+        Q(name__icontains=q) |
+        Q(email__icontains=q) |
+        Q(contact__icontains=q) |
+        Q(address__icontains=q) |
+        Q(note__icontains=q) |
+        Q(entity__entity_type__icontains=q)
     )
 
     form = ClientForm()
@@ -161,12 +188,12 @@ def clientTable(request):
 @login_required(login_url='authentic:login')
 def clientDetail(request, pk):
     """
-    Detail Information about the client id=pk
-    Can edit the client on a modal
+    Detail view of Client,
+    Possibility to update client
     """
     client = get_object_or_404(Client, id=pk)
 
-    sold_to_client = Sale.objects.filter(client=client)
+    sales_by_client = get_sales_by_client(client)
 
     form = ClientForm(instance=client)
     if request.method == 'POST':
@@ -181,14 +208,14 @@ def clientDetail(request, pk):
     context = {
         'obj' : client,
         'form' : form,
-        'sales' : sold_to_client,
+        'sales' : sales_by_client,
     }
     return render(request, 'partners/client/detail.html', context)
 
 @login_required(login_url='authentic:login')
 def clientDelete(request, pk):
     """
-    Delete a Client.
+    Delete Client.
     """
     client = get_object_or_404(Client, id=pk)
     if request.method == 'POST':

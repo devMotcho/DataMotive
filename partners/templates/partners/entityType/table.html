@@ -1,73 +1,74 @@
-{% extends 'main.html' %}
-{% block title %}
-- Entity Types
-{% endblock title %}
-
-
+{% extends 'main.html' %} {% block title %} - Entity Types {% endblock title %}
 {% block content %}
 <main class="content p-2">
-    <div class="container-fluid">
-        <!-- Title + Entity Type Form -->
-        <div class="row">
-            <div class="col-md-6">
-                <h4 class="title">
-                    Entity Types
-                </h4>
-            </div>
-            <div class="col-md-6">
-                <form action="" method="POST">
-                    {% csrf_token %}
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Add New Entity Type" aria-label="Add New Entity Type" aria-describedby="button-addon2" name="entity_type">
-                        <button class="btn btn-warning" type="submit" id="button-addon2">
-                            <i class="fa-solid fa-folder-plus"></i>
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <!-- End Title + SupplierTypeForm -->
-        <hr>        
-        <!-- Card with Table -->
-         <div class="card border-0">
-            <div class="d-flex px-4 pt-4">
-                <table class="table table-striped table-bordered border-dark">
-                    <thead>
-                        <tr class="table-dark text-white text-center">
-                            <th scope="col">#</th>
-                            <th scope="col">Entity Type</th>
-                            <th scope="col">n Clients</th>
-                            <th scope="col">n Suppliers</th>
-                            <th scope="col">Activity</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for obj in objs %}
-                        <tr class="text-center">
-                            <th scope="row">{{obj.id}}</th>
-                            <th scope="row">{{obj.entity_type}}</th>
-                            <th scope="row">{{obj.get_clients_count}}</th>
-                            <th scope="row">{{obj.get_suppliers_count}}</th>
-                             <td>
-                                <!-- Detail -->
-                                <a class="btn btn-sm btn-success" href="{% url 'partners:entity-type' obj.id %}">
-                                    <i class="fa-solid fa-eye"></i>
-                                </a>
-                                <!-- Delete -->
-                                <a class="btn btn-sm btn-danger" href="{% url 'partners:delete-entity-type' obj.id %}">
-                                    <i class="fa-solid fa-x"></i>
-                                </a>
-                             </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-         </div>
-        <!-- End Card with Table -->
+  <div class="container-fluid">
+    <!-- Title + Entity Type Form -->
+    <div class="row">
+      <div class="col-md-6">
+        <h4 class="title">Entity Types</h4>
+      </div>
+      <div class="col-md-6">
+        <form action="" method="POST">
+          {% csrf_token %}
+          <div class="input-group mb-3">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Add New Entity Type"
+              aria-label="Add New Entity Type"
+              aria-describedby="Entity Type"
+              name="entity_type" />
+            <button class="btn btn-warning" type="submit" id="button-addon2">
+              <i class="fa-solid fa-folder-plus"></i>
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
+    <!-- End Title + SupplierTypeForm -->
+    <hr />
+    <!-- Card with Table -->
+    <div class="card border-0">
+      <div class="d-flex px-4 pt-4">
+        <table class="table table-striped table-bordered border-dark">
+          <thead>
+            <tr class="table-dark text-white text-center">
+              <th scope="col">#</th>
+              <th scope="col">Entity Type</th>
+              <th scope="col">n Clients</th>
+              <th scope="col">n Suppliers</th>
+              <th scope="col">Activity</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for obj in objs %}
+            <tr class="text-center">
+              <th scope="row">{{obj.id}}</th>
+              <th scope="row">{{obj.entity_type}}</th>
+              <th scope="row">{{obj.get_clients_count}}</th>
+              <th scope="row">{{obj.get_suppliers_count}}</th>
+              <td>
+                <!-- Detail -->
+                <a
+                  class="btn btn-sm btn-success"
+                  href="{% url 'partners:entity-type' obj.id %}">
+                  <i class="fa-solid fa-eye"></i>
+                </a>
+                <!-- Delete -->
+                <a
+                  class="btn btn-sm btn-danger"
+                  href="{% url 'partners:delete-entity-type' obj.id %}">
+                  <i class="fa-solid fa-x"></i>
+                </a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- End Card with Table -->
+  </div>
 </main>
 
-
 {% endblock content %}
-

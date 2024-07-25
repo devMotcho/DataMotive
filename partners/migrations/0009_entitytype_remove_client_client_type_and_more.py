@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
             name='EntityType',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('entity_type', models.CharField(max_length=20, unique=True, verbose_name='Entity Type')),
+                ('entity', models.CharField(max_length=20, unique=True, verbose_name='Entity Type')),
             ],
         ),
         migrations.RemoveField(
@@ -28,12 +28,12 @@ class Migration(migrations.Migration):
         ),
         migrations.AddField(
             model_name='client',
-            name='entity_type',
+            name='entity',
             field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to='partners.entitytype', verbose_name='Entity Type'),
         ),
         migrations.AddField(
             model_name='supplier',
-            name='entity_type',
+            name='entity',
             field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to='partners.entitytype', verbose_name='Entity Type'),
         ),
         migrations.DeleteModel(

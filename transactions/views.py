@@ -6,20 +6,28 @@ from django.contrib.auth.decorators import login_required
 from transactions.models import Purchase, Sale
 from transactions.forms import PurchaseForm, SaleForm
 from stock.models import Stock
-from product.models import Product
+from stock.utils import get_stock_by_product
+from .utils import (add_to_stock, remove_stock, mirrow_modifications_purchase,
+                    mirrow_modifications_sale, calc_profit_on_sale)
 
 
 @login_required(login_url='authentic:login')
 def purchaseTable(request):
     """
-    Contains a table with all Purchases can filter by product name, 
-    Possibility to create new Purchases, when a new instance is created add to stock the quantity
+    View Purchases,
+    Contains a table with all purchases,
+    Search on Navbar by: transaction_id, name, note
+    Possibility to create new purchase,
+    when a new purchase is created the quantity is added to the stock
+    by the add_to_stock function
     """
 
     q = request.GET.get('q') if request.GET.get('q') is not None else ''
 
     purchases = Purchase.objects.filter(
-        Q(product__name__icontains=q)
+        Q(transaction_id__icontains=q) |
+        Q(product__name__icontains=q) |
+        Q(note__icontains=q)
     )
 
     form = PurchaseForm()
@@ -27,13 +35,8 @@ def purchaseTable(request):
         form = PurchaseForm(request.POST)
         if form.is_valid():
             purchase = form.save()
-
-            # Adds quantity purchased to the stock quantity
-            stock_instance = Stock.objects.get(product=purchase.product)
-            stock_instance.quantity += purchase.quantity
-            stock_instance.save()
-
-            print(f"Added {purchase.quantity} to Stock of Product {stock_instance.product}")
+            
+            add_to_stock(purchase)
             
             messages.success(request, "Purchase Added.")
         else:
@@ -47,15 +50,21 @@ def purchaseTable(request):
 
 @login_required(login_url='authentic:login')
 def purchaseDetail(request, pk):
+    """
+    Detail view of a purchased transaction,
+    Possibility to update purchase,
+    Calculation of sale price,
+    Calculation of profit with calc_profit_on_sale
+    mirrow_modification function deals with the logic behind updating a purchase instance
+    """
     purchase = get_object_or_404(Purchase, transaction_id=pk)
-    stock_instance = Stock.objects.get(product=purchase.product)
 
     old_purchase_product = purchase.product
     old_purchase_quantity = purchase.quantity
 
-    purchase_price = purchase.final_price
-    sold_product_for = purchase.product.final_price * purchase.quantity
-    profit_on_sale = round(float(sold_product_for) - float(purchase_price), 2)
+
+    sold_product_for = round(float(purchase.product.final_price) * float(purchase.quantity), 2)
+    profit_on_sale = calc_profit_on_sale(purchase)
     
 
 
@@ -65,21 +74,8 @@ def purchaseDetail(request, pk):
         if form.is_valid():
             new_purchase = form.save(commit=False)
 
-            # Deal With What Happens to Stock Quantity
-            if new_purchase.product == old_purchase_product:
-                print("Is The Same Product")
-                stock_instance.quantity -= old_purchase_quantity
-                stock_instance.quantity += new_purchase.quantity
+            mirrow_modifications_purchase(new_purchase, old_purchase_product, old_purchase_quantity)
 
-            else:
-                print("Product has changed")
-                new_stock_instance = Stock.objects.get(product=new_purchase.product)
-
-                stock_instance.quantity -= old_purchase_quantity
-                new_stock_instance.quantity += new_purchase.quantity
-                new_stock_instance.save()            
-            
-            stock_instance.save()
             new_purchase.save()
             messages.success(request, "Purchase Updated.")
         else:
@@ -95,17 +91,18 @@ def purchaseDetail(request, pk):
 
 @login_required(login_url='authentic:login')
 def purchaseDelete(request, pk):
+    """
+    Delete Purchase,
+    When success the quantity purchased is removed from stock instance
+    remove_stock function is called
+    """
     purchase = get_object_or_404(Purchase, transaction_id=pk)
     if request.method == 'POST':
         purchase.delete()
         messages.success(request, f"Purchase {{purchase.transaction_id}} deleted")
 
-        # subtract quantity of the purchase from the stock of the product
-        stock_instance = Stock.objects.get(product=purchase.product)
-        stock_instance.quantity -= purchase.quantity
-        stock_instance.save()
+        remove_stock(purchase)
 
-        print(f'Removed {purchase.quantity} from Stock of Product {stock_instance.product}')
         return redirect('transactions:purchases')
     
     return render(request, 'delete.html', {'obj':purchase})
@@ -115,11 +112,21 @@ def purchaseDelete(request, pk):
 # Sale
 @login_required(login_url='authentic:login')
 def saleTable(request):
+    """
+    View Sales,
+    Contains a table with all sales,
+    Search on Navbar by: transaction_id, product, note
+    Possibility to create new sale,
+    when a new sale is created the quantity is removed from the stock
+    by the remove_stock function
+    """
 
     q = request.GET.get('q') if request.GET.get('q') is not None else ''
     
     sales = Sale.objects.filter(
-        Q(product__name__icontains=q)
+        Q(transaction_id__icontains=q) |
+        Q(product__name__icontains=q) |
+        Q(note__icontains=q)
     )
 
     form = SaleForm()
@@ -128,12 +135,9 @@ def saleTable(request):
         if form.is_valid():
             sale = form.save()
 
-            stock_instance = Stock.objects.get(product=sale.product)
-            stock_instance.quantity -= sale.quantity
-            stock_instance.save()
+            remove_stock(sale)
             
-            print(f"Added {sale.quantity} to Stock of Product {stock_instance.product}")
-            messages.success(request, "Added Sale.")
+            messages.success(request, "Created Sale.")
         else:
             messages.error(request, f'{form.errors}')
 
@@ -145,8 +149,13 @@ def saleTable(request):
 
 @login_required(login_url='authentic:login')
 def saleDetail(request, pk):
+    """
+    Detail view of a sales transaction,
+    Possibility to update sale,
+    mirrow_modification function deals with the logic behind updating a sale instance
+    """
     sale = get_object_or_404(Sale, transaction_id=pk)
-    stock_instance = Stock.objects.get(product=sale.product)
+
     old_sale_product = sale.product
     old_sale_quantity = sale.quantity
 
@@ -157,21 +166,9 @@ def saleDetail(request, pk):
         form = SaleForm(request.POST, instance=sale)
         if form.is_valid():
             new_sale = form.save(commit=False)
+            
+            mirrow_modifications_sale(new_sale, old_sale_product, old_sale_quantity)
 
-            if new_sale.product == old_sale_product:
-                print("Is The Same Product")
-                stock_instance.quantity += old_sale_quantity
-                stock_instance.quantity -= new_sale.quantity
-
-            else:
-                print(" Product was changed ")
-                new_stock_instance = Stock.objects.get(product=new_sale.product)
-
-                stock_instance.quantity += old_sale_quantity
-                new_stock_instance.quantity -= new_sale.quantity
-                new_stock_instance.save()  
-
-            stock_instance.save()
             new_sale.save()
 
 
@@ -184,13 +181,18 @@ def saleDetail(request, pk):
 
 @login_required(login_url='authentic:login')
 def saleDelete(request, pk):
+    """
+    Delete sale,
+    When success the quantity sale is added to the stock instance
+    add_to_stock function is called
+    """
     sale = get_object_or_404(Sale, transaction_id=pk)
 
     if request.method == 'POST':
         sale.delete()
-        stock_intance = Stock.objects.get(product=sale.product)
-        stock_intance.quantity += sale.quantity
-        stock_intance.save()
+        
+        add_to_stock(sale)
+
         messages.success(request, "Sale Deleted.")
         return redirect('transactions:sales')
     return render(request, 'delete.html', {'obj':sale})
