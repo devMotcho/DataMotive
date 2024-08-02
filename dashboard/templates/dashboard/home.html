@@ -5,90 +5,88 @@
 
 {% block content %}
 <main class="content p-2">
-    <div class="container-fluid">
-        <div class="row g-0 w-100 ">
-            <div class="col-md-3 mb-2 d-flex flex-fill">
-                <div class="card text-center border-warning border-2 bg-dark text-white" style="width: 18rem;">
-                    <div class="card-body">
-                      <h4 class="card-title mb-2">Products</h4>
-                      <hr>
-                      <a href="{% url 'product:table' %}" class="btn btn-warning btn-lg mt-2">{{products_count}}
-                        <i class="fa-solid fa-box px-2"></i>
-                      </a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3 mb-2 d-flex flex-fill">
-                <div class="card text-center border-warning border-2 bg-dark text-white" style="width: 18rem;">
-                    <div class="card-body">
-                      <h4 class="card-title mb-2">Categories</h4>
-                      <hr>
-                      <a href="{% url 'product:categories' %}" class="btn btn-warning btn-lg mt-2">{{categories_count}}
-                        <i class="fa-solid fa-list px-2"></i>
-                      </a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3 mb-2 d-flex flex-fill">
-                <div class="card text-center border-warning border-2 bg-dark text-white" style="width: 18rem;">
-                    <div class="card-body">
-                      <h4 class="card-title mb-2">Measurements</h4>
-                      <hr>
-                      <a href="{% url 'product:measurements' %}" class="btn btn-warning btn-lg mt-2">{{measurements_count}}
-                        <i class="fa-solid fa-ruler px-2"></i>
-                      </a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3 mb-2 d-flex flex-fill">
-                <div class="card text-center border-warning border-2 bg-dark text-white" style="width: 18rem;">
-                    <div class="card-body">
-                      <h4 class="card-title mb-2">Clients</h4>
-                      <hr>
-                      <a href="{% url 'partners:clients' %}" class="btn btn-warning btn-lg mt-2">{{clients_count}}
-                        <i class="fa-solid fa-person px-2"></i>
-                      </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row g-0 w-100 ">
-            <div class="col-md-3 mb-2 d-flex flex-fill">
-                <div class="card text-center border-warning border-2 bg-dark text-white" style="width: 18rem;">
-                    <div class="card-body">
-                      <h4 class="card-title mb-2">Sales</h4>
-                      <hr>
-                      <a href="{% url 'transactions:sales' %}" class="btn btn-warning btn-lg mt-2">{{sales_count}}
-                        <i class="fa-solid fa-money-bill-trend-up px-2"></i>
-                      </a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3 mb-2 d-flex flex-fill">
-                <div class="card text-center border-warning border-2 bg-dark text-white" style="width: 18rem;">
-                    <div class="card-body">
-                      <h4 class="card-title mb-2">Purchases</h4>
-                      <hr>
-                      <a href="{% url 'transactions:purchases' %}" class="btn btn-warning btn-lg mt-2">{{purchases_count}}
-                        <i class="fa-solid fa-money-check px-2"></i>
-                      </a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3 mb-2 d-flex flex-fill">
-                <div class="card text-center border-warning border-2 bg-dark text-white" style="width: 18rem;">
-                    <div class="card-body">
-                      <h4 class="card-title mb-2">Suppliers</h4>
-                      <hr>
-                      <a href="{% url 'partners:suppliers' %}" class="btn btn-warning btn-lg mt-2">{{suppliers_count}}
-                        <i class="fa-solid fa-truck-fast px-2"></i>
-                      </a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3 mb-2 d-flex flex-fill">
-            </div>
-        </div>
+    <div class="container-fluid align-self-center">
+      <div class="row g-0 w-100">
+        <!-- Bar Chart -->
+        {% include 'stock/bar-chart.html' %}
+        <!-- End Bar Chart -->
+      </div>
+      <div class="row g-0 w-100 ">
+          <div class="col-md-3 mb-2 p-2 d-flex flex-fill align-self-center">
+              <div class="card text-center border-warning border-1 shadow bg-light text-dark" style="width: 22rem;">
+                <h5 class="card-header bg-dark text-warning">Products</h5>
+                  <div class="card-body">
+                    <a href="{% url 'product:table' %}" class="btn btn-warning btn-lg mt-2">{{products_count}}
+                      <i class="fa-solid fa-box px-2"></i>
+                    </a>
+                  </div>
+              </div>
+          </div>
+          <div class="col-md-3 mb-2 p-2 d-flex flex-fill align-self-center">
+              <div class="card text-center border-warning border-1 shadow bg-light text-dark" style="width: 22rem;">
+                <h5 class="card-header bg-dark text-warning">Categories</h5>
+                  <div class="card-body">
+                    <a href="{% url 'product:categories' %}" class="btn btn-warning btn-lg mt-2">{{categories_count}}
+                      <i class="fa-solid fa-list px-2"></i>
+                    </a>
+                  </div>
+              </div>
+          </div>
+          <div class="col-md-3 mb-2 p-2 d-flex flex-fill align-self-center">
+              <div class="card text-center border-warning border-1 shadow bg-light text-dark" style="width: 22rem;">
+                <h5 class="card-header bg-dark text-warning">Measurements</h5>
+                  <div class="card-body">
+                    <a href="{% url 'product:measurements' %}" class="btn btn-warning btn-lg mt-2">{{measurements_count}}
+                      <i class="fa-solid fa-ruler px-2"></i>
+                    </a>
+                  </div>
+              </div>
+          </div>
+          <div class="col-md-3 mb-2 p-2 d-flex flex-fill align-self-center">
+              <div class="card text-center border-warning border-1 shadow bg-light text-dark" style="width: 22rem;">
+                <h5 class="card-header bg-dark text-warning">Clients</h5>
+                  <div class="card-body">
+                    <a href="{% url 'partners:clients' %}" class="btn btn-warning btn-lg mt-2">{{clients_count}}
+                      <i class="fa-solid fa-person px-2"></i>
+                    </a>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="row g-0 w-100 ">
+          <div class="col-md-3 mb-2 p-2 d-flex flex-fill align-self-center">
+              <div class="card text-center border-warning border-1 shadow bg-light text-dark" style="width: 22rem;">
+                <h5 class="card-header bg-dark text-warning">Sales</h5>
+                  <div class="card-body">
+                    <a href="{% url 'transactions:sales' %}" class="btn btn-warning btn-lg mt-2">{{sales_count}}
+                      <i class="fa-solid fa-money-bill-trend-up px-2"></i>
+                    </a>
+                  </div>
+              </div>
+          </div>
+          <div class="col-md-3 mb-2 p-2 d-flex flex-fill align-self-center">
+              <div class="card text-center border-warning border-1 shadow bg-light text-dark" style="width: 22rem;">
+                <h5 class="card-header bg-dark text-warning">Purchases</h5>
+                  <div class="card-body">
+                    <a href="{% url 'transactions:purchases' %}" class="btn btn-warning btn-lg mt-2">{{purchases_count}}
+                      <i class="fa-solid fa-money-check px-2"></i>
+                    </a>
+                  </div>
+              </div>
+          </div>
+          <div class="col-md-3 mb-2 p-2 d-flex flex-fill align-self-center">
+              <div class="card text-center border-warning border-1 shadow bg-light text-dark" style="width: 22rem;">
+                <h5 class="card-header bg-dark text-warning">Suppliers</h5>
+                  <div class="card-body">
+                    <a href="{% url 'partners:suppliers' %}" class="btn btn-warning btn-lg mt-2">{{suppliers_count}}
+                      <i class="fa-solid fa-truck-fast px-2"></i>
+                    </a>
+                  </div>
+              </div>
+          </div>
+          <div class="col-md-3 mb-2 d-flex flex-fill">
+          </div>
+      </div>
     </div>
 </main>
 {% endblock content %}

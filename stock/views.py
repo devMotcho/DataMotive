@@ -8,7 +8,7 @@ def stockInfo(request):
     stock = Stock.objects.filter()
 
     context = {
-        'objs':stock,
+        'stocks':stock,
     }
     return render(request, 'stock/info.html', context)
 

@@ -1,9 +1,11 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
+
+from stock.models import Stock
 from .utils import (get_products_count, get_categories_count, 
                     get_clients_count,get_measurements_count, 
                     get_sales_count, get_purchases_count, 
                     get_suppliers_count)
-from django.contrib.auth.decorators import login_required
 
 @login_required(login_url='authentic:login')
 def homeView(request):
@@ -15,6 +17,8 @@ def homeView(request):
     purchases_count = get_purchases_count()
     suppliers_count = get_suppliers_count()
 
+    stocks = Stock.objects.all()
+
 
     context = {
         'products_count' : products_count,
@@ -24,5 +28,6 @@ def homeView(request):
         'sales_count' : sales_count,
         'purchases_count' : purchases_count,
         'suppliers_count' : suppliers_count,
+        'stocks':stocks,
     }
     return render(request, 'dashboard/home.html', context)

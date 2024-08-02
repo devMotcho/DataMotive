@@ -40,7 +40,7 @@ class Stock(models.Model):
         return f'{self.product.name} - {self.quantity} in stock ({self.value}€)'
     
     class Meta:
-        ordering = ['-created']
+        ordering = ['-quantity']
 
 
 

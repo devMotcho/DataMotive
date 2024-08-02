@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from decimal import Decimal
+from .validators import validate_unit_of_measure
 
 from src.utils import generate_code
 
@@ -9,7 +10,7 @@ class Measurement(models.Model):
     Measurement Units like:
     Unit, Kg, ...
     """
-    measure = models.CharField(max_length=100, unique=True, default='Unit', verbose_name='Measure')
+    measure = models.CharField(max_length=100, unique=True, validators=[validate_unit_of_measure], default='Unit', verbose_name='Measure')
 
     def __str__(self):
         return f'{self.measure}'
@@ -31,7 +32,7 @@ class Category(models.Model):
         return self.products.count()
     
     def get_product(self):
-        return self.products
+        return self.products.all()
 
 class Product(models.Model):
     """
@@ -68,10 +69,10 @@ class Product(models.Model):
         return super().save(*args, **kwargs)
     
     def get_suppliers(self):
-        return self.suppliers
+        return self.suppliers.all()
     
-    def get_stock(self):
-        return self.in_stock
+    def get_stock_quantity(self):
+        return self.in_stock.quantity
     
     def __str__(self):
         return f'{self.category} - {self.name} ({self.active}) -> {self.final_price} €'

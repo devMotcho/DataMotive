@@ -36,6 +36,7 @@ DataMotive is meant to be a Management System which provides a simple way to tra
 - Whenever a new User is Created a Django signal is sent to create a new instance of Profile with that User;
 - Have to be Authenticated to View any content or data, if not you will be redirected to login page;
 - Docker-compose will make migrations, migrate and create a super user for you;
+- Use `pint` library to check the measurement
 
 ### Tech Stack
 

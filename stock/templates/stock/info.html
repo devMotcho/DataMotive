@@ -34,19 +34,19 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for obj in objs %}
+                        {% for stock in stocks %}
                         <tr class="text-center">
-                            <th scope="row">{{obj.id}}</th>
-                            <th scope="row">{{obj.product.name}}</th>
-                            <th scope="row">{{obj.quantity}} {{obj.product.measurement}}</th>
-                            <th scope="row">{{obj.value}} €</th>
+                            <th scope="row">{{stock.id}}</th>
+                            <th scope="row">{{stock.product.name}}</th>
+                            <th scope="row">{{stock.quantity}} {{stock.product.measurement}}</th>
+                            <th scope="row">{{stock.value}} €</th>
                              <td>
                                 <!-- Detail -->
-                                <a class="btn btn-sm btn-success" href="{% url 'product:detail' obj.product.id %}">
+                                <a class="btn btn-sm btn-success" href="{% url 'product:detail' stock.product.id %}">
                                     <i class="fa-solid fa-eye"></i>
                                 </a>
                                 <!-- Delete -->
-                                <a class="btn btn-sm btn-danger" href="{% url 'product:delete' obj.product.id %}">
+                                <a class="btn btn-sm btn-danger" href="{% url 'product:delete' stock.product.id %}">
                                     <i class="fa-solid fa-x"></i>
                                 </a>
                              </td>

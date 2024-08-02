@@ -2,33 +2,35 @@
     <div class="card-header bg-dark"><i class="fa-solid fa-chart-simple text-white"></i></div>
     <div class="card-body mb-2">
         <div class="row p-2">
-            <div class="chart-container" style="position: relative; height:25rem; width:48rem">
-                <canvas id="myChart"></canvas>
-                <script>
-                    var ctx = document.getElementById('myChart').getContext('2d');
-                    var myChart1 = new Chart(ctx, {
-                        type: 'bar',
-                        data: {
-                            labels: [{% for obj in objs %} '{{obj.product.name}}', {% endfor %}],
-                    datasets: [{
-                        label: 'Products In Stock',
-                        data: [{% for obj in objs %} '{{obj.quantity}}', {% endfor %}],
-                        backgroundColor: ['rgba(144, 92, 255, 0.3)'],
-                            borderColor:['rgb(144, 92, 255, 1)'],
-                                borderWidth:3
-                            }]
+            <div class="chart-container" style="position: relative; height: 100%; width: 100%;">
+                <div class="container w-100 g-0" style="position: relative;">
+                    <canvas id="myChart"></canvas>
+                    <script>
+                        var ctx = document.getElementById('myChart').getContext('2d');
+                        var myChart1 = new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: [{% for stock in stocks %} '{{stock.product.name}}', {% endfor %}],
+                                datasets: [{
+                                    label: 'Products In Stock',
+                                    data: [{% for stock in stocks %} '{{stock.quantity}}', {% endfor %}],
+                                    backgroundColor: 'rgba(255,193,0, 0.3)',
+                                    borderColor: 'rgb(255,193,0, 1)',
+                                    borderWidth: 3
+                                }]
                             },
-                    options: {
-                        scales: {
-                            yAxes: [{
-                                ticks: {
-                                    beginAtZero: true
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                scales: {
+                                    y: {
+                                        beginAtZero: true
+                                    }
                                 }
-                            }]
-                        }
-                    }
-                });
-                </script>
+                            }
+                        });
+                    </script>
+                </div>
             </div>
         </div>
     </div>
