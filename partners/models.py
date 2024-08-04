@@ -19,6 +19,9 @@ class EntityType(models.Model):
     
     def __str__(self):
         return f'{self.entity_type}'
+    
+    class Meta:
+        ordering = ['id']
 
 
 class Partner(models.Model):
@@ -48,6 +51,9 @@ class Client(Partner):
     
     def __str__(self):
         return f'{self.name} ({self.entity}) - {self.email}'
+    
+    class Meta:
+        ordering = ['id']
 
 
 class Supplier(Partner):
@@ -64,3 +70,6 @@ class Supplier(Partner):
     
     def __str__(self):
         return f'{self.name} ({self.entity}) - {self.email}'
+
+    class Meta:
+        ordering = ['id']

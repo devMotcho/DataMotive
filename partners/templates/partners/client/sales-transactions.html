@@ -1,0 +1,29 @@
+<div class="row mt-2">
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title mb-2 text-muted">
+                    Transactions (Sales)
+                </h5>
+                <hr>
+                <ul class="list-group">
+                    {% for sale in sales %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div class="ms-2 me-auto">
+                            <div class="fw-bold">
+                                <a class="text-decoration-none text-secondary" href="{% url 'product:detail' sale.product.id %}">{{sale.product.name}} | </a>
+                                <a class="text-decoration-none text-success" href="{% url 'transactions:sale' sale.transaction_id %}">{{sale.transaction_id}}</a>
+                            </div>
+                            <small class="text-muted">{{sale.transaction_date}}</small>
+                            
+                        </div>
+                        <span class="badge bg-success rounded-pill mx-2">{{sale.quantity}}{{sale.product.measurement}}</span>
+                        <span class="badge bg-secondary rounded-pill mx-2">{{sale.final_price}} €</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+    </div>
+ </div>

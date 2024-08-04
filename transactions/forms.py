@@ -8,6 +8,7 @@ class PurchaseForm(forms.ModelForm):
         widgets = {
             'transaction_date': forms.DateInput(attrs={'type': 'date'}),
         }
+        exclude = ('transaction_id',)
 
 
 class SaleForm(forms.ModelForm):
@@ -17,3 +18,4 @@ class SaleForm(forms.ModelForm):
         widgets = {
             'transaction_date': forms.DateInput(attrs={'type': 'date'}),
         }
+        exclude = ('transaction_id',)

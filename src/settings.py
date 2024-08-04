@@ -135,3 +135,5 @@ MEDIA_ROOT = BASE_DIR / 'static/images'
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+paginator_num = 10

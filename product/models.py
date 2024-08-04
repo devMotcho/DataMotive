@@ -76,3 +76,6 @@ class Product(models.Model):
     
     def __str__(self):
         return f'{self.category} - {self.name} ({self.active}) -> {self.final_price} €'
+    
+    class Meta:
+        ordering = ['id']

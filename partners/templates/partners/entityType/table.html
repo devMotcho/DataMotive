@@ -4,10 +4,10 @@
   <div class="container-fluid">
     <!-- Title + Entity Type Form -->
     <div class="row">
-      <div class="col-md-6">
+      <div class="col">
         <h4 class="title">Entity Types</h4>
       </div>
-      <div class="col-md-6">
+      <div class="col">
         <form action="" method="POST">
           {% csrf_token %}
           <div class="input-group mb-3">
@@ -18,7 +18,7 @@
               aria-label="Add New Entity Type"
               aria-describedby="Entity Type"
               name="entity_type" />
-            <button class="btn btn-warning" type="submit" id="button-addon2">
+            <button class="btn btn-outline-warning" type="submit" id="button-addon2">
               <i class="fa-solid fa-folder-plus"></i>
             </button>
           </div>
@@ -41,7 +41,7 @@
             </tr>
           </thead>
           <tbody>
-            {% for obj in objs %}
+            {% for obj in page_obj %}
             <tr class="text-center">
               <th scope="row">{{obj.id}}</th>
               <th scope="row">{{obj.entity_type}}</th>
@@ -50,13 +50,13 @@
               <td>
                 <!-- Detail -->
                 <a
-                  class="btn btn-sm btn-success"
+                  class="btn btn-sm btn-outline-success"
                   href="{% url 'partners:entity-type' obj.id %}">
                   <i class="fa-solid fa-eye"></i>
                 </a>
                 <!-- Delete -->
                 <a
-                  class="btn btn-sm btn-danger"
+                  class="btn btn-sm btn-outline-danger"
                   href="{% url 'partners:delete-entity-type' obj.id %}">
                   <i class="fa-solid fa-x"></i>
                 </a>
@@ -68,6 +68,7 @@
       </div>
     </div>
     <!-- End Card with Table -->
+     {% include 'pagination.html' %}
   </div>
 </main>
 

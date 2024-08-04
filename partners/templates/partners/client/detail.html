@@ -9,14 +9,14 @@
     <div class="container-fluid">
         <!-- Title + Action -->
         <div class="row">
-            <div class="col-md-6">
+            <div class="col">
                 <h4 class="title">
                     {{obj.name}} - {{obj.client_id}}
                 </h4>
             </div>
-            <div class="col-md-6">
+            <div class="col">
                 <div class="action text-end">
-                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#updateModal{{obj.id}}">
+                    <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#updateModal{{obj.id}}">
                         <i class="fa-solid fa-pen-to-square"></i>
                     </button>
                 </div>
@@ -30,9 +30,10 @@
                 <div class="card flex-fill border-0">
                     <div class="card-body p-0 d-flex flex-fill">
                         <div class="row g-0 w-100">
-                            <div class="col-8 pt-4">
+                            <div class="col pt-4">
                                 <div class="p-3 m-1">
                                     <h4 class="mt-2 p-2 text-center">
+                                        <span class="badge text-bg-danger">Client</span>
                                         <span class="badge text-bg-secondary">{{obj.entity}}</span>
                                         <span class="badge text-bg-info">{{obj.partner_since | timesince}}</span>
                                         {% if obj.active == True %}
@@ -68,7 +69,7 @@
                                         </div>                                                                  
                                 </div>
                             </div>
-                            <div class="col-4 align-self-center text-end">
+                            <div class="col-md-4 align-self-center text-end">
                                 <img src="{{obj.partner_logo.url}}" class="img-fluid illustration-img" alt="{{obj.name}} image">
                             </div>
                         </div>
@@ -79,35 +80,7 @@
         <!-- Client Information Card -->
 
         <!-- Sales Made -->
-         <div class="row mt-2">
-            <div class="col">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title mb-2 text-muted">
-                            Transactions (Sales)
-                        </h5>
-                        <hr>
-                        <ul class="list-group">
-                            {% for sale in sales %}
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <div class="ms-2 me-auto">
-                                    <div class="fw-bold">
-                                        <a class="text-decoration-none text-dark" href="{% url 'product:detail' sale.product.id %}">{{sale.product.name}} | </a>
-                                        <a class="text-decoration-none text-success" href="{% url 'transactions:sale' sale.transaction_id %}">{{sale.transaction_id}}</a>
-                                    </div>
-                                    <small class="text-muted">{{sale.transaction_date}}</small>
-                                    
-                                </div>
-                                <span class="badge bg-success rounded-pill mx-2">{{sale.quantity}}{{sale.product.measurement}}</span>
-                                <span class="badge bg-dark rounded-pill mx-2">{{sale.final_price}} €</span>
-                            </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                </div>
-
-            </div>
-         </div>
+        {% include 'partners/client/sales-transactions.html' %}
     </div>
 </main>
 

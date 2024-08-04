@@ -2,12 +2,13 @@ from django.shortcuts import render, redirect , get_object_or_404
 from django.contrib import messages
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 
 
+from src.utils import get_page_obj
 from .models import Supplier, Client, EntityType
 from .forms import SupplierForm, ClientForm, EntityTypeForm
-from transactions.models import Sale, Purchase
-from .utils import get_sales_by_client
+from .utils import get_sales_by_client, get_purchases_by_supplier
 
 # Suppliers
 @login_required(login_url='authentic:login')
@@ -29,6 +30,8 @@ def supplierTable(request):
         Q(entity__entity_type__icontains=q)
     )
 
+    page_obj = get_page_obj(supplier, request)
+
     form = SupplierForm()
     if request.method == 'POST':
         form = SupplierForm(request.POST)
@@ -42,6 +45,7 @@ def supplierTable(request):
     context = {
         'objs' : supplier,
         'form' : form,
+        'page_obj' : page_obj,
     }
     return render(request, 'partners/supplier/table.html', context)
 
@@ -52,7 +56,8 @@ def supplierDetail(request, pk):
     Possibility to update supplier
     """
     supplier = get_object_or_404(Supplier, id=pk)
-    supplier_products = supplier.products.all()
+
+    purchases = get_purchases_by_supplier(supplier)
 
     form = SupplierForm(instance=supplier)
     if request.method == 'POST':
@@ -64,9 +69,9 @@ def supplierDetail(request, pk):
         else:
             messages.error(request, form.errors)
     context = {
-        'products' : supplier_products,
         'obj' : supplier,
         'form' : form,
+        'purchases': purchases,
     }
     return render(request, 'partners/supplier/detail.html', context)
 
@@ -91,9 +96,11 @@ def entityTypeTable(request):
     Search on Navbar by: entity_type
     """
     q = request.GET.get('q') if request.GET.get('q') is not None else ''
-    entitys = EntityType.objects.filter(
+    entities = EntityType.objects.filter(
         Q(entity_type__icontains=q)
     )
+
+    page_obj = get_page_obj(entities, request)
 
     form = EntityTypeForm()
     if request.method == 'POST':
@@ -101,12 +108,14 @@ def entityTypeTable(request):
         if form.is_valid():
             form.save()
             messages.success(request, f'Created new Entity Type!')
+            return redirect('partners:entity-types')
         else:
             messages.error(request, f'{form.errors}')
 
     context = {
-        'objs': entitys,
-        'form': form,
+        'objs' : entities,
+        'form' : form,
+        'page_obj' : page_obj,
     }
     return render(request, 'partners/entityType/table.html', context)
 
@@ -169,6 +178,8 @@ def clientTable(request):
         Q(entity__entity_type__icontains=q)
     )
 
+    page_obj = get_page_obj(clients, request)
+
     form = ClientForm()
     if request.method == 'POST':
         form = ClientForm(request.POST, request.FILES)
@@ -180,8 +191,9 @@ def clientTable(request):
             messages.error(request, f'{form.errors}')
 
     context = {
-        'objs': clients,
-        'form':form,
+        'objs' : clients,
+        'form' : form,
+        'page_obj' : page_obj,
     }
     return render(request, 'partners/client/table.html', context)
 
@@ -201,7 +213,7 @@ def clientDetail(request, pk):
         if form.is_valid():
             form.save()
             messages.success(request, f'Client {client.name} Updated!')
-            return redirect('partners:clients')
+            return redirect('partners:client', client.id)
         else:
             messages.error(request, f'{form.errors}')
 

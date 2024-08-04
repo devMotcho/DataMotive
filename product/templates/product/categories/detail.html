@@ -6,17 +6,17 @@
     <div class="container-fluid">
         <!-- Title + Action -->
         <div class="row">
-            <div class="col-md-6">
+            <div class="col">
                 <h4 class="title">
                     {{obj.name}}
                 </h4>
             </div>
-            <div class="col-md-6">
+            <div class="col">
                 <form action="" method="POST">
                     {% csrf_token %}
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" aria-label="Edit Category" aria-describedby="button-addon2" name="name" value="{{obj.name}}">
-                        <button class="btn btn-warning" type="submit" id="button-addon2">
+                        <button class="btn btn-outline-warning" type="submit" id="button-addon2">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </button>
                     </div>

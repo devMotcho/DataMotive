@@ -8,17 +8,17 @@
     <div class="container-fluid">
         <!-- Title + Form -->
         <div class="row">
-            <div class="col-md-6">
+            <div class="col">
                 <h4 class="title">
                     Categories
                 </h4>
             </div>
-            <div class="col-md-6">
+            <div class="col">
                 <form action="" method="POST">
                     {% csrf_token %}
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" placeholder="Add New Category" aria-label="Add New Category" aria-describedby="button-addon2" name="name">
-                        <button class="btn btn-warning" type="submit" id="button-addon2">
+                        <button class="btn btn-outline-warning" type="submit" id="button-addon2">
                             <i class="fa-solid fa-folder-plus"></i>
                         </button>
                     </div>
@@ -40,18 +40,18 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for obj in objs %}
+                        {% for obj in page_obj %}
                         <tr class="text-center">
                             <th scope="row">{{obj.id}}</th>
                             <th scope="row">{{obj.name}}</th>
                             <th scope="row">{{obj.product_count}}</th>
                              <td>
                                 <!-- Detail -->
-                                <a class="btn btn-sm btn-success" href="{% url 'product:category' obj.id %}">
+                                <a class="btn btn-sm btn-outline-success" href="{% url 'product:category' obj.id %}">
                                     <i class="fa-solid fa-eye"></i>
                                 </a>
                                 <!-- Delete -->
-                                <a class="btn btn-sm btn-danger" href="{% url 'product:category-delete' obj.id %}">
+                                <a class="btn btn-sm btn-outline-danger" href="{% url 'product:category-delete' obj.id %}">
                                     <i class="fa-solid fa-x"></i>
                                 </a>
                              </td>
@@ -62,6 +62,7 @@
             </div>
          </div>
         <!-- End Card with Table -->
+        {% include 'pagination.html' %}
     </div>
 </main>
 {% endblock content %}

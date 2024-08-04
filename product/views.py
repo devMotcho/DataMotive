@@ -2,10 +2,12 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 
+from src.settings import paginator_num
 from .models import Product, Category, Measurement
 from .forms import ProductForm, CategoryForm, MeasurementForm
-from transactions.models import Sale, Purchase
+from src.utils import get_page_obj
 from .utils import get_purchases_by_product, get_sales_by_product, get_products_by_category
 
 # Products
@@ -26,6 +28,8 @@ def productTable(request):
         Q(measurement__measure__icontains=q) |
         Q(description__icontains=q)
     )
+    page_obj = get_page_obj(products, request)
+
 
     form = ProductForm()
     if request.method == 'POST':
@@ -41,6 +45,7 @@ def productTable(request):
         'objs':products,
         'product':product,
         'form':form,
+        'page_obj':page_obj,
     }
     return render(request, 'product/products/table.html', context)
 
@@ -101,6 +106,7 @@ def categoryTable(request):
     categories = Category.objects.filter(
         Q(name__icontains=q)
     )
+    page_obj = get_page_obj(categories, request)
 
     form = CategoryForm()
     if request.method == 'POST':
@@ -108,6 +114,7 @@ def categoryTable(request):
         if form.is_valid():
             form.save()
             messages.success(request, "Category created!")
+            return redirect('product:categories')
         else:
             messages.error(request, form.errors)
 
@@ -115,6 +122,7 @@ def categoryTable(request):
         'objs': categories,
         'category':category,
         'form':form,
+        'page_obj':page_obj,
     }
     return render(request, 'product/categories/table.html', context)
 
@@ -169,6 +177,8 @@ def measurementTable(request):
     measurements = Measurement.objects.filter(
         Q(measure__icontains=q)
     )
+
+    page_obj = get_page_obj(measurements, request)
     
     form = MeasurementForm()
     if request.method == 'POST':
@@ -176,12 +186,14 @@ def measurementTable(request):
         if form.is_valid():
             form.save()
             messages.success(request, "Measurement Created!")
+            return redirect("product:measurements")
         else:
             messages.error(request, f'{form.errors}')
 
     context = {
-        'objs': measurements,
-        'form': form,
+        'objs' : measurements,
+        'form' : form,
+        'page_obj' : page_obj,
     }
     return render(request, 'product/measurements/table.html', context)
 

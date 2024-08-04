@@ -7,17 +7,17 @@
     <div class="container-fluid">
         <!-- Title + Edit Supplier Type Form -->
         <div class="row">
-            <div class="col-md-6">
+            <div class="col">
                 <h4 class="title">
                     {{obj.entity_type}}
                 </h4>
             </div>
-            <div class="col-md-6">
+            <div class="col">
                 <form action="" method="POST">
                     {% csrf_token %}
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" aria-label="Edit Entity Type" aria-describedby="button-addon2" name="entity_type" value="{{obj.entity_type}}">
-                        <button class="btn btn-warning" type="submit" id="button-addon2"><i class="fa-solid fa-pen-to-square"></i></button>
+                        <button class="btn btn-outline-warning" type="submit" id="button-addon2"><i class="fa-solid fa-pen-to-square"></i></button>
                     </div>
                 </form>
             </div>

@@ -9,12 +9,12 @@
     <div class="container-fluid">
         <!-- Title + Action -->
         <div class="row">
-            <div class="col-md-6">
+            <div class="col">
                 <h4 class="title">
                     {{obj.name}}
                 </h4>
             </div>
-            <div class="col-md-6">
+            <div class="col">
                 <div class="action text-end">
                     <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#updateModal{{obj.id}}">
                         <i class="fa-solid fa-pen-to-square"></i>
@@ -29,7 +29,7 @@
                 <div class="card flex-fill border-0">
                     <div class="card-body p-0 d-flex flex-fill">
                         <div class="row g-0 w-100">
-                            <div class="col-8 pt-4">
+                            <div class="col pt-4">
                                 <div class="p-3 m-1">
                                     <h4 class="mt-2 p-2 text-center">
                                         <span class="badge text-bg-secondary">{{obj.category}}</span>
@@ -67,7 +67,7 @@
                                         </div>                                                                  
                                 </div>
                             </div>
-                            <div class="col-4 align-self-center text-end">
+                            <div class="col-md-4 align-self-center text-end">
                                 <img src="{{obj.product_img.url}}" class="img-fluid illustration-img" alt="{{obj.name}} image">
                             </div>
                         </div>

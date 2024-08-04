@@ -1,0 +1,28 @@
+<div class="row mt-2">
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title mb-2 text-muted">
+                    Transactions (Purchases)
+                </h5>
+                <hr>
+                <ul class="list-group">
+                    {% for purchase in purchases %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div class="ms-2 me-auto">
+                            <div class="fw-bold">
+                                <a class="text-decoration-none text-secondary" href="{% url 'product:detail' purchase.product.id %}">{{purchase.product.name}} | </a>
+                                <a class="text-decoration-none text-success" href="{% url 'transactions:purchase' purchase.transaction_id %}">{{purchase.transaction_id}}</a>
+                            </div>
+                            <small class="text-muted">{{purchase.transaction_date}}</small>
+                            
+                        </div>
+                        <span class="badge bg-success rounded-pill mx-2">{{purchase.quantity}}{{purchase.product.measurement}}</span>
+                        <span class="badge bg-secondary rounded-pill mx-2">{{purchase.final_price}} €</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

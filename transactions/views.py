@@ -5,11 +5,9 @@ from django.contrib.auth.decorators import login_required
 
 from transactions.models import Purchase, Sale
 from transactions.forms import PurchaseForm, SaleForm
-from stock.models import Stock
-from stock.utils import get_stock_by_product
 from .utils import (add_to_stock, remove_stock, mirrow_modifications_purchase,
                     mirrow_modifications_sale, calc_profit_on_sale)
-
+from src.utils import get_page_obj
 
 @login_required(login_url='authentic:login')
 def purchaseTable(request):
@@ -29,6 +27,7 @@ def purchaseTable(request):
         Q(product__name__icontains=q) |
         Q(note__icontains=q)
     )
+    page_obj = get_page_obj(purchases, request)
 
     form = PurchaseForm()
     if request.method == 'POST':
@@ -39,12 +38,14 @@ def purchaseTable(request):
             add_to_stock(purchase)
             
             messages.success(request, "Purchase Added.")
+            return redirect('transactions:purchases')
         else:
             messages.error(request, f'{form.errors}')
 
     context = {
-        'objs': purchases,
-        'form':form,
+        'objs' : purchases,
+        'form' : form,
+        'page_obj' : page_obj,
     }
     return render(request, 'transactions/purchase/table.html', context)
 
@@ -129,6 +130,8 @@ def saleTable(request):
         Q(note__icontains=q)
     )
 
+    page_obj = get_page_obj(sales, request)
+
     form = SaleForm()
     if request.method == 'POST':
         form = SaleForm(request.POST)
@@ -138,12 +141,14 @@ def saleTable(request):
             remove_stock(sale)
             
             messages.success(request, "Created Sale.")
+            return redirect('transactions:sales')
         else:
             messages.error(request, f'{form.errors}')
 
     context = {
-        'objs':sales,
-        'form':form,
+        'objs' : sales,
+        'form' : form,
+        'page_obj' : page_obj,
     }
     return render(request, 'transactions/sale/table.html', context)
 
@@ -170,6 +175,9 @@ def saleDetail(request, pk):
             mirrow_modifications_sale(new_sale, old_sale_product, old_sale_quantity)
 
             new_sale.save()
+            messages.success(request, "Sale Updated.")
+        else:
+            messages.error(request, f'{form.errors}')
 
 
     context = {

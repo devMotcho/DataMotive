@@ -6,6 +6,26 @@
 {% block content %}
 <main class="content p-2">
     <div class="container-fluid align-self-center">
+      <div class="KPI">
+        <!-- Sales -->
+        <div class="kpi-card orange">
+          <span class="card-value">{{sales_current_month}} €</span>
+          <span class="card-text">Total Sales <b>{% now "F" %}</b></span>
+           <i class="fas fa-solid fa-hand-holding-dollar icon"></i>
+        </div>
+        <!-- Purchases -->
+        <div class="kpi-card red-gradient">
+          <span class="card-value">{{purchases_current_month}} €</span>
+          <span class="card-text">Total Purchases <b>{% now "F" %}</b></span>
+           <i class="fas fa-solid fa-cart-arrow-down icon"></i>
+        </div>
+        <!-- Top 1 product -->
+        <div class="kpi-card purple">
+          <span class="card-value">{{top_product.product__name}}</span>
+          <span class="card-text">Top Selling Product</b></span>
+           <i class="fas fa-1 icon"></i>
+        </div>
+      </div>
       <div class="row g-0 w-100">
         <!-- Bar Chart -->
         {% include 'stock/bar-chart.html' %}
@@ -13,40 +33,40 @@
       </div>
       <div class="row g-0 w-100 ">
           <div class="col-md-3 mb-2 p-2 d-flex flex-fill align-self-center">
-              <div class="card text-center border-warning border-1 shadow bg-light text-dark" style="width: 22rem;">
-                <h5 class="card-header bg-dark text-warning">Products</h5>
+              <div class="card text-center border-secondary border-1 shadow bg-transparent text-secondary" style="width: 22rem;">
+                <h5 class="card-header bg-dark text-white">Products</h5>
                   <div class="card-body">
-                    <a href="{% url 'product:table' %}" class="btn btn-warning btn-lg mt-2">{{products_count}}
+                    <a href="{% url 'product:table' %}" class="btn btn-outline-warning btn-lg mt-2">{{products_count}}
                       <i class="fa-solid fa-box px-2"></i>
                     </a>
                   </div>
               </div>
           </div>
           <div class="col-md-3 mb-2 p-2 d-flex flex-fill align-self-center">
-              <div class="card text-center border-warning border-1 shadow bg-light text-dark" style="width: 22rem;">
-                <h5 class="card-header bg-dark text-warning">Categories</h5>
+              <div class="card text-center border-secondary border-1 shadow bg-transparent text-secondary" style="width: 22rem;">
+                <h5 class="card-header bg-dark text-white">Categories</h5>
                   <div class="card-body">
-                    <a href="{% url 'product:categories' %}" class="btn btn-warning btn-lg mt-2">{{categories_count}}
+                    <a href="{% url 'product:categories' %}" class="btn btn-outline-warning btn-lg mt-2">{{categories_count}}
                       <i class="fa-solid fa-list px-2"></i>
                     </a>
                   </div>
               </div>
           </div>
           <div class="col-md-3 mb-2 p-2 d-flex flex-fill align-self-center">
-              <div class="card text-center border-warning border-1 shadow bg-light text-dark" style="width: 22rem;">
-                <h5 class="card-header bg-dark text-warning">Measurements</h5>
+              <div class="card text-center border-secondary border-1 shadow bg-transparent text-secondary" style="width: 22rem;">
+                <h5 class="card-header bg-dark text-white">Measurements</h5>
                   <div class="card-body">
-                    <a href="{% url 'product:measurements' %}" class="btn btn-warning btn-lg mt-2">{{measurements_count}}
+                    <a href="{% url 'product:measurements' %}" class="btn btn-outline-warning btn-lg mt-2">{{measurements_count}}
                       <i class="fa-solid fa-ruler px-2"></i>
                     </a>
                   </div>
               </div>
           </div>
           <div class="col-md-3 mb-2 p-2 d-flex flex-fill align-self-center">
-              <div class="card text-center border-warning border-1 shadow bg-light text-dark" style="width: 22rem;">
-                <h5 class="card-header bg-dark text-warning">Clients</h5>
+              <div class="card text-center border-secondary border-1 shadow bg-transparent text-secondary" style="width: 22rem;">
+                <h5 class="card-header bg-dark text-white">Clients</h5>
                   <div class="card-body">
-                    <a href="{% url 'partners:clients' %}" class="btn btn-warning btn-lg mt-2">{{clients_count}}
+                    <a href="{% url 'partners:clients' %}" class="btn btn-outline-warning btn-lg mt-2">{{clients_count}}
                       <i class="fa-solid fa-person px-2"></i>
                     </a>
                   </div>
@@ -55,30 +75,30 @@
       </div>
       <div class="row g-0 w-100 ">
           <div class="col-md-3 mb-2 p-2 d-flex flex-fill align-self-center">
-              <div class="card text-center border-warning border-1 shadow bg-light text-dark" style="width: 22rem;">
-                <h5 class="card-header bg-dark text-warning">Sales</h5>
+              <div class="card text-center border-secondary border-1 shadow bg-transparent text-secondary" style="width: 22rem;">
+                <h5 class="card-header bg-dark text-white">Sales</h5>
                   <div class="card-body">
-                    <a href="{% url 'transactions:sales' %}" class="btn btn-warning btn-lg mt-2">{{sales_count}}
+                    <a href="{% url 'transactions:sales' %}" class="btn btn-outline-warning btn-lg mt-2">{{sales_count}}
                       <i class="fa-solid fa-money-bill-trend-up px-2"></i>
                     </a>
                   </div>
               </div>
           </div>
           <div class="col-md-3 mb-2 p-2 d-flex flex-fill align-self-center">
-              <div class="card text-center border-warning border-1 shadow bg-light text-dark" style="width: 22rem;">
-                <h5 class="card-header bg-dark text-warning">Purchases</h5>
+              <div class="card text-center border-secondary border-1 shadow bg-transparent text-secondary" style="width: 22rem;">
+                <h5 class="card-header bg-dark text-white">Purchases</h5>
                   <div class="card-body">
-                    <a href="{% url 'transactions:purchases' %}" class="btn btn-warning btn-lg mt-2">{{purchases_count}}
+                    <a href="{% url 'transactions:purchases' %}" class="btn btn-outline-warning btn-lg mt-2">{{purchases_count}}
                       <i class="fa-solid fa-money-check px-2"></i>
                     </a>
                   </div>
               </div>
           </div>
           <div class="col-md-3 mb-2 p-2 d-flex flex-fill align-self-center">
-              <div class="card text-center border-warning border-1 shadow bg-light text-dark" style="width: 22rem;">
-                <h5 class="card-header bg-dark text-warning">Suppliers</h5>
+              <div class="card text-center border-secondary border-1 shadow bg-transparent text-secondary" style="width: 22rem;">
+                <h5 class="card-header bg-dark text-white">Suppliers</h5>
                   <div class="card-body">
-                    <a href="{% url 'partners:suppliers' %}" class="btn btn-warning btn-lg mt-2">{{suppliers_count}}
+                    <a href="{% url 'partners:suppliers' %}" class="btn btn-outline-warning btn-lg mt-2">{{suppliers_count}}
                       <i class="fa-solid fa-truck-fast px-2"></i>
                     </a>
                   </div>
@@ -90,3 +110,6 @@
     </div>
 </main>
 {% endblock content %}
+{% block script %}
+<script type="application/json" id="stocks-data">{{ stocks|json_script }}</script>
+{% endblock script %}
