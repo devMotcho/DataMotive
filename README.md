@@ -38,7 +38,8 @@ DataMotive is meant to be a Management System which provides a simple way to tra
 - Docker-compose will make migrations, migrate and create a super user for you;
 - Use `pint` library to check the measurement;
 - Pagination, django.core.paginations with bootstrap;
-- Footer with search bar and socials; 
+- Footer with search bar and socials;
+- KPI's on the dashboard;
 
 ### Tech Stack
 
