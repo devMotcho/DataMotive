@@ -7,10 +7,15 @@
     opacity: .36;
 }
 
+@media (max-width: 768px) {
+    .kpi-card {
+        width: 100% !important;
+        margin-bottom: 10px;
+    }
 
-#container {
-    width: 1200px;
-    display: flex;
+    .card {
+        width: 100% !important;
+    }
 }
 
 
@@ -44,8 +49,7 @@
     overflow: hidden;
     position: relative;
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.75);
-    ;
-    display: inline-block;
+    display: inline-flexbox;
     padding: 1em;
     border-radius: 0.3em;
     font-family: sans-serif;

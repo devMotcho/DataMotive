@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from django.db.models import Q
+from django.db.models import Q, Sum
 from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator
+import json
 
-from src.settings import paginator_num
+from stock.models import Stock
 from .models import Product, Category, Measurement
 from .forms import ProductForm, CategoryForm, MeasurementForm
 from src.utils import get_page_obj
@@ -59,6 +59,11 @@ def productDetail(request, pk):
     product_purchases = get_purchases_by_product(product)
     product_sales = get_sales_by_product(product)
 
+    stock = Stock.objects.get(product=product)
+    total_quantity = Stock.objects.aggregate(total=Sum('quantity'))['total']
+
+
+
 
     form = ProductForm(instance=product)
     if request.method == 'POST':
@@ -71,10 +76,14 @@ def productDetail(request, pk):
             messages.error(request, form.errors)
 
     context = {
-        'obj': product,
-        'form': form,
-        'purchases': product_purchases,
-        'sales': product_sales
+        'obj' : product,
+        'form' : form,
+        'purchases' : product_purchases,
+        'sales' : product_sales,
+        'product_name': product.name,
+        'product_quantity': stock.quantity,
+        'total_quantity' : total_quantity,
+
     }
     return render(request, 'product/products/detail.html', context)
 

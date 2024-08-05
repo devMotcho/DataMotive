@@ -26,20 +26,20 @@ DataMotive is meant to be a Management System which provides a simple way to tra
 ---
 
 - Possibility to send custom bootstrap alerts with django.contrib.messages;
+- Visualize Data with Chart Js;
+- KPI's cards on the dashboard;
+- Footer with search bar and socials;
+- Pagination, django.core.paginations with bootstrap;
 - CRUD Products;
-- View Stock with Chart Js;
-- Whenever a Product is Created a Django signal is sent to create a new instance of that Product in Stock with quantity 0;
 - CRUD Categories, Measurements;
 - CRUD Partners ( Suppliers and Clients) and their Entity Types;
 - CRUD Transactions ( Sales and Purchases );
 - Every Creation, Modification or Deletion of a Sales and Purchases is logically set so the Stock quantity and price are updated accordingly;
+- Whenever a new Product is Created a Django signal is sent to create a new instance of that Product in Stock with quantity 0;
 - Whenever a new User is Created a Django signal is sent to create a new instance of Profile with that User;
 - Need to be Authenticated in order to View any content or data, if not you will be redirected to login page;
-- Docker-compose will make migrations, migrate and create a super user for you;
+- Docker-compose will make migrations, migrate and create a super user;
 - Use `pint` library to check the measurement;
-- Pagination, django.core.paginations with bootstrap;
-- Footer with search bar and socials;
-- KPI's on the dashboard;
 
 ### Tech Stack
 

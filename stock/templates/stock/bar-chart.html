@@ -1,41 +1,16 @@
-<div class="card">
-    <div class="card-body mb-2">
+{% load static %}
+{% block scripts %}
+<script>var stocks = JSON.parse('{{ stocks|escapejs }}');</script>
+<script src="{% static 'js/barChartStock.js' %}" defer></script>
+{% endblock scripts %}
+
+
+<div class="card my-4">
+    <div class="card-body">
         <div class="row p-2">
             <div class="chart-container" style="height: 300px;">
                 <div class="container w-100 g-0" style="height: 100%;">
                     <canvas id="myChart"></canvas>
-                    <script>
-                            var stocks = JSON.parse("{{ stocks | escapejs }}");
-                            
-                            var labels = stocks.map(stock => stock.product__name);
-                            var data = stocks.map(stock => stock.quantity);
-                            console.log(labels)
-                            
-                            var ctx = document.getElementById('myChart').getContext('2d');
-    
-                            var myChart = new Chart(ctx, {
-                                type: 'bar',
-                                data: {
-                                    labels: labels,
-                                    datasets: [{
-                                        label: 'Products In Stock',
-                                        data: data,
-                                        backgroundColor: 'rgba(255,193,0, 0.3)',
-                                        borderColor: 'rgb(255,193,0, 1)',
-                                        borderWidth: 3
-                                    }]
-                                },
-                                options: {
-                                    responsive: true,
-                                    maintainAspectRatio: false,
-                                    scales: {
-                                        y: {
-                                            beginAtZero: true
-                                        }
-                                    }
-                                }
-                            });
-                    </script>
                 </div>
             </div>
         </div>

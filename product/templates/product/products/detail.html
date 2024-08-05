@@ -6,7 +6,7 @@
 {% include 'product/products/update-product-modal.html' %}
 
 <main class="content p-2">
-    <div class="container-fluid">
+    <div class="container-xl">
         <!-- Title + Action -->
         <div class="row">
             <div class="col">
@@ -16,7 +16,7 @@
             </div>
             <div class="col">
                 <div class="action text-end">
-                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#updateModal{{obj.id}}">
+                    <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#updateModal{{obj.id}}">
                         <i class="fa-solid fa-pen-to-square"></i>
                 </div>
             </div>
@@ -76,6 +76,16 @@
             </div>
         </div>
         <!-- End Product Info -->
+
+        <!-- Stock pie chart -->
+         <div class="row g-0 w-100">
+            <div class="col-md-6 mb-2 d-flex flex-fill justify-content-center">
+                {% include 'product/products/stock-pie-chart.html' %}
+            </div>
+            <div class="col-md-6 mb-2 d-flex flex-fill justify-content-center">
+                {% include 'product/products/stock-pie-chart.html' %}
+            </div>
+         </div>
 
         <!-- Transactions Info -->
         {% include 'product/products/transactions-info.html' %}

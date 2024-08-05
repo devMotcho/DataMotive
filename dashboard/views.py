@@ -9,7 +9,8 @@ from .utils import (get_products_count, get_categories_count,
                     get_sales_count, get_purchases_count, 
                     get_suppliers_count)
 from .kpis import (get_income_of_current_month, top_product,
-                   get_expense_of_current_month)
+                   get_expense_of_current_month, get_sales_count_of_current_month,
+                   get_purchases_count_of_current_month)
 
 @login_required(login_url='authentic:login')
 def homeView(request):
@@ -32,6 +33,8 @@ def homeView(request):
     sales_current_month = get_income_of_current_month()
     top1_product = top_product()
     purchases_current_month = get_expense_of_current_month()
+    sales_count_current_month = get_sales_count_of_current_month()
+    purchases_count_current_month = get_purchases_count_of_current_month
 
 
 
@@ -49,5 +52,7 @@ def homeView(request):
         'sales_current_month' : sales_current_month,
         'top_product' : top1_product,
         'purchases_current_month' : purchases_current_month,
+        'sales_count_current_month' : sales_count_current_month,
+        'purchases_count_current_month' : purchases_count_current_month,
     }
     return render(request, 'dashboard/home.html', context)

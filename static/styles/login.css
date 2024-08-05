@@ -10,9 +10,9 @@
 .wrapper-login {
     width: 420px;
     background: transparent;
-    border: 2px solid rgba(49, 49, 49, 0.5);
+    border: 2px solid rgba(168, 168, 168, 0.5);
     backdrop-filter: blur(30px);
-    box-shadow: 10px 10px 20px rgba(49, 49, 49, 0.5);
+    box-shadow: 10px 10px 20px rgba(161, 161, 161, 0.5);
     border-radius: 20px;
     padding: 30px 40px;
 }
@@ -35,7 +35,7 @@
     background: transparent;
     border: none;
     outline: none;
-    border: 2px solid rgba(49, 49, 49, 0.5);
+    border: 2px solid rgba(173, 172, 172, 0.5);
     border-radius: 20px;
     font-size: 16px;
     color: #92929238;
