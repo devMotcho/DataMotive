@@ -1,30 +1,46 @@
-from django.db import models
-from django.core.validators import MinValueValidator, MaxValueValidator
 from decimal import Decimal
-from .validators import validate_unit_of_measure
+from django.db import models
+from django.core.validators import (MinValueValidator, MaxValueValidator,
+                                     RegexValidator, MaxLengthValidator,
+                                     DecimalValidator)
 
+from .validators import validate_unit_of_measure
 from src.utils import generate_code
+from src.validators import validate_names, validate_unique_name
+
+# Wrapp Validator
+def validate_unique_name_product(value):
+    validate_unique_name(value, Product, 'name')
+def validate_unique_name_measurement(value):
+    validate_unique_name(value, Measurement, 'name')
+def validate_unique_name_category(value):
+    validate_unique_name(value, Category, 'name')
+
 
 class Measurement(models.Model):
-    """
-    Measurement Units like:
-    Unit, Kg, ...
-    """
-    measure = models.CharField(max_length=100, unique=True, validators=[validate_unit_of_measure], default='Unit', verbose_name='Measure')
+
+    measure = models.CharField(
+        max_length=100, unique=True, default='Unit',
+        validators=[validate_unit_of_measure, validate_unique_name_measurement], 
+        verbose_name='Measure'
+    )
 
     def __str__(self):
         return f'{self.measure}'
     
 
 class Category(models.Model):
-    """
-    Category Related to Product 1-N ,
-    name field should be easy to access and to identify
-    """
+
     name = models.CharField(
-        max_length=100, unique=True, default='No Name', verbose_name='Category'
+        max_length=100, unique=True, default='No Name',
+        validators=[validate_names, validate_unique_name_category],
+        verbose_name='Category'
     )
-    category_img = models.ImageField(upload_to='category', default='default_img.jpg', blank=True)
+    category_img = models.ImageField(
+        upload_to='category', default='default_img.jpg', 
+        verbose_name='Category Image', blank=True
+    )
+
     def __str__(self):
         return f'{self.name}'
     
@@ -35,20 +51,51 @@ class Category(models.Model):
         return self.products.all()
 
 class Product(models.Model):
-    """
-    When created a Product a instance of stock is created
-    """
-    name = models.CharField(max_length=120, unique=True, verbose_name='Name')
-    ref = models.CharField(max_length=18, unique=True, verbose_name='Ref', null=True, blank=True)
-    description = models.TextField(blank=True, null=True, verbose_name='Description')
-    product_img = models.ImageField(upload_to='product', default='default_img.jpg', blank=True)
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, verbose_name='Category', related_name='products')
-    active = models.BooleanField(default=True,verbose_name='Active')
-    measurement = models.ForeignKey(Measurement, on_delete=models.SET_NULL, null=True, verbose_name='Measurement', related_name='products')
-    price = models.DecimalField(max_digits=18, decimal_places=2, default=0.00, help_text='Value in Euros', verbose_name='Price')
-    discount = models.DecimalField(max_digits=3, decimal_places=0, default=0, help_text="%",
-                                   validators=[MinValueValidator(0), MaxValueValidator(100)],
-                                   verbose_name='Discount', blank=True)
+
+    name = models.CharField(
+        max_length=120, unique=True,
+        validators=[validate_names,
+        validate_unique_name_product],
+        verbose_name='Name'
+    )
+    ref = models.CharField(
+        max_length=18, unique=True,
+        validators=[RegexValidator],
+        verbose_name='Ref', null=True, blank=True
+    )
+    description = models.TextField(
+        blank=True, null=True,
+        validators=[MaxLengthValidator(1000)],
+        verbose_name='Description'
+    )
+    product_img = models.ImageField(
+        upload_to='product', default='default_img.jpg',
+        verbose_name='Product Image', blank=True
+    )
+    category = models.ForeignKey(
+        Category, on_delete=models.SET_NULL,
+        verbose_name='Category', null=True,
+        related_name='products'
+    )
+    active = models.BooleanField(
+        default=True,verbose_name='Active'
+    )
+    measurement = models.ForeignKey(
+        Measurement, on_delete=models.SET_NULL,
+        verbose_name='Measurement', null=True,
+        related_name='products'
+    )
+    price = models.DecimalField(
+        max_digits=18, decimal_places=2, default=0.00,
+        help_text='Value in Euros',
+        validators=[DecimalValidator(18, 2)],
+        verbose_name='Price'
+    )
+    discount = models.DecimalField(
+        max_digits=3, decimal_places=0, default=0, help_text="%",
+        validators=[MinValueValidator(0), MaxValueValidator(100), DecimalValidator(3, 0)],
+        verbose_name='Discount', blank=True
+    )
 
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -75,7 +122,7 @@ class Product(models.Model):
         return self.in_stock.quantity
     
     def __str__(self):
-        return f'{self.category} - {self.name} ({self.active}) -> {self.final_price} €'
+        return f'{self.name} [{self.category}] ({self.final_price}€)'
     
     class Meta:
         ordering = ['id']

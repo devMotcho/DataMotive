@@ -21,20 +21,20 @@
                                   <label for="product-category">Category</label>
                             </div>
                           </div>
-                        <!-- Product Name -->
-                        <div class="col-md-6">
-                            <div class="form-floating">
-                                <input type="text" class="form-control" id="product-name" name="name">
-                                <label for="product-name">Name</label>
-                            </div>
-                        </div>
-                        <!-- Product Ref. -->
-                        <div class="col-md-6">
-                            <div class="form-floating">
-                                <input type="text" class="form-control" id="product-ref" name="ref">
-                                <label for="product-ref">Ref.</label>
-                            </div>
-                        </div>
+                             <!-- Product Name -->
+                             <div class="col-md-9">
+                                 <div class="form-floating">
+                                     <input type="text" class="form-control" id="product-name" name="name">
+                                     <label for="product-name">Name</label>
+                                 </div>
+                             </div>
+                             <!-- Product Active -->
+                             <div class="col">
+                                 <div class="form-check">
+                                     <input type="checkbox" class="btn-check" id="btn-check-outlined" autocomplete="off" name="active">
+                                     <label class="btn btn-outline-success" for="btn-check-outlined">Active</label><br>
+                                 </div>
+                             </div>
                         <!-- Product Image -->
                         <div class="input-group">
                             <input type="file" class="form-control" id="product-img" aria-describedby="product-img" aria-label="Upload" name="product_img">
@@ -76,15 +76,6 @@
                                     {% endfor %}
                                   </select>
                                   <label for="product-measurement">Measurement</label>
-                            </div>
-                          </div>
-                        <!-- Product Active -->
-                        <div class="col-12">
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" id="product-active" name="active">
-                              <label class="form-check-label" for="product-active">
-                                Is Active?
-                              </label>
                             </div>
                           </div>
                 </div>

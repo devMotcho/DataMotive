@@ -1,8 +1,10 @@
 from django.db import models
+from django.core.validators import EmailValidator, MinLengthValidator, MaxLengthValidator, RegexValidator
 
 
 from product.models import Product
 from src.utils import generate_code
+from src.validators import validate_names
 
 class EntityType(models.Model):
     """
@@ -25,10 +27,14 @@ class EntityType(models.Model):
 
 
 class Partner(models.Model):
-    name = models.CharField(max_length=255, unique=True, verbose_name='Name')
-    email = models.EmailField(blank=True, null=True, verbose_name='Email')
-    contact = models.CharField(max_length=20, blank=True, null=True, verbose_name='Phone Number')
-    address = models.TextField(blank=True, null=True, verbose_name='Address')
+    name = models.CharField(max_length=255, unique=True, verbose_name='Name',
+                            validators=[validate_names])
+    email = models.EmailField(blank=True, null=True, verbose_name='Email',
+                              validators=[EmailValidator])
+    contact = models.CharField(max_length=20, blank=True, null=True, verbose_name='Phone Number',
+                               validators=[MinLengthValidator(9), MaxLengthValidator(13)])
+    address = models.TextField(blank=True, null=True, verbose_name='Address',
+                               validators=[MaxLengthValidator(300)])
     note = models.TextField(blank=True, null=True, verbose_name='Note')
     active = models.BooleanField(verbose_name='Active', default=False)
     partner_logo = models.ImageField(upload_to='partner', default='default_img.jpg', blank=True)
@@ -40,7 +46,8 @@ class Partner(models.Model):
         abstract = True
 
 class Client(Partner):
-    client_id = models.CharField(max_length=20, blank=True, verbose_name='Cient ID')
+    client_id = models.CharField(max_length=20, blank=True, verbose_name='Cient ID',
+                                 validators=[RegexValidator])
     entity = models.ForeignKey(EntityType, on_delete=models.PROTECT, null=True, blank=True, related_name='clients', verbose_name='Entity Type')
 
     def save(self, *args, **kwargs):
@@ -57,7 +64,8 @@ class Client(Partner):
 
 
 class Supplier(Partner):
-    supplier_id = models.CharField(max_length=20, blank=True, verbose_name='Supplier ID')
+    supplier_id = models.CharField(max_length=20, blank=True, verbose_name='Supplier ID',
+                                   validators=[RegexValidator])
     products = models.ManyToManyField(Product, related_name='suppliers', verbose_name='Products')
     entity = models.ForeignKey(EntityType, on_delete=models.PROTECT, null=True, blank=True, related_name='suppliers', verbose_name='Entity Type')
 
