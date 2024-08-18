@@ -1,10 +1,17 @@
 from django.db import models
-from django.core.validators import EmailValidator, MinLengthValidator, MaxLengthValidator, RegexValidator
+from django.core.validators import (
+    EmailValidator, MinLengthValidator, 
+    MaxLengthValidator, RegexValidator,
+    validate_image_file_extension)
 
 
 from product.models import Product
 from src.utils import generate_code
-from src.validators import validate_names
+from src.validators import validate_names, validate_unique_name
+
+# Wrapp Validator
+def validate_unique_entity(value):
+    validate_unique_name(value, EntityType, 'entity_type')
 
 class EntityType(models.Model):
     """
@@ -12,7 +19,11 @@ class EntityType(models.Model):
     individual, corporate,
     Manufator, Distributor, ....
     """
-    entity_type = models.CharField(max_length=20, unique=True, verbose_name='Entity Type')
+    entity_type = models.CharField(
+        max_length=20, unique=True,
+        validators=[validate_names, validate_unique_entity],
+        verbose_name='Entity Type'
+    )
 
     def get_clients_count(self):
         return self.clients.count()
@@ -27,18 +38,39 @@ class EntityType(models.Model):
 
 
 class Partner(models.Model):
-    name = models.CharField(max_length=255, unique=True, verbose_name='Name',
-                            validators=[validate_names])
-    email = models.EmailField(blank=True, null=True, verbose_name='Email',
-                              validators=[EmailValidator])
-    contact = models.CharField(max_length=20, blank=True, null=True, verbose_name='Phone Number',
-                               validators=[MinLengthValidator(9), MaxLengthValidator(13)])
-    address = models.TextField(blank=True, null=True, verbose_name='Address',
-                               validators=[MaxLengthValidator(300)])
-    note = models.TextField(blank=True, null=True, verbose_name='Note')
-    active = models.BooleanField(verbose_name='Active', default=False)
-    partner_logo = models.ImageField(upload_to='partner', default='default_img.jpg', blank=True)
-
+    name = models.CharField(
+        max_length=255, unique=True,
+        validators=[validate_names],
+        verbose_name='Name'
+    )
+    email = models.EmailField(
+        blank=True, null=True,
+        validators=[EmailValidator], 
+        verbose_name='Email'
+    )
+    contact = models.CharField(
+        max_length=20, blank=True, null=True,
+        validators=[MinLengthValidator(9), MaxLengthValidator(13)], 
+        verbose_name='Phone Number'
+    )
+    address = models.TextField(
+        blank=True, null=True,
+        validators=[MaxLengthValidator(300)],
+        verbose_name='Address'
+    )
+    note = models.TextField(
+        blank=True, null=True,
+        verbose_name='Note'
+    )
+    active = models.BooleanField(
+        default=False, 
+        verbose_name='Active'
+    )
+    partner_logo = models.ImageField(
+        upload_to='partner', default='default_img.jpg',
+        validators=[validate_image_file_extension],
+        verbose_name='Partner Logo', blank=True
+    )
 
     partner_since = models.DateTimeField(auto_now_add=True)
 
@@ -46,9 +78,16 @@ class Partner(models.Model):
         abstract = True
 
 class Client(Partner):
-    client_id = models.CharField(max_length=20, blank=True, verbose_name='Cient ID',
-                                 validators=[RegexValidator])
-    entity = models.ForeignKey(EntityType, on_delete=models.PROTECT, null=True, blank=True, related_name='clients', verbose_name='Entity Type')
+    client_id = models.CharField(
+        max_length=20, blank=True,
+        validators=[RegexValidator],
+        verbose_name='Cient ID'
+    )
+    entity = models.ForeignKey(
+        EntityType, on_delete=models.PROTECT,
+        null=True, blank=True, verbose_name='Entity Type',
+        related_name='clients'
+    )
 
     def save(self, *args, **kwargs):
         if self.client_id == '':
@@ -57,19 +96,28 @@ class Client(Partner):
         return super().save(*args, **kwargs)
     
     def __str__(self):
-        return f'{self.name} ({self.entity}) - {self.email}'
+        return f'{self.name} ({self.entity})'
     
     class Meta:
         ordering = ['id']
 
 
 class Supplier(Partner):
-    supplier_id = models.CharField(max_length=20, blank=True, verbose_name='Supplier ID',
-                                   validators=[RegexValidator])
-    products = models.ManyToManyField(Product, related_name='suppliers', verbose_name='Products')
-    entity = models.ForeignKey(EntityType, on_delete=models.PROTECT, null=True, blank=True, related_name='suppliers', verbose_name='Entity Type')
+    supplier_id = models.CharField(
+        max_length=20, blank=True,
+        validators=[RegexValidator], 
+        verbose_name='Supplier ID'
+    )
+    products = models.ManyToManyField(
+        Product, verbose_name='Products',
+        related_name='suppliers'
+    )
+    entity = models.ForeignKey(
+        EntityType, on_delete=models.PROTECT,
+        null=True, blank=True, verbose_name='Entity Type', 
+        related_name='suppliers'
+    )
 
-    
     def save(self, *args, **kwargs):
         if self.supplier_id == '':
             self.supplier_id = generate_code()
@@ -77,7 +125,7 @@ class Supplier(Partner):
         return super().save(*args, **kwargs)
     
     def __str__(self):
-        return f'{self.name} ({self.entity}) - {self.email}'
+        return f'{self.name} ({self.entity})'
 
     class Meta:
         ordering = ['id']

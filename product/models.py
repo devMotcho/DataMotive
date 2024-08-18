@@ -1,8 +1,10 @@
 from decimal import Decimal
 from django.db import models
-from django.core.validators import (MinValueValidator, MaxValueValidator,
-                                     RegexValidator, MaxLengthValidator,
-                                     DecimalValidator)
+from django.core.validators import (
+    MinValueValidator, MaxValueValidator,
+    RegexValidator, MaxLengthValidator,
+    DecimalValidator, validate_image_file_extension
+)
 
 from .validators import validate_unit_of_measure
 from src.utils import generate_code
@@ -38,6 +40,7 @@ class Category(models.Model):
     )
     category_img = models.ImageField(
         upload_to='category', default='default_img.jpg', 
+        validators=[validate_image_file_extension],
         verbose_name='Category Image', blank=True
     )
 
@@ -70,6 +73,7 @@ class Product(models.Model):
     )
     product_img = models.ImageField(
         upload_to='product', default='default_img.jpg',
+        validators=[validate_image_file_extension],
         verbose_name='Product Image', blank=True
     )
     category = models.ForeignKey(
