@@ -14,7 +14,7 @@ from src.validators import validate_names, validate_unique_name
 def validate_unique_name_product(value):
     validate_unique_name(value, Product, 'name')
 def validate_unique_name_measurement(value):
-    validate_unique_name(value, Measurement, 'name')
+    validate_unique_name(value, Measurement, 'measure')
 def validate_unique_name_category(value):
     validate_unique_name(value, Category, 'name')
 

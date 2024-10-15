@@ -38,6 +38,7 @@ def productTable(request):
             form.save()
             # Stock instance is created by a signal
             messages.success(request, "Product created!")
+            return redirect('product:table')
         else:
             messages.error(request, form.errors)
 
@@ -151,6 +152,7 @@ def categoryDetail(request, pk):
         if form.is_valid():
             form.save()
             messages.success(request, "Category Modified!")
+            return redirect('product:category', obj.id)
         else:
             messages.error(request, form.errors)
 
