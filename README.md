@@ -1,6 +1,5 @@
 # DataMotive
 
-## **\*** Under Development **\***
 
 ### Table of Contents
 
@@ -19,7 +18,7 @@
 
 ---
 
-DataMotive is meant to be a Management System which provides a simple way to track products, stock and transactions flow in a user-friendly.
+DataMotive is meant to be a Management System which provides a simple way to track products, stock and transactions flow in a user-friendly way, feel free to contribute with this project development in any way!
 
 ### Features
 
