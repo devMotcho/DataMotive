@@ -8,8 +8,8 @@ from django.core.validators import (
 
 from .validators import validate_unit_of_measure
 from src.utils import generate_code
-from src.validators import validate_names
-from src.settings import IS_PRODUCTION
+from src.validators import validate_names, validate_unique_name
+
 
 class Measurement(models.Model):
 
@@ -44,12 +44,6 @@ class Category(models.Model):
     
     def get_product(self):
         return self.products.all()
-    
-    def save(self, *args, **kwargs):
-
-        if not IS_PRODUCTION:
-            return super().save(*args, **kwargs)
-        return
 
 class Product(models.Model):
 
@@ -114,9 +108,7 @@ class Product(models.Model):
             self.discount = 0
         if self.ref is None or '':
             self.ref = generate_code()
-        if not IS_PRODUCTION:
-            return super().save(*args, **kwargs)
-        return
+        return super().save(*args, **kwargs)
     
     def get_suppliers(self):
         return self.suppliers.all()

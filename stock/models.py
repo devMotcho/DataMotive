@@ -3,7 +3,6 @@ from decimal import Decimal
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 from django.utils import timezone 
-from src.settings import IS_PRODUCTION
 
 from product.models import Product
 
@@ -35,8 +34,7 @@ class Stock(models.Model):
         if self.created == '':
             self.created = timezone.now()
 
-        if not IS_PRODUCTION:
-            return super().save(*args, **kwargs)
+        return super().save(*args, **kwargs)
 
     def __str__(self):
         return f'{self.product.name} - {self.quantity} in stock ({self.value}€)'
