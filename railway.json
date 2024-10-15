@@ -4,6 +4,6 @@
         "builder": "NIXPACKS"
     },
     "deploy": {
-        "startCommand": " python manage.py migrate && chmod +x entrypoint.sh &&./entrypoint.sh && python manage.py collectstatic --noinput && gunicorn mysite.wsgi"
+        "startCommand": " python manage.py migrate && chmod +x entrypoint.sh &&./entrypoint.sh && python manage.py collectstatic --noinput && gunicorn src.wsgi"
     }
 }
