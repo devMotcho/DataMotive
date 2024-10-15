@@ -155,7 +155,7 @@ def entityTypeDelete(request, pk):
     if request.method == 'POST':
         entity.delete()
         messages.success(request, f' Deleted {entity}')
-        return redirect('partners:suppliers-type')
+        return redirect('partners:entity-types')
     return render(request, 'delete.html', {'obj':entity})
 
 
