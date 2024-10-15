@@ -97,10 +97,10 @@ class Client(Partner):
     )
 
     def save(self, *args, **kwargs):
-        if self.client_id == '':
-            self.client_id = generate_code()
 
         if not IS_PRODUCTION:
+            if self.client_id == '':
+                self.client_id = generate_code()
             return super().save(*args, **kwargs)
         return
     
@@ -133,10 +133,10 @@ class Supplier(Partner):
     )
 
     def save(self, *args, **kwargs):
-        if self.supplier_id == '':
-            self.supplier_id = generate_code()
         
         if not IS_PRODUCTION:
+            if self.supplier_id == '':
+                self.supplier_id = generate_code()
             return super().save(*args, **kwargs)
         return
     

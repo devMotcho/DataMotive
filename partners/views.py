@@ -84,6 +84,7 @@ def supplierDelete(request, pk):
     if request.method == 'POST':
         supplier.delete()
         messages.success(request, f"Supplier {supplier.name} deleted!")
+        return redirect('partners:suppliers')
     return render(request, 'delete.html', {'obj':supplier})
 
 # EntityType

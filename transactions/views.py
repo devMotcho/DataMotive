@@ -100,7 +100,7 @@ def purchaseDelete(request, pk):
     purchase = get_object_or_404(Purchase, transaction_id=pk)
     if request.method == 'POST':
         purchase.delete()
-        messages.success(request, f"Purchase {{purchase.transaction_id}} deleted")
+        messages.success(request, f"Purchase {purchase.transaction_id} deleted")
 
         remove_stock(purchase)
 
