@@ -8,6 +8,8 @@ from product.models import Product
 from partners.models import Client, Supplier
 from src.utils import generate_code
 
+from src.settings import IS_PRODUCTION
+
 
 class Transaction(models.Model):
     transaction_id = models.CharField(
@@ -43,7 +45,8 @@ class Transaction(models.Model):
         if self.updated == '':
             self.updated = timezone.now
         
-        return super().save(*args, **kwargs)
+        if not IS_PRODUCTION:
+            return super().save(*args, **kwargs)
 
     class Meta:
         abstract = True
@@ -69,6 +72,11 @@ class Sale(Transaction):
             result = float(self.quantity) * float(self.product.final_price)
             return round(result, 2)
     
+    def save(self, *args, **kwargs):
+        if not IS_PRODUCTION:
+            return super().save(*args, **kwargs)
+        return
+    
     def __str__(self):
         return f'{self.transaction_id} - {self.quantity} x of product {self.product} at {self.final_price} €'
     
@@ -88,6 +96,12 @@ class Purchase(Transaction):
         validators=[DecimalValidator(18, 2)],
         help_text="Value in Euros", verbose_name="Final Price"
     )
+
+    def save(self, *args, **kwargs):
+
+        if not IS_PRODUCTION:
+            return super().save(*args, **kwargs)
+        return
 
     
     def __str__(self):
