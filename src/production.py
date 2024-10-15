@@ -11,7 +11,7 @@ ALLOWED_HOSTS = [
     os.environ.get('RAILWAY_STATIC_URL', ''),
 ]
 
-DEBUG = False
+DEBUG = True
 # Database
 DATABASES = {
     'default': {
