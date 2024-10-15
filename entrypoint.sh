@@ -1,11 +1,5 @@
 #!/bin/bash
 set -e
-
-# Run database migrations
-echo "Running migrations..."
-python manage.py makemigrations
-python manage.py migrate
-
 # Create superuser if it doesn't exist
 echo "Creating superuser..."
 python manage.py shell <<EOF
@@ -19,6 +13,3 @@ if not Measurement.objects.filter(measure="Unit").exists():
     Measurement.objects.create(measure="Unit")
 
 EOF
-
-# Start the Django server
-exec "$@"
