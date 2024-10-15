@@ -36,7 +36,7 @@ def supplierTable(request):
     if request.method == 'POST':
         form = SupplierForm(request.POST)
         if form.is_valid():
-            form.save()
+            # form.save()
             messages.success(request, "Supplier Created!")
             return redirect('partners:suppliers')
         else:
@@ -63,7 +63,7 @@ def supplierDetail(request, pk):
     if request.method == 'POST':
         form = SupplierForm(request.POST, instance=supplier)
         if form.is_valid():
-            form.save()
+            # form.save()
             messages.success(request, f"Supplier {supplier.name} updated!")
             return redirect('partners:suppliers')
         else:
