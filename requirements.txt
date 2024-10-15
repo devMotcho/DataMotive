@@ -8,4 +8,7 @@ pillow==10.3.0
 psycopg2>=2.9
 sqlparse==0.5.0
 tzdata==2024.1
+gunicorn==22.0.0
+python-dotenv==1.0.1
+whitenoise==6.7.0
 pint
