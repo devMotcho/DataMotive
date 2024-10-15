@@ -9,8 +9,6 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 ALLOWED_HOSTS = [
     os.environ.get('RAILWAY_STATIC_URL', ''),
-    '.railway.app'
-    'restauranterodizio.pt',
 ]
 
 DEBUG = False
