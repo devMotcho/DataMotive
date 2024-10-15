@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 from django.contrib import messages
+import dj_database_url
 
 
 
@@ -101,7 +102,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
 
 # Internationalization
 LANGUAGE_CODE = 'en-us'
