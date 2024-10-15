@@ -7,6 +7,7 @@ from django.core.validators import (
 from product.models import Product
 from partners.models import Client, Supplier
 from src.utils import generate_code
+from src.settings import IS_PRODUCTION
 
 
 class Transaction(models.Model):
@@ -36,14 +37,21 @@ class Transaction(models.Model):
     updated = models.DateTimeField(auto_now=True, blank=True, null=True)
     
     def save(self, *args, **kwargs):
-        if self.transaction_id == '':
-            self.transaction_id = generate_code()
-        if self.created == '':
-            self.created = timezone.now
-        if self.updated == '':
-            self.updated = timezone.now
+        if not IS_PRODUCTION:
+            if self.transaction_id == '':
+                self.transaction_id = generate_code()
+            if self.created == '':
+                self.created = timezone.now
+            if self.updated == '':
+                self.updated = timezone.now
         
-        return super().save(*args, **kwargs)
+            return super().save(*args, **kwargs)
+        return
+    
+    def delete(self):
+        if not IS_PRODUCTION:
+            return super().delete()
+        return
 
     class Meta:
         abstract = True
@@ -72,6 +80,17 @@ class Sale(Transaction):
     def __str__(self):
         return f'{self.transaction_id} - {self.quantity} x of product {self.product} at {self.final_price} €'
     
+        
+    def save(self, *args, **kwargs):
+        if not IS_PRODUCTION:
+            return super().save(*args, **kwargs)
+        return
+        
+    def delete(self):
+        if not IS_PRODUCTION:
+            return super().delete()
+        return
+    
 
     
 class Purchase(Transaction):
@@ -92,4 +111,14 @@ class Purchase(Transaction):
     
     def __str__(self):
         return f'{self.transaction_id} - {self.quantity} x of product {self.product} at {self.final_price} €'
+    
+    def save(self, *args, **kwargs):
+        if not IS_PRODUCTION:
+            return super().save(*args, **kwargs)
+        return
+        
+    def delete(self):
+        if not IS_PRODUCTION:
+            return super().delete()
+        return
     

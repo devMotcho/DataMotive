@@ -8,7 +8,8 @@ from django.core.validators import (
 
 from .validators import validate_unit_of_measure
 from src.utils import generate_code
-from src.validators import validate_names, validate_unique_name
+from src.settings import IS_PRODUCTION
+from src.validators import validate_names
 
 
 class Measurement(models.Model):
@@ -21,6 +22,18 @@ class Measurement(models.Model):
 
     def __str__(self):
         return f'{self.measure}'
+    
+    def save(self, *args, **kwargs):
+        if not IS_PRODUCTION:
+            return super().save(*args, **kwargs)
+        else:
+            return
+        
+    def delete(self):
+        if not IS_PRODUCTION:
+            return super().delete()
+        else:
+            return
     
 
 class Category(models.Model):
@@ -44,6 +57,18 @@ class Category(models.Model):
     
     def get_product(self):
         return self.products.all()
+    
+    def save(self, *args, **kwargs):
+        if not IS_PRODUCTION:
+            return super().save(*args, **kwargs)
+        else:
+            return
+        
+    def delete(self):
+        if not IS_PRODUCTION:
+            return super().delete()
+        else:
+            return
 
 class Product(models.Model):
 
@@ -104,11 +129,18 @@ class Product(models.Model):
         return round(Decimal(self.price), 2)
     
     def save(self, *args, **kwargs):
-        if self.discount is None or '':
-            self.discount = 0
-        if self.ref is None or '':
-            self.ref = generate_code()
-        return super().save(*args, **kwargs)
+        if not IS_PRODUCTION:
+            if self.discount is None or '':
+                self.discount = 0
+            if self.ref is None or '':
+                self.ref = generate_code()
+            return super().save(*args, **kwargs)
+        return
+        
+    def delete(self):
+        if not IS_PRODUCTION:
+            return super().delete()
+        return
     
     def get_suppliers(self):
         return self.suppliers.all()

@@ -8,6 +8,7 @@ from django.core.validators import (
 from product.models import Product
 from src.utils import generate_code
 from src.validators import validate_names
+from src.settings import IS_PRODUCTION
 
 class EntityType(models.Model):
     """
@@ -25,6 +26,16 @@ class EntityType(models.Model):
         return self.clients.count()
     def get_suppliers_count(self):
         return self.suppliers.count()
+    
+    def save(self, *args, **kwargs):
+        if not IS_PRODUCTION:
+            return super().save(*args, **kwargs)
+        return
+    
+    def delete(self):
+        if not IS_PRODUCTION:
+            return super().delete()
+        return
     
     def __str__(self):
         return f'{self.entity_type}'
@@ -89,7 +100,14 @@ class Client(Partner):
         if self.client_id == '':
             self.client_id = generate_code()
 
-        return super().save(*args, **kwargs)
+        if not IS_PRODUCTION:
+            return super().save(*args, **kwargs)
+        return
+    
+    def delete(self):
+        if not IS_PRODUCTION:
+            return super().delete()
+        return
     
     def __str__(self):
         return f'{self.name} ({self.entity})'
@@ -117,8 +135,16 @@ class Supplier(Partner):
     def save(self, *args, **kwargs):
         if self.supplier_id == '':
             self.supplier_id = generate_code()
-
-        return super().save(*args, **kwargs)
+        
+        if not IS_PRODUCTION:
+            return super().save(*args, **kwargs)
+        return
+    
+    def delete(self):
+        if not IS_PRODUCTION:
+            return super().delete()
+        return
+    
     
     def __str__(self):
         return f'{self.name} ({self.entity})'
