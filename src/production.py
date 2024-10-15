@@ -12,7 +12,8 @@ DATABASES = {
 }
 
 CSRF_TRUSTED_ORIGINS = [
-        os.environ.get('RAILWAY_STATIC_URL', ''),
+        'https://*.up.railway.app',
+        "https://datamotive-production.up.railway.app/"
     ]
 
 CORS_ORIGIN_ALLOW_ALL = True
