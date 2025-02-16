@@ -8,22 +8,14 @@ from django.core.validators import (
 
 from .validators import validate_unit_of_measure
 from src.utils import generate_code
-from src.validators import validate_names, validate_unique_name
-
-# Wrapp Validator
-def validate_unique_name_product(value):
-    validate_unique_name(value, Product, 'name')
-def validate_unique_name_measurement(value):
-    validate_unique_name(value, Measurement, 'measure')
-def validate_unique_name_category(value):
-    validate_unique_name(value, Category, 'name')
+from src.validators import validate_names
 
 
 class Measurement(models.Model):
 
     measure = models.CharField(
         max_length=100, unique=True, default='Unit',
-        validators=[validate_unit_of_measure, validate_unique_name_measurement], 
+        validators=[validate_unit_of_measure], 
         verbose_name='Measure'
     )
 
@@ -35,7 +27,7 @@ class Category(models.Model):
 
     name = models.CharField(
         max_length=100, unique=True, default='No Name',
-        validators=[validate_names, validate_unique_name_category],
+        validators=[validate_names],
         verbose_name='Category'
     )
     category_img = models.ImageField(
@@ -57,8 +49,7 @@ class Product(models.Model):
 
     name = models.CharField(
         max_length=120, unique=True,
-        validators=[validate_names,
-        validate_unique_name_product],
+        validators=[validate_names],
         verbose_name='Name'
     )
     ref = models.CharField(

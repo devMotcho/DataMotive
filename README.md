@@ -138,6 +138,16 @@ docker-compose down
 
 You can access the development server at **localhost:8000**
 
+
+### S3 Bucket for Images
+In production the images are being store on a s3 bucket, add this with the actual values of your s3 bucket to your .env file:
+
+```
+AWS_ACCESS_KEY_ID=your_aws_access_key_id
+AWS_SECRET_ACCESS_KEY=your_aws_scret_access_key
+AWS_STORAGE_BUCKET_NAME=your_aws_storage_bucket_name
+```
+
 ### License
 
 DataMotive is distributed under MIT license.
