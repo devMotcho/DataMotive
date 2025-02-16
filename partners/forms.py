@@ -1,16 +1,10 @@
 from django import forms
 
 from .models import Supplier, Client, EntityType
-from src.validators import validate_unique_name
-
-def validate_unique_name_client(value):
-    validate_unique_name(value, Client, 'name')
-def validate_unique_name_supplier(value):
-    validate_unique_name(value, Supplier, 'name')
 
 
 class SupplierForm(forms.ModelForm):
-    name = forms.CharField(validators=[validate_unique_name_supplier])
+    name = forms.CharField()
     class Meta:
         model = Supplier
         fields = '__all__'
@@ -18,7 +12,7 @@ class SupplierForm(forms.ModelForm):
 
 
 class ClientForm(forms.ModelForm):
-    name = forms.CharField(validators=[validate_unique_name_client])
+    name = forms.CharField()
     class Meta:
         model = Client
         fields = '__all__'
