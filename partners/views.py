@@ -36,7 +36,7 @@ def supplierTable(request):
     if request.method == 'POST':
         form = SupplierForm(request.POST)
         if form.is_valid():
-            form.save()
+            # form.save()
             messages.success(request, "Supplier Created!")
             return redirect('partners:suppliers')
         else:
@@ -63,7 +63,7 @@ def supplierDetail(request, pk):
     if request.method == 'POST':
         form = SupplierForm(request.POST, instance=supplier)
         if form.is_valid():
-            form.save()
+            # form.save()
             messages.success(request, f"Supplier {supplier.name} updated!")
             return redirect('partners:suppliers')
         else:
@@ -82,7 +82,7 @@ def supplierDelete(request, pk):
     """
     supplier = get_object_or_404(Supplier, id=pk)
     if request.method == 'POST':
-        supplier.delete()
+        # supplier.delete()
         messages.success(request, f"Supplier {supplier.name} deleted!")
     return render(request, 'delete.html', {'obj':supplier})
 
@@ -106,7 +106,7 @@ def entityTypeTable(request):
     if request.method == 'POST':
         form = EntityTypeForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            # form.save()
             messages.success(request, f'Created new Entity Type!')
             return redirect('partners:entity-types')
         else:
@@ -134,7 +134,7 @@ def entityTypeDetail(request, pk):
     if request.method == 'POST':
         form = EntityTypeForm(request.POST, request.FILES, instance=entity)
         if form.is_valid():
-            form.save()
+            # form.save()
             messages.success(request, "Supplier Type Updated!")
         else:
             messages.error(request, f'{form.errors}')
@@ -153,7 +153,7 @@ def entityTypeDelete(request, pk):
     """
     entity = get_object_or_404(EntityType, id=pk)
     if request.method == 'POST':
-        entity.delete()
+        # entity.delete()
         messages.success(request, f' Deleted {entity}')
         return redirect('partners:entity-types')
     return render(request, 'delete.html', {'obj':entity})
@@ -184,7 +184,7 @@ def clientTable(request):
     if request.method == 'POST':
         form = ClientForm(request.POST, request.FILES)
         if form.is_valid():
-            form = form.save()
+            # form = form.save()
             messages.success(request, f'Client {form.name} Created!')
             return redirect('partners:clients')
         else:
@@ -211,7 +211,7 @@ def clientDetail(request, pk):
     if request.method == 'POST':
         form = ClientForm(request.POST, request.FILES, instance=client)
         if form.is_valid():
-            form.save()
+            # form.save()
             messages.success(request, f'Client {client.name} Updated!')
             return redirect('partners:client', client.id)
         else:
@@ -231,7 +231,7 @@ def clientDelete(request, pk):
     """
     client = get_object_or_404(Client, id=pk)
     if request.method == 'POST':
-        client.delete()
+        # client.delete()
         messages.success(request, f'{client.name} deleted!')
         return redirect('partners:clients')
 

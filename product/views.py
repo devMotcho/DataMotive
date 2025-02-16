@@ -35,7 +35,7 @@ def productTable(request):
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            # form.save()
             # Stock instance is created by a signal
             messages.success(request, "Product created!")
             return redirect('product:table')
@@ -70,7 +70,7 @@ def productDetail(request, pk):
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES, instance=product)
         if form.is_valid():
-            form.save()
+            # form.save()
             messages.success(request, "Product Modified!")
             return redirect('product:detail', product.id)
         else:
@@ -95,7 +95,7 @@ def productDelete(request, pk):
     """
     obj = get_object_or_404(Product, id=pk)
     if request.method == 'POST':
-        obj.delete()
+        # obj.delete()
         messages.success(request, "Product Deleted!")
         return redirect('product:table')
     
@@ -122,7 +122,7 @@ def categoryTable(request):
     if request.method == 'POST':
         form = CategoryForm(request.POST)
         if form.is_valid():
-            form.save()
+            # form.save()
             messages.success(request, "Category created!")
             return redirect('product:categories')
         else:
@@ -150,7 +150,7 @@ def categoryDetail(request, pk):
     if request.method == 'POST':
         form = CategoryForm(request.POST, instance=obj)
         if form.is_valid():
-            form.save()
+            # form.save()
             messages.success(request, "Category Modified!")
             return redirect('product:category', obj.id)
         else:
@@ -170,7 +170,7 @@ def categoryDelete(request, pk):
     """
     obj = get_object_or_404(Category, id=pk)
     if request.method == 'POST':
-        obj.delete()
+        # obj.delete()
         messages.success(request, "Category Deleted!")
         return redirect('product:categories')
     return render(request, 'delete.html', {'obj':obj})
@@ -195,7 +195,7 @@ def measurementTable(request):
     if request.method == 'POST':
         form = MeasurementForm(request.POST)
         if form.is_valid():
-            form.save()
+            # form.save()
             messages.success(request, "Measurement Created!")
             return redirect("product:measurements")
         else:
@@ -220,7 +220,7 @@ def measurementDetail(request, pk):
     if request.method == 'POST':
         form = MeasurementForm(request.POST, instance=measurement)
         if form.is_valid():
-            form.save()
+            # form.save()
             messages.success(request, "Measurement Modified!")
         else:
             messages.error(request, form.errors)
@@ -238,7 +238,7 @@ def measurementDelete(request, pk):
     """
     obj = get_object_or_404(Measurement, id=pk)
     if request.method == 'POST':
-        obj.delete()
+        # obj.delete()
         messages.success(request, "Measurement Deleted!")
         return redirect('product:measurements')
     return render(request, 'delete.html', {'obj':obj})

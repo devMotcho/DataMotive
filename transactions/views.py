@@ -33,9 +33,9 @@ def purchaseTable(request):
     if request.method == 'POST':
         form = PurchaseForm(request.POST)
         if form.is_valid():
-            purchase = form.save()
+            # purchase = form.save()
             
-            add_to_stock(purchase)
+            # add_to_stock(purchase)
             
             messages.success(request, "Purchase Added.")
             return redirect('transactions:purchases')
@@ -73,11 +73,11 @@ def purchaseDetail(request, pk):
     if request.method == 'POST':
         form = PurchaseForm(request.POST, instance=purchase)
         if form.is_valid():
-            new_purchase = form.save(commit=False)
+            # new_purchase = form.save(commit=False)
 
-            mirrow_modifications_purchase(new_purchase, old_purchase_product, old_purchase_quantity)
+            # mirrow_modifications_purchase(new_purchase, old_purchase_product, old_purchase_quantity)
 
-            new_purchase.save()
+            # new_purchase.save()
             messages.success(request, "Purchase Updated.")
         else:
             messages.error(request, f'{form.errors}')
@@ -99,10 +99,10 @@ def purchaseDelete(request, pk):
     """
     purchase = get_object_or_404(Purchase, transaction_id=pk)
     if request.method == 'POST':
-        purchase.delete()
+        # purchase.delete()
         messages.success(request, f"Purchase {{purchase.transaction_id}} deleted")
 
-        remove_stock(purchase)
+        # remove_stock(purchase)
 
         return redirect('transactions:purchases')
     
@@ -136,9 +136,9 @@ def saleTable(request):
     if request.method == 'POST':
         form = SaleForm(request.POST)
         if form.is_valid():
-            sale = form.save()
+            # sale = form.save()
 
-            remove_stock(sale)
+            # remove_stock(sale)
             
             messages.success(request, "Created Sale.")
             return redirect('transactions:sales')
@@ -170,11 +170,11 @@ def saleDetail(request, pk):
     if request.method == 'POST':
         form = SaleForm(request.POST, instance=sale)
         if form.is_valid():
-            new_sale = form.save(commit=False)
+            # new_sale = form.save(commit=False)
             
-            mirrow_modifications_sale(new_sale, old_sale_product, old_sale_quantity)
+            # mirrow_modifications_sale(new_sale, old_sale_product, old_sale_quantity)
 
-            new_sale.save()
+            # new_sale.save()
             messages.success(request, "Sale Updated.")
         else:
             messages.error(request, f'{form.errors}')
@@ -197,9 +197,9 @@ def saleDelete(request, pk):
     sale = get_object_or_404(Sale, transaction_id=pk)
 
     if request.method == 'POST':
-        sale.delete()
+        # sale.delete()
         
-        add_to_stock(sale)
+        # add_to_stock(sale)
 
         messages.success(request, "Sale Deleted.")
         return redirect('transactions:sales')
