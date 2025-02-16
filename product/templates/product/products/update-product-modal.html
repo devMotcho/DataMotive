@@ -74,16 +74,19 @@
                         <div class="col-md-4">
                             <div class="form-floating">
                                 <select id="product-measurement" class="form-select" name="measurement">
-                                    <option value="{{ obj.category.id }}" selected>{{obj.measurement.measure}}</option>
+                                    <!-- Correct initial value using measurement ID -->
+                                    <option value="{{ obj.measurement.id }}" selected>{{ obj.measurement.measure }}</option>
+                                    
                                     {% for choice in form.measurement.field.choices %}
-                                        {% if choice.0 != obj.category.id %}
-                                            <option value="{{choice.0}}">{{choice.1}}</option>
+                                        <!-- Compare against MEASUREMENT ID, not category ID -->
+                                        {% if choice.0 != obj.measurement.id %}
+                                            <option value="{{ choice.0 }}">{{ choice.1 }}</option>
                                         {% endif %}
                                     {% endfor %}
-                                  </select>
-                                  <label for="product-measurement">Measurement</label>
+                                </select>
+                                <label for="product-measurement">Measurement</label>
                             </div>
-                          </div>
+                        </div>
                         <!-- Product Active -->
                         <div class="col-12">
                             <div class="form-check">
