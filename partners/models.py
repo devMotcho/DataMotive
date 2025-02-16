@@ -7,11 +7,8 @@ from django.core.validators import (
 
 from product.models import Product
 from src.utils import generate_code
-from src.validators import validate_names, validate_unique_name
+from src.validators import validate_names
 
-# Wrapp Validator
-def validate_unique_entity(value):
-    validate_unique_name(value, EntityType, 'entity_type')
 
 class EntityType(models.Model):
     """
@@ -21,7 +18,7 @@ class EntityType(models.Model):
     """
     entity_type = models.CharField(
         max_length=20, unique=True,
-        validators=[validate_names, validate_unique_entity],
+        validators=[validate_names],
         verbose_name='Entity Type'
     )
 
